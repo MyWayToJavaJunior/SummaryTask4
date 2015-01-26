@@ -7,7 +7,6 @@ import java.util.StringTokenizer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.jsp.jstl.core.Config;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -39,8 +38,6 @@ public class ContextListener implements ServletContextListener {
 		// do nothing
 		log("Servlet context destruction finished");
 	}
-
-
 
 	private void initAbstractRepository() {
 		try {
@@ -105,7 +102,8 @@ public class ContextListener implements ServletContextListener {
 		try {
 			Class.forName("ua.nure.norkin.SummaryTask4.command.CommandManager");
 		} catch (ClassNotFoundException ex) {
-			throw new IllegalStateException("Cannot initialize Command Manager",ex);
+			throw new IllegalStateException(
+					"Cannot initialize Command Manager", ex);
 		}
 	}
 
