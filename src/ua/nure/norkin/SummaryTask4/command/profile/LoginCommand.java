@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
 
 import ua.nure.norkin.SummaryTask4.Path;
 import ua.nure.norkin.SummaryTask4.command.Command;
-import ua.nure.norkin.SummaryTask4.command.CommandManager;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.entity.User;
 import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
@@ -49,7 +48,7 @@ public class LoginCommand extends Command {
 					"Cannot find user with such login/password");
 			LOG.error("errorMessage: Cannot find user with such login/password");
 			// result.setFirst(ActionType.FORWARD);
-			result = Path.WELCOME_PAGE;
+			result = null;
 		} else {
 			HttpSession session = request.getSession(true);
 
