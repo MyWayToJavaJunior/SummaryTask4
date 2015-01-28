@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import ua.nure.norkin.SummaryTask4.Path;
 import ua.nure.norkin.SummaryTask4.command.Command;
+import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 /**
  * Logout command.
@@ -26,7 +27,8 @@ public class LogoutCommand extends Command {
 
 	@Override
 	public String execute(HttpServletRequest request,
-			HttpServletResponse response) throws IOException, ServletException {
+			HttpServletResponse response, ActionType actionType)
+			throws IOException, ServletException {
 		LOG.debug("Start executing Command");
 
 		HttpSession session = request.getSession(false);

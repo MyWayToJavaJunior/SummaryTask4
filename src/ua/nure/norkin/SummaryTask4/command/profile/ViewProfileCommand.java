@@ -15,6 +15,7 @@ import ua.nure.norkin.SummaryTask4.entity.Entrant;
 import ua.nure.norkin.SummaryTask4.entity.User;
 import ua.nure.norkin.SummaryTask4.repository.EntrantRepository;
 import ua.nure.norkin.SummaryTask4.repository.UserRepository;
+import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 /**
  * View profile command.
@@ -31,8 +32,29 @@ public class ViewProfileCommand extends Command {
 
 	@Override
 	public String execute(HttpServletRequest request,
-			HttpServletResponse response) throws IOException, ServletException {
+			HttpServletResponse response, ActionType actionType)
+			throws IOException, ServletException {
 		LOG.debug("Command execution starts");
+
+		String result = null;
+
+		String role = String.valueOf(request.getSession(false).getAttribute(
+				"userRole"));
+		if (role == null) {
+			return null;
+		}
+		if (actionType == ActionType.FORWARD) {
+			result = doGet(request, response);
+		}
+
+		LOG.debug("Command execution finished");
+
+		return result;
+	}
+
+	private String doGet(HttpServletRequest request,
+			HttpServletResponse response) {
+		String result = null;
 
 		HttpSession session = request.getSession(false);
 		String userEmail = String.valueOf(session.getAttribute("user"));
@@ -40,10 +62,6 @@ public class ViewProfileCommand extends Command {
 		UserRepository userRepository = new UserRepository();
 		// should not be null !
 		User user = userRepository.find(userEmail);
-
-		String result = null;
-
-		// result.setFirst(ActionType.FORWARD);
 
 		request.setAttribute("first_name", user.getFirstName());
 		LOG.trace("Set the request attribute: 'first_name' = "
@@ -74,12 +92,10 @@ public class ViewProfileCommand extends Command {
 			LOG.trace("Set the request attribute: 'school' = "
 					+ entrant.getSchool());
 
-			result = Path.CLIENT_PROFILE;
+			result = Path.FORWARD_CLIENT_PROFILE;
 		} else if ("admin".equals(role)) {
-
-			result = Path.ADMIN_PROFILE;
+			result = Path.FORWARD_ADMIN_PROFILE;
 		}
-		LOG.debug("Command execution finished");
 		return result;
 	}
 

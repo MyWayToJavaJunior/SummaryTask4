@@ -16,6 +16,7 @@ import ua.nure.norkin.SummaryTask4.entity.Entrant;
 import ua.nure.norkin.SummaryTask4.entity.User;
 import ua.nure.norkin.SummaryTask4.repository.EntrantRepository;
 import ua.nure.norkin.SummaryTask4.repository.UserRepository;
+import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 /**
  * View profile command.
@@ -32,120 +33,136 @@ public class EditProfileCommand extends Command {
 
 	@Override
 	public String execute(HttpServletRequest request,
-			HttpServletResponse response) throws IOException, ServletException {
-		LOG.debug("Command execution starts");
+			HttpServletResponse response, ActionType actionType)
+			throws IOException, ServletException {
+		LOG.debug("Start executing Command");
+
+		String role = String.valueOf(request.getSession(false).getAttribute(
+				"userRole"));
+
+		if (role == null) {
+			return null;
+		}
 
 		String result = null;
 
+		if (ActionType.FORWARD == actionType) {
+			result = doGet(request, response);
+		} else if (ActionType.REDIRECT == actionType) {
+			result = doPost(request, response);
+		}
+
+		LOG.debug("Finished executing Command");
+		return result;
+	}
+
+	private String doGet(HttpServletRequest request,
+			HttpServletResponse response) {
+		String result = null;
 		HttpSession session = request.getSession(false);
 
 		String userEmail = String.valueOf(session.getAttribute("user"));
 		String role = String.valueOf(session.getAttribute("userRole"));
 
-		Boolean justShow = Boolean.valueOf(request.getParameter("show"));
-		// check if user just wants to open edit page to make some changes
-		if (justShow) {
-			UserRepository userRepository = new UserRepository();
-			User user = userRepository.find(userEmail);
+		UserRepository userRepository = new UserRepository();
+		User user = userRepository.find(userEmail);
 
-			request.setAttribute(Fields.USER_FIRST_NAME, user.getFirstName());
-			LOG.trace("Set attribute 'first_name': " + user.getFirstName());
-			request.setAttribute(Fields.USER_LAST_NAME, user.getLastName());
-			LOG.trace("Set attribute 'last_name': " + user.getLastName());
-			request.setAttribute(Fields.USER_EMAIL, user.getEmail());
-			LOG.trace("Set attribute 'email': " + user.getEmail());
-			request.setAttribute(Fields.USER_PASSWORD, user.getPassword());
-			LOG.trace("Set attribute 'password': " + user.getPassword());
+		request.setAttribute(Fields.USER_FIRST_NAME, user.getFirstName());
+		LOG.trace("Set attribute 'first_name': " + user.getFirstName());
+		request.setAttribute(Fields.USER_LAST_NAME, user.getLastName());
+		LOG.trace("Set attribute 'last_name': " + user.getLastName());
+		request.setAttribute(Fields.USER_EMAIL, user.getEmail());
+		LOG.trace("Set attribute 'email': " + user.getEmail());
+		request.setAttribute(Fields.USER_PASSWORD, user.getPassword());
+		LOG.trace("Set attribute 'password': " + user.getPassword());
 
-			// result.setFirst(ActionType.FORWARD);
+		// result.setFirst(ActionType.FORWARD);
 
-			if ("client".equals(role)) {
+		if ("client".equals(role)) {
 
-				EntrantRepository entrantRepository = new EntrantRepository();
-				Entrant entrant = entrantRepository.find(user);
+			EntrantRepository entrantRepository = new EntrantRepository();
+			Entrant entrant = entrantRepository.find(user);
 
-				request.setAttribute(Fields.ENTRANT_CITY, entrant.getCity());
-				LOG.trace("Set attribute 'city': " + entrant.getCity());
-				request.setAttribute(Fields.ENTRANT_DISTRICT,
-						entrant.getDistrict());
-				LOG.trace("Set attribute 'district': " + entrant.getDistrict());
-				request.setAttribute(Fields.ENTRANT_SCHOOL, entrant.getSchool());
-				LOG.trace("Set attribute 'school': " + entrant.getSchool());
+			request.setAttribute(Fields.ENTRANT_CITY, entrant.getCity());
+			LOG.trace("Set attribute 'city': " + entrant.getCity());
+			request.setAttribute(Fields.ENTRANT_DISTRICT, entrant.getDistrict());
+			LOG.trace("Set attribute 'district': " + entrant.getDistrict());
+			request.setAttribute(Fields.ENTRANT_SCHOOL, entrant.getSchool());
+			LOG.trace("Set attribute 'school': " + entrant.getSchool());
 
-				result = Path.CLIENT_PROFILE_EDIT;
-			} else if ("admin".equals(role)) {
-				result = Path.ADMIN_PROFILE_EDIT;
-			}
+			result = Path.FORWARD_CLIENT_PROFILE_EDIT;
+		} else if ("admin".equals(role)) {
+			result = Path.FORWARD_ADMIN_PROFILE_EDIT;
+		}
+		return result;
+	}
 
-		} else {
-			// if not then user updated info and we should update db
-			String oldUserEmail = request.getParameter("oldEmail");
-			LOG.trace("Fetch request parapeter: 'oldEmail' = " + oldUserEmail);
-			UserRepository userRepository = new UserRepository();
-			// should not be null !
-			User user = userRepository.find(oldUserEmail);
+	// TODO validation
+	private String doPost(HttpServletRequest request,
+			HttpServletResponse response) {
+		// user updated info and we should update db
+		String oldUserEmail = request.getParameter("oldEmail");
+		LOG.trace("Fetch request parapeter: 'oldEmail' = " + oldUserEmail);
+		UserRepository userRepository = new UserRepository();
+		// should not be null !
+		User user = userRepository.find(oldUserEmail);
 
-			LOG.trace("User found with such email:" + user);
+		LOG.trace("User found with such email:" + user);
 
-			String userFirstName = request.getParameter(Fields.USER_FIRST_NAME);
-			LOG.trace("Fetch request parapeter: 'first_name' = "
-					+ userFirstName);
-			String userLastName = request.getParameter(Fields.USER_LAST_NAME);
-			LOG.trace("Fetch request parapeter: 'last_name' = " + userLastName);
-			String email = request.getParameter("email");
-			LOG.trace("Fetch request parapeter: 'email' = " + email);
-			String password = request.getParameter("password");
-			LOG.trace("Fetch request parapeter: 'password' = " + password);
+		String userFirstName = request.getParameter(Fields.USER_FIRST_NAME);
+		LOG.trace("Fetch request parapeter: 'first_name' = " + userFirstName);
+		String userLastName = request.getParameter(Fields.USER_LAST_NAME);
+		LOG.trace("Fetch request parapeter: 'last_name' = " + userLastName);
+		String email = request.getParameter("email");
+		LOG.trace("Fetch request parapeter: 'email' = " + email);
+		String password = request.getParameter("password");
+		LOG.trace("Fetch request parapeter: 'password' = " + password);
 
-			user.setEmail(userEmail);
-			user.setFirstName(userFirstName);
-			user.setLastName(userLastName);
-			user.setEmail(email);
-			user.setPassword(password);
+		// user.setEmail(userEmail);
+		user.setFirstName(userFirstName);
+		user.setLastName(userLastName);
+		user.setEmail(email);
+		user.setPassword(password);
 
-			LOG.trace("After calling setters with request parapeters on user entity: "
-					+ user);
+		LOG.trace("After calling setters with request parapeters on user entity: "
+				+ user);
 
-			userRepository.update(user);
+		userRepository.update(user);
 
-			LOG.trace("User info updated");
+		LOG.trace("User info updated");
 
-			// result.setFirst(ActionType.REDIRECT);
+		// if user role is client then we should also update entrant record
+		// for him
+		if ("client".equals(user.getRole())) {
 
-			// if user role is client then we should also update entrant record
-			// for him
-			if ("client".equals(role)) {
+			EntrantRepository entrantRepository = new EntrantRepository();
 
-				EntrantRepository entrantRepository = new EntrantRepository();
+			// should not be null !!
+			Entrant entrant = entrantRepository.find(user);
 
-				// should not be null !!
-				Entrant entrant = entrantRepository.find(user);
+			String school = request.getParameter(Fields.ENTRANT_SCHOOL);
+			LOG.trace("Fetch request parameter: 'school' = " + school);
+			String district = request.getParameter(Fields.ENTRANT_DISTRICT);
+			LOG.trace("Fetch request parameter: 'district' = " + district);
+			String city = request.getParameter(Fields.ENTRANT_CITY);
+			LOG.trace("Fetch request parameter: 'city' = " + city);
 
-				String school = request.getParameter(Fields.ENTRANT_SCHOOL);
-				LOG.trace("Fetch request parameter: 'school' = " + school);
-				String district = request.getParameter(Fields.ENTRANT_DISTRICT);
-				LOG.trace("Fetch request parameter: 'district' = " + district);
-				String city = request.getParameter(Fields.ENTRANT_CITY);
-				LOG.trace("Fetch request parameter: 'city' = " + city);
+			entrant.setCity(city);
+			entrant.setDistrict(district);
+			entrant.setSchool(school);
 
-				entrant.setCity(city);
-				entrant.setDistrict(district);
-				entrant.setSchool(school);
+			LOG.trace("After calling setters with request parapeters on entrant entity: "
+					+ entrant);
 
-				LOG.trace("After calling setters with request parapeters on entrant entity: "
-						+ entrant);
+			entrantRepository.update(entrant);
+			LOG.trace("Entrant info updated");
 
-				entrantRepository.update(entrant);
-				LOG.trace("Entrant info updated");
-
-				result = Path.CLIENT_PROFILE;
-			} else if ("admin".equals(role)) {
-				result = Path.ADMIN_PROFILE;
-			}
 		}
 
-		LOG.debug("Command execution finished");
-		return result;
+		// update session attribute if user changed it
+		request.getSession().setAttribute("user", email);
+
+		return Path.REDIRECT_TO_PROFILE;
 	}
 
 }
