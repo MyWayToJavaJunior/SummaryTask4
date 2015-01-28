@@ -17,6 +17,7 @@ import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.entity.Subject;
 import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
+import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 public class ViewFacultyCommand extends Command {
 
@@ -26,12 +27,27 @@ public class ViewFacultyCommand extends Command {
 
 	@Override
 	public String execute(HttpServletRequest request,
-			HttpServletResponse response) throws IOException, ServletException {
+			HttpServletResponse response, ActionType actionType)
+			throws IOException, ServletException {
 		LOG.debug("Start executing Command");
 
+		String result = null;
+		if (actionType == ActionType.FORWARD) {
+			result = doGet(request, response);
+		} else {
+			return null;
+		}
+
+		LOG.debug("Finished executing Command");
+
+		return result;
+	}
+
+	private String doGet(HttpServletRequest request,
+			HttpServletResponse response) {
 		String facultyName = request.getParameter(Fields.FACULTY_NAME);
 
-		LOG.trace("Faculty name to look for is equal to " + facultyName);
+		LOG.trace("Faculty name to look for is equal to: '" + facultyName+"'");
 
 		String result = null;
 
@@ -65,13 +81,11 @@ public class ViewFacultyCommand extends Command {
 		String role = String.valueOf(session.getAttribute("userRole"));
 
 		if ("client".equals(role)) {
-			result = Path.FACULTY_VIEW_CLIENT;
+			result = Path.FORWARD_FACULTY_VIEW_CLIENT;
 		} else if ("admin".equals(role)) {
-			result = Path.FACULTY_VIEW_ADMIN;
+			result = Path.FORWARD_FACULTY_VIEW_ADMIN;
 		}
 
-		LOG.debug("Finished executing Command");
 		return result;
 	}
-
 }
