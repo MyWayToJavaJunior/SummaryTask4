@@ -17,7 +17,6 @@ import ua.nure.norkin.SummaryTask4.utils.ActionType;
 /**
  * Servlet implementation class FrontController
  */
-// @WebServlet("/controller")
 public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -56,7 +55,7 @@ public class FrontController extends HttpServlet {
 		LOG.trace("Obtained 'command' = " + command);
 
 		// execute command and get forward address
-		String path = command.execute(request, response);
+		String path = command.execute(request, response, actionType);
 
 		if (path == null) {
 			LOG.trace("Redirect to address = " + path);
