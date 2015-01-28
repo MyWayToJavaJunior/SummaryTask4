@@ -1,7 +1,6 @@
 package ua.nure.norkin.SummaryTask4.command.profile;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -10,12 +9,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import ua.nure.norkin.SummaryTask4.Path;
 import ua.nure.norkin.SummaryTask4.command.Command;
-import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.entity.User;
-import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
 import ua.nure.norkin.SummaryTask4.repository.UserRepository;
+import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 /**
  * Login command.
@@ -31,10 +28,25 @@ public class LoginCommand extends Command {
 
 	@Override
 	public String execute(HttpServletRequest request,
-			HttpServletResponse response) throws IOException, ServletException {
+			HttpServletResponse response, ActionType actionType)
+			throws IOException, ServletException {
 
 		LOG.debug("Start executing Command");
 
+		String result = null;
+
+		if (actionType == ActionType.REDIRECT) {
+			result = doPost(request, response);
+		} else {
+			result = null;
+		}
+
+		LOG.debug("End executing command");
+		return result;
+	}
+
+	private String doPost(HttpServletRequest request,
+			HttpServletResponse response) {
 		String result = null;
 
 		String email = request.getParameter("email");
@@ -62,22 +74,7 @@ public class LoginCommand extends Command {
 
 			LOG.info("User: " + user + " logged as " + role);
 
-			// result.setFirst(ActionType.FORWARD);
-
-			FacultyRepository facultyRepository = new FacultyRepository();
-			List<Faculty> faculties = facultyRepository.findAll();
-
-			request.setAttribute("faculties", faculties);
-			LOG.trace("Set request attribute: 'faculties' = " + faculties);
-
-			if ("client".equals(role)) {
-				result = "controller?command=viewAllFaculties";
-//				result = Path.FACULTY_VIEW_ALL_CLIENT;
-			} else if ("admin".equals(role)) {
-				result = "controller?command=viewAllFaculties";
-//				result = Path.FACULTY_VIEW_ALL_ADMIN;
-			}
-			LOG.debug("End executing command");
+			result = "controller?command=viewAllFaculties";
 		}
 		return result;
 	}

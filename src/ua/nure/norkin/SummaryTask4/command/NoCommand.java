@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import ua.nure.norkin.SummaryTask4.Path;
+import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 /**
  * No command.
@@ -24,7 +25,7 @@ public class NoCommand extends Command {
 
 	@Override
 	public String execute(HttpServletRequest request,
-			HttpServletResponse response) throws IOException, ServletException {
+			HttpServletResponse response, ActionType actionType) throws IOException, ServletException {
 		LOG.debug("Command execution starts");
 
 		String errorMessage = "No such command";

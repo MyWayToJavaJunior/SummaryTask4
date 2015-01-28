@@ -14,6 +14,7 @@ import ua.nure.norkin.SummaryTask4.Path;
 import ua.nure.norkin.SummaryTask4.command.Command;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
+import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 public class ViewAllFacultiesCommand extends Command {
 
@@ -23,9 +24,24 @@ public class ViewAllFacultiesCommand extends Command {
 
 	@Override
 	public String execute(HttpServletRequest request,
-			HttpServletResponse response) throws IOException, ServletException {
+			HttpServletResponse response, ActionType actionType)
+			throws IOException, ServletException {
 		LOG.debug("Start executing Command");
 
+		String result = null;
+
+		if (actionType == ActionType.FORWARD) {
+			result = doGet(request, response);
+		} else {
+			result = null;
+		}
+
+		LOG.debug("Finished executing Command");
+		return result;
+	}
+
+	private String doGet(HttpServletRequest request,
+			HttpServletResponse response) {
 		String result = null;
 
 		FacultyRepository facultyRepository = new FacultyRepository();
@@ -40,13 +56,11 @@ public class ViewAllFacultiesCommand extends Command {
 		HttpSession session = request.getSession(false);
 		String role = String.valueOf(session.getAttribute("userRole"));
 		if ("client".equals(role)) {
-			result = Path.FACULTY_VIEW_ALL_CLIENT;
+			result = Path.FORWARD_FACULTY_VIEW_ALL_CLIENT;
 		} else if ("admin".equals(role)) {
-			result = Path.FACULTY_VIEW_ALL_ADMIN;
+			result = Path.FORWARD_FACULTY_VIEW_ALL_ADMIN;
 		}
 
-		LOG.debug("Finished executing Command");
 		return result;
 	}
-
 }

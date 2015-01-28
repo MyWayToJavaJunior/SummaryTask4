@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ua.nure.norkin.SummaryTask4.utils.ActionType;
+
 /**
  * Main interface for the Command pattern implementation.
  *
@@ -22,7 +24,7 @@ public abstract class Command implements Serializable {
 	 * @return Address to go once the command is executed.
 	 */
 	public abstract String execute(HttpServletRequest request,
-			HttpServletResponse response) throws IOException, ServletException;
+			HttpServletResponse response,ActionType actionType) throws IOException, ServletException;
 
 	@Override
 	public final String toString() {
