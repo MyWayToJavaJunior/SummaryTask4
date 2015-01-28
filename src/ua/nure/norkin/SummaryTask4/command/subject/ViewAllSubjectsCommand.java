@@ -13,6 +13,7 @@ import ua.nure.norkin.SummaryTask4.Path;
 import ua.nure.norkin.SummaryTask4.command.Command;
 import ua.nure.norkin.SummaryTask4.entity.Subject;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
+import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 public class ViewAllSubjectsCommand extends Command {
 
@@ -22,35 +23,40 @@ public class ViewAllSubjectsCommand extends Command {
 
 	@Override
 	public String execute(HttpServletRequest request,
-			HttpServletResponse response) throws IOException, ServletException {
+			HttpServletResponse response, ActionType actionType)
+			throws IOException, ServletException {
 		LOG.debug("Start executing Command");
-
-		String result = null;
 
 		String role = String.valueOf(request.getSession(false).getAttribute(
 				"userRole"));
 
 		// clients are not permitted to access this page
 		if ("client".equals(role)) {
-			result = null;
-		} else if ("admin".equals(role)) {
-			// result.setFirst(ActionType.FORWARD);
+			return null;
+		}
 
-			SubjectRepository subjectRepository = new SubjectRepository();
+		String result = null;
 
-			List<Subject> allSubjects = subjectRepository.findAll();
-
-			LOG.trace("Subjects records found: " + allSubjects);
-
-			request.setAttribute("allSubjects", allSubjects);
-			LOG.trace("Set the request attribute: 'allSubjects' = "
-					+ allSubjects);
-
-			result = Path.SUBJECT_VIEW_ALL_ADMIN;
+		if (actionType == ActionType.FORWARD) {
+			result = doGet(request, response);
 		}
 
 		LOG.debug("Finished executing Command");
 		return result;
+	}
+
+	private String doGet(HttpServletRequest request,
+			HttpServletResponse response) {
+		SubjectRepository subjectRepository = new SubjectRepository();
+
+		List<Subject> allSubjects = subjectRepository.findAll();
+
+		LOG.trace("Subjects records found: " + allSubjects);
+
+		request.setAttribute("allSubjects", allSubjects);
+		LOG.trace("Set the request attribute: 'allSubjects' = " + allSubjects);
+
+		return Path.FORWARD_SUBJECT_VIEW_ALL_ADMIN;
 	}
 
 }
