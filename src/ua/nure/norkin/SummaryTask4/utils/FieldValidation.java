@@ -1,5 +1,12 @@
 package ua.nure.norkin.SummaryTask4.utils;
 
+/**
+ * Class with utility methods for checking input values send from the
+ * user.
+ *
+ * @author Mark Norkin
+ *
+ */
 public class FieldValidation {
 
 	public static boolean isFilled(String... values) {
