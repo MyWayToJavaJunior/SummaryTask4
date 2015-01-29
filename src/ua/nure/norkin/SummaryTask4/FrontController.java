@@ -15,7 +15,9 @@ import ua.nure.norkin.SummaryTask4.command.CommandManager;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 /**
- * Servlet implementation class FrontController
+ * Servlet implementation class FrontController. This servlet handles all
+ * requests by the client and then processes them according to specified command
+ * name.
  */
 public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -40,6 +42,18 @@ public class FrontController extends HttpServlet {
 		process(request, response, ActionType.REDIRECT);
 	}
 
+	/**
+	 * Handles all requests coming from the client by executing the specified
+	 * command name in a request. Implements PRG pattern by checking action type
+	 * specified by the invoked method.
+	 *
+	 * @param request
+	 * @param response
+	 * @param actionType
+	 * @throws IOException
+	 * @throws ServletException
+	 * @see ActionType
+	 */
 	private void process(HttpServletRequest request,
 			HttpServletResponse response, ActionType actionType)
 			throws IOException, ServletException {
