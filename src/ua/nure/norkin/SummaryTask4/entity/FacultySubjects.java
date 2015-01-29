@@ -1,5 +1,13 @@
 package ua.nure.norkin.SummaryTask4.entity;
 
+/**
+ * Faculty subjects entity. Main purpose of this class is to tell which subjects
+ * are needed to entrant, so then he can apply for some faculty. This subjects
+ * are also called preliminary.
+ *
+ * @author Mark Norkin
+ *
+ */
 public class FacultySubjects extends Entity {
 
 	private static final long serialVersionUID = 1165092452837127706L;
