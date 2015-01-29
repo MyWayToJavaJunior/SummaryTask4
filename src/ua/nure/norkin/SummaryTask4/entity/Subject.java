@@ -1,5 +1,11 @@
 package ua.nure.norkin.SummaryTask4.entity;
 
+/**
+ * Subject entity. Every subject is characterized by its name.
+ *
+ * @author Mark Norkin
+ *
+ */
 public class Subject extends Entity {
 
 	private static final long serialVersionUID = -5388561545513613948L;
