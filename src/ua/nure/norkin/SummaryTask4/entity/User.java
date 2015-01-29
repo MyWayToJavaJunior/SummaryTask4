@@ -1,9 +1,10 @@
 package ua.nure.norkin.SummaryTask4.entity;
 
 /**
- * User entity.
+ * User entity. This transfer object characterized by first and last names,
+ * email, password and role in system. Email should be unique. Every field must
  *
- * @author D.Kolesnikov
+ * @author Mark Norkin
  *
  */
 public class User extends Entity {
