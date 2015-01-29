@@ -2,9 +2,9 @@ package ua.nure.norkin.SummaryTask4;
 
 
 /**
- * Holder for fields names of DB tables and beans.
+ * Holder for fields names in database tables.
  *
- * @author D.Kolesnikov
+ * @author Mark Norkin.
  *
  */
 public final class Fields {
