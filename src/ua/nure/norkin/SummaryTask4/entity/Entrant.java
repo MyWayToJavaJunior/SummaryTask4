@@ -1,5 +1,13 @@
 package ua.nure.norkin.SummaryTask4.entity;
 
+/**
+ * Entrant entity. This transfer object characterized by city, district, school,
+ * foreign user id field and blocked state, which is <code>false</code by
+ * default, but may be changed by admin.
+ *
+ * @author Mark Norkin
+ *
+ */
 public class Entrant extends Entity {
 
 	private static final long serialVersionUID = 2565574420335652970L;
@@ -70,9 +78,9 @@ public class Entrant extends Entity {
 
 	@Override
 	public String toString() {
-		return "KHPIEntrant [city=" + city + ", district=" + district
-				+ ", school=" + school + ", userId=" + userId + ", isBlocked="
-				+ isBlocked + "]";
+		return "Entrant [city=" + city + ", district=" + district + ", school="
+				+ school + ", userId=" + userId + ", isBlocked=" + isBlocked
+				+ "]";
 	}
 
 }
