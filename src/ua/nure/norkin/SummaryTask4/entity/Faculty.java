@@ -1,5 +1,13 @@
 package ua.nure.norkin.SummaryTask4.entity;
 
+/**
+ * Faculty entity. Every faculty is characterized by the name, amount of budget
+ * and total seats. The amount of budget seats must always be less then amount
+ * of total seats for some faculty.
+ *
+ * @author Mark Norkin
+ *
+ */
 public class Faculty extends Entity {
 
 	private static final long serialVersionUID = 1590962657803610445L;
@@ -43,7 +51,7 @@ public class Faculty extends Entity {
 
 	@Override
 	public String toString() {
-		return "KHPIFaculty [name=" + name + ", budgetSeats=" + budgetSeats
+		return "Faculty [name=" + name + ", budgetSeats=" + budgetSeats
 				+ ", totalSeats=" + totalSeats + "]";
 	}
 
