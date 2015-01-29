@@ -12,6 +12,12 @@ import org.apache.log4j.Logger;
 import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.User;
 
+/**
+ * User DAO object. Performs basic read/write operations on User data.
+ *
+ * @author Mark Norkin
+ *
+ */
 public class UserRepository extends AbstractRepository<User> {
 
 	private static final String FIND_ALL_USERS = "SELECT * FROM university_admission.user;";
@@ -24,6 +30,13 @@ public class UserRepository extends AbstractRepository<User> {
 
 	private final static Logger LOG = Logger.getLogger(UserRepository.class);
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.repository.Repository#create(java.lang.Object
+	 * )
+	 */
 	public void create(User user) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -57,6 +70,13 @@ public class UserRepository extends AbstractRepository<User> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.repository.Repository#update(java.lang.Object
+	 * )
+	 */
 	public void update(User user) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -82,6 +102,13 @@ public class UserRepository extends AbstractRepository<User> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.repository.Repository#delete(java.lang.Object
+	 * )
+	 */
 	public void delete(User user) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -101,6 +128,11 @@ public class UserRepository extends AbstractRepository<User> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#find(int)
+	 */
 	public User find(int userId) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -128,6 +160,16 @@ public class UserRepository extends AbstractRepository<User> {
 		return user;
 	}
 
+	/**
+	 * Finds User in database by specified login and password. Mainly useful for
+	 * login User in system.
+	 *
+	 * @param email
+	 *            - user email
+	 * @param password
+	 *            - user password
+	 * @return User with such fields
+	 */
 	public User find(String email, String password) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -157,6 +199,14 @@ public class UserRepository extends AbstractRepository<User> {
 		return user;
 	}
 
+	/**
+	 * Finds User in database by specified email, it can be done because email
+	 * should be unique.
+	 *
+	 * @param email
+	 *            - user email
+	 * @return User instance with such email
+	 */
 	public User find(String email) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -185,6 +235,11 @@ public class UserRepository extends AbstractRepository<User> {
 		return user;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#findAll()
+	 */
 	public List<User> findAll() {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -209,6 +264,13 @@ public class UserRepository extends AbstractRepository<User> {
 		return users;
 	}
 
+	/**
+	 * Unmarshals User record in database to Java instance.
+	 *
+	 * @param rs
+	 *            - record from result set
+	 * @return User instance of database record.
+	 */
 	private static User unmarshal(ResultSet rs) {
 		User user = new User();
 		try {
