@@ -1,5 +1,12 @@
 package ua.nure.norkin.SummaryTask4.entity;
 
+/**
+ * Faculty entrants entity. This is a compound entity class, that tells which
+ * entrant applied for which faculty by referencing to their foreign keys.
+ *
+ * @author Mark Norkin
+ *
+ */
 public class FacultyEntrants extends Entity {
 
 	private static final long serialVersionUID = 1099698953477481899L;
