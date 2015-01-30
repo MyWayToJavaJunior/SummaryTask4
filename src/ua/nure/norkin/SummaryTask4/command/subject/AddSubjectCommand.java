@@ -14,11 +14,26 @@ import ua.nure.norkin.SummaryTask4.entity.Subject;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
+/**
+ * Add subject Command
+ *
+ * @author Mark Norkin
+ * @see Subject
+ *
+ */
 public class AddSubjectCommand extends Command {
 
 	private static final long serialVersionUID = -1505430469675582018L;
 	private static final Logger LOG = Logger.getLogger(AddSubjectCommand.class);
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.command.Command#execute(javax.servlet.http
+	 * .HttpServletRequest, javax.servlet.http.HttpServletResponse,
+	 * ua.nure.norkin.SummaryTask4.utils.ActionType)
+	 */
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response, ActionType actionType)
@@ -45,12 +60,23 @@ public class AddSubjectCommand extends Command {
 		return result;
 	}
 
+	/**
+	 * Forwards admin to add page.
+	 *
+	 * @return path to add page
+	 */
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
 		return Path.FORWARD_SUBJECT_ADD_ADMIN;
 	}
 
 	// TODO validation
+	/**
+	 * Adds subject if fields are properly filled, otherwise redisplays add
+	 * page.
+	 *
+	 * @return view of added subject
+	 */
 	private String doPost(HttpServletRequest request,
 			HttpServletResponse response) {
 		String name = request.getParameter("name");
