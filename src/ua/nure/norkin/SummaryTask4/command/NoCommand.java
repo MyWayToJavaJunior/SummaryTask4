@@ -12,9 +12,9 @@ import ua.nure.norkin.SummaryTask4.Path;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 /**
- * No command.
+ * Invoked when no command was found for client request.
  *
- * @author D.Kolesnikov
+ * @author Mark Norkin
  *
  */
 public class NoCommand extends Command {
@@ -23,9 +23,18 @@ public class NoCommand extends Command {
 
 	private static final Logger LOG = Logger.getLogger(NoCommand.class);
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.command.Command#execute(javax.servlet.http
+	 * .HttpServletRequest, javax.servlet.http.HttpServletResponse,
+	 * ua.nure.norkin.SummaryTask4.utils.ActionType)
+	 */
 	@Override
 	public String execute(HttpServletRequest request,
-			HttpServletResponse response, ActionType actionType) throws IOException, ServletException {
+			HttpServletResponse response, ActionType actionType)
+			throws IOException, ServletException {
 		LOG.debug("Command execution starts");
 
 		String errorMessage = "No such command";
