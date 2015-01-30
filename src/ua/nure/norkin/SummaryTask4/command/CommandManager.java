@@ -18,7 +18,6 @@ import ua.nure.norkin.SummaryTask4.command.subject.AddSubjectCommand;
 import ua.nure.norkin.SummaryTask4.command.subject.EditSubjectCommand;
 import ua.nure.norkin.SummaryTask4.command.subject.ViewAllSubjectsCommand;
 import ua.nure.norkin.SummaryTask4.command.subject.ViewSubjectCommand;
-import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 /**
  * Class that manages all commands.
@@ -59,14 +58,12 @@ public class CommandManager {
 	}
 
 	/**
-	 * Returns command object with the specified forward or redirect action type
-	 * and path to the resource.
+	 * Returns command object which execution will give path to the resource.
 	 *
 	 * @param commandName
 	 *            Name of the command.
-	 * @return Command object.
-	 * @see ActionType
-	 * @see Pair
+	 * @return Command object if container contains such command, otherwise
+	 *         specific <code>noCommand</code object will be returned.
 	 */
 	public static Command get(String commandName) {
 		if (commandName == null || !commands.containsKey(commandName)) {
