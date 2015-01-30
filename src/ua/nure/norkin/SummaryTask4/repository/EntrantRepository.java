@@ -13,6 +13,12 @@ import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.Entrant;
 import ua.nure.norkin.SummaryTask4.entity.User;
 
+/**
+ * Entrant DAO. Performs basic read/write operations on Entrant entity.
+ *
+ * @author Mark Norkin
+ *
+ */
 public class EntrantRepository extends AbstractRepository<Entrant> {
 
 	private static final String FIND_ALL_ENTRANTS = "SELECT * FROM university_admission.entrant;";
@@ -22,9 +28,15 @@ public class EntrantRepository extends AbstractRepository<Entrant> {
 	private static final String UPDATE_ENTRANT = "UPDATE entrant SET entrant.city=?, entrant.district=?,entrant.school=?,entrant.User_idUser=?,entrant.isBlocked WHERE entrant.id=? LIMIT 1;";
 	private static final String DELETE_ENTRANT = "DELETE FROM university_admission.entrant WHERE entrant.id=? LIMIT 1;";
 
-	private final static Logger LOG = Logger
-			.getLogger(EntrantRepository.class);
+	private final static Logger LOG = Logger.getLogger(EntrantRepository.class);
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.repository.Repository#create(java.lang.Object
+	 * )
+	 */
 	@Override
 	public void create(Entrant entity) {
 		Connection connection = null;
@@ -58,6 +70,13 @@ public class EntrantRepository extends AbstractRepository<Entrant> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.repository.Repository#update(java.lang.Object
+	 * )
+	 */
 	@Override
 	public void update(Entrant entity) {
 		Connection connection = null;
@@ -83,6 +102,13 @@ public class EntrantRepository extends AbstractRepository<Entrant> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.repository.Repository#delete(java.lang.Object
+	 * )
+	 */
 	@Override
 	public void delete(Entrant entity) {
 		Connection connection = null;
@@ -103,6 +129,11 @@ public class EntrantRepository extends AbstractRepository<Entrant> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#find(int)
+	 */
 	@Override
 	public Entrant find(int entityPK) {
 		Connection connection = null;
@@ -131,6 +162,14 @@ public class EntrantRepository extends AbstractRepository<Entrant> {
 		return entrant;
 	}
 
+	/**
+	 * Finds Entrant record by User instance. This can be done in such way
+	 * because User and Entrant have relationship one to one.
+	 *
+	 * @param user
+	 *            by which search will be done
+	 * @return Entrant record of this User
+	 */
 	public Entrant find(User user) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -158,6 +197,11 @@ public class EntrantRepository extends AbstractRepository<Entrant> {
 		return entrant;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#findAll()
+	 */
 	@Override
 	public List<Entrant> findAll() {
 		Connection connection = null;
@@ -183,6 +227,13 @@ public class EntrantRepository extends AbstractRepository<Entrant> {
 		return users;
 	}
 
+	/**
+	 * Unmarshals Entrant record in database to Java Entrant instance.
+	 *
+	 * @param rs
+	 *            - ResultSet record
+	 * @return Entrant instance of this record
+	 */
 	private static Entrant unmarshal(ResultSet rs) {
 		Entrant entrant = new Entrant();
 		try {
