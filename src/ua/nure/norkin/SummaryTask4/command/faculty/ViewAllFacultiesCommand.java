@@ -16,12 +16,26 @@ import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
+/**
+ * Invoked when user wants to see all faculties that exist on current time.
+ *
+ * @author Mark Norkin
+ *
+ */
 public class ViewAllFacultiesCommand extends Command {
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger
 			.getLogger(ViewAllFacultiesCommand.class);
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.command.Command#execute(javax.servlet.http
+	 * .HttpServletRequest, javax.servlet.http.HttpServletResponse,
+	 * ua.nure.norkin.SummaryTask4.utils.ActionType)
+	 */
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response, ActionType actionType)
@@ -40,6 +54,12 @@ public class ViewAllFacultiesCommand extends Command {
 		return result;
 	}
 
+	/**
+	 * Forward user to page of all faculties. View type depends on the user
+	 * role.
+	 *
+	 * @return to view of all facultues
+	 */
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
 		String result = null;
