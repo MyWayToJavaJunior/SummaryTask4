@@ -13,6 +13,13 @@ import org.apache.log4j.Logger;
 import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.FacultyEntrants;
 
+/**
+ * Faculty Entrants DAO. Performs basic read/write operations on Faculty
+ * Entrants table.
+ *
+ * @author Mark Norkin
+ *
+ */
 public class FacultyEntrantsRepository extends
 		AbstractRepository<FacultyEntrants> {
 
@@ -25,6 +32,13 @@ public class FacultyEntrantsRepository extends
 	private final static Logger LOG = Logger
 			.getLogger(FacultyEntrantsRepository.class);
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.repository.Repository#create(java.lang.Object
+	 * )
+	 */
 	@Override
 	public void create(FacultyEntrants entity) {
 		Connection connection = null;
@@ -54,6 +68,13 @@ public class FacultyEntrantsRepository extends
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.repository.Repository#update(java.lang.Object
+	 * )
+	 */
 	@Override
 	public void update(FacultyEntrants entity) {
 		Connection connection = null;
@@ -77,6 +98,13 @@ public class FacultyEntrantsRepository extends
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.repository.Repository#delete(java.lang.Object
+	 * )
+	 */
 	@Override
 	public void delete(FacultyEntrants entity) {
 		Connection connection = null;
@@ -97,6 +125,11 @@ public class FacultyEntrantsRepository extends
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#find(int)
+	 */
 	@Override
 	public FacultyEntrants find(int entityPK) {
 		Connection connection = null;
@@ -125,6 +158,11 @@ public class FacultyEntrantsRepository extends
 		return facultyEntrant;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#findAll()
+	 */
 	@Override
 	public List<FacultyEntrants> findAll() {
 		Connection connection = null;
@@ -150,6 +188,13 @@ public class FacultyEntrantsRepository extends
 		return facultyEntrants;
 	}
 
+	/**
+	 * Unmarshals Faculty Entrant record to java instance.
+	 *
+	 * @param rs
+	 *            - ResultSet record in Faculty Entrants table
+	 * @return Faculty Entrant instance of given record
+	 */
 	private static FacultyEntrants unmarshal(ResultSet rs) {
 		FacultyEntrants facultyEntrant = new FacultyEntrants();
 		try {
