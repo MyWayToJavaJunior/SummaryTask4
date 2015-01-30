@@ -13,6 +13,12 @@ import org.apache.log4j.Logger;
 import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.Mark;
 
+/**
+ * Mark DAO. Performs basic read/write operations on Mark database table.
+ *
+ * @author Mark Norkin
+ *
+ */
 public class MarkRepository extends AbstractRepository<Mark> {
 
 	private static final String FIND_ALL_MARKS = "SELECT * FROM university_admission.mark;";
@@ -23,6 +29,13 @@ public class MarkRepository extends AbstractRepository<Mark> {
 
 	private final static Logger LOG = Logger.getLogger(MarkRepository.class);
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.repository.Repository#create(java.lang.Object
+	 * )
+	 */
 	@Override
 	public void create(Mark entity) {
 		Connection connection = null;
@@ -55,6 +68,13 @@ public class MarkRepository extends AbstractRepository<Mark> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.repository.Repository#update(java.lang.Object
+	 * )
+	 */
 	@Override
 	public void update(Mark entity) {
 		Connection connection = null;
@@ -80,6 +100,13 @@ public class MarkRepository extends AbstractRepository<Mark> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.repository.Repository#delete(java.lang.Object
+	 * )
+	 */
 	@Override
 	public void delete(Mark entity) {
 		Connection connection = null;
@@ -100,6 +127,11 @@ public class MarkRepository extends AbstractRepository<Mark> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#find(int)
+	 */
 	@Override
 	public Mark find(int entityPK) {
 		Connection connection = null;
@@ -128,6 +160,11 @@ public class MarkRepository extends AbstractRepository<Mark> {
 		return mark;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#findAll()
+	 */
 	@Override
 	public List<Mark> findAll() {
 		Connection connection = null;
@@ -153,6 +190,13 @@ public class MarkRepository extends AbstractRepository<Mark> {
 		return users;
 	}
 
+	/**
+	 * Unmarshals database Mark record to Mark java instance.
+	 *
+	 * @param rs
+	 *            - ResultSet record in Mark table
+	 * @return Mark instance of this record
+	 */
 	private static Mark unmarshal(ResultSet rs) {
 		Mark mark = new Mark();
 		try {
