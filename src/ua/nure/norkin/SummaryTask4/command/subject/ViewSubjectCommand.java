@@ -16,6 +16,13 @@ import ua.nure.norkin.SummaryTask4.entity.Subject;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
+/**
+ * View Subject Command
+ *
+ * @author Mark Norkin
+ * @see Subject
+ *
+ */
 public class ViewSubjectCommand extends Command {
 
 	private static final long serialVersionUID = -1129276218825868557L;
@@ -23,6 +30,14 @@ public class ViewSubjectCommand extends Command {
 	private static final Logger LOG = Logger
 			.getLogger(ViewSubjectCommand.class);
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.command.Command#execute(javax.servlet.http
+	 * .HttpServletRequest, javax.servlet.http.HttpServletResponse,
+	 * ua.nure.norkin.SummaryTask4.utils.ActionType)
+	 */
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response, ActionType actionType)
@@ -47,11 +62,16 @@ public class ViewSubjectCommand extends Command {
 		return result;
 	}
 
+	/**
+	 * Forwards admin to the view of some specific subject.
+	 *
+	 * @return path to the subject view.
+	 */
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
 		String subjectName = request.getParameter(Fields.SUBJECT_NAME);
 
-		LOG.trace("Subject name to look for is equal to: '" + subjectName+"'");
+		LOG.trace("Subject name to look for is equal to: '" + subjectName + "'");
 
 		SubjectRepository subjectRepository = new SubjectRepository();
 		Subject subject = subjectRepository.find(subjectName);
