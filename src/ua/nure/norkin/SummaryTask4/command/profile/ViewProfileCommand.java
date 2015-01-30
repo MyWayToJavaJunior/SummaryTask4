@@ -30,6 +30,14 @@ public class ViewProfileCommand extends Command {
 	private static final Logger LOG = Logger
 			.getLogger(ViewProfileCommand.class);
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.command.Command#execute(javax.servlet.http
+	 * .HttpServletRequest, javax.servlet.http.HttpServletResponse,
+	 * ua.nure.norkin.SummaryTask4.utils.ActionType)
+	 */
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response, ActionType actionType)
@@ -52,6 +60,11 @@ public class ViewProfileCommand extends Command {
 		return result;
 	}
 
+	/**
+	 * Forwards user to his profile page, based on his role.
+	 *
+	 * @return path to user profile
+	 */
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
 		String result = null;
