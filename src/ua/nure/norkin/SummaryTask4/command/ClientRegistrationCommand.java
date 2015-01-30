@@ -18,6 +18,12 @@ import ua.nure.norkin.SummaryTask4.repository.UserRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 import ua.nure.norkin.SummaryTask4.utils.FieldValidation;
 
+/**
+ * Invoked when client registers in system.
+ *
+ * @author Mark Norkin
+ *
+ */
 public class ClientRegistrationCommand extends Command {
 
 	private static final long serialVersionUID = -3071536593627692473L;
@@ -25,6 +31,14 @@ public class ClientRegistrationCommand extends Command {
 	private static final Logger LOG = Logger
 			.getLogger(ClientRegistrationCommand.class);
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.command.Command#execute(javax.servlet.http
+	 * .HttpServletRequest, javax.servlet.http.HttpServletResponse,
+	 * ua.nure.norkin.SummaryTask4.utils.ActionType)
+	 */
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response, ActionType actionType)
@@ -44,11 +58,22 @@ public class ClientRegistrationCommand extends Command {
 		return result;
 	}
 
+	/**
+	 * Forwards user to client registration page.
+	 *
+	 * @return path where page lies
+	 */
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
 		return Path.FORWARD_CLIENT_REGISTRATION_PAGE;
 	}
 
+	/**
+	 * Registers user in system, if all fields is properly filled
+	 *
+	 * @return path to welcome page if registration successful, redisplays
+	 *         client registration page otherwise.
+	 */
 	private String doPost(HttpServletRequest request,
 			HttpServletResponse response) {
 		LOG.debug("Start executing Command");
@@ -62,9 +87,16 @@ public class ClientRegistrationCommand extends Command {
 
 		String result = null;
 
+		// TODO check email for uniqueness, password for char's amount
 		if (!FieldValidation.isFilled(email, password, firstName, lastName,
 				town, district, school)) {
-			request.setAttribute("errorMessage", "<br> Please fill all fields!");
+			request.setAttribute("errorMessage", "Please fill all fields!");
+
+			UserRepository userRepository = new UserRepository();
+			User user = userRepository.find(email);
+			if (user != null) {
+
+			}
 
 			LOG.error("errorMessage: Not all fields are filled");
 			result = Path.REDIRECT_CLIENT_REGISTRATION_PAGE;
