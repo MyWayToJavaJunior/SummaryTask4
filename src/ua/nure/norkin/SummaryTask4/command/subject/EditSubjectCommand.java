@@ -17,12 +17,27 @@ import ua.nure.norkin.SummaryTask4.entity.Subject;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
+/**
+ * Edit subject Command.
+ *
+ * @author Mark Norkin
+ * @see Subject
+ *
+ */
 public class EditSubjectCommand extends Command {
 
 	private static final long serialVersionUID = 2946525838609196070L;
 	private static final Logger LOG = Logger
 			.getLogger(EditSubjectCommand.class);
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.command.Command#execute(javax.servlet.http
+	 * .HttpServletRequest, javax.servlet.http.HttpServletResponse,
+	 * ua.nure.norkin.SummaryTask4.utils.ActionType)
+	 */
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response, ActionType actionType)
@@ -49,6 +64,11 @@ public class EditSubjectCommand extends Command {
 		return result;
 	}
 
+	/**
+	 * Forwards admin to edit page, so then he can update the subject data.
+	 *
+	 * @return path to the edit subject page.
+	 */
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
 		String subjectName = request.getParameter("name");
@@ -61,6 +81,13 @@ public class EditSubjectCommand extends Command {
 	}
 
 	// TODO validation
+	/**
+	 * Updates subject info.
+	 *
+	 * @return path to the view of edited subject if all fields were properly
+	 *         filled, otherwise redisplays edit page.
+	 * @throws UnsupportedEncodingException
+	 */
 	private String doPost(HttpServletRequest request,
 			HttpServletResponse response) throws UnsupportedEncodingException {
 		// get parameters from page
