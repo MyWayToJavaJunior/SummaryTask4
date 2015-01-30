@@ -19,12 +19,26 @@ import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
+/**
+ * Invoked when user wants to see some specific faculty.
+ *
+ * @author Mark Norkin
+ *
+ */
 public class ViewFacultyCommand extends Command {
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger
 			.getLogger(ViewFacultyCommand.class);
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.command.Command#execute(javax.servlet.http
+	 * .HttpServletRequest, javax.servlet.http.HttpServletResponse,
+	 * ua.nure.norkin.SummaryTask4.utils.ActionType)
+	 */
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response, ActionType actionType)
@@ -43,11 +57,17 @@ public class ViewFacultyCommand extends Command {
 		return result;
 	}
 
+	/**
+	 * Shows page with faculty attributes. Type of action on the page depends on
+	 * user role.
+	 *
+	 * @return path to the view of some faculty.
+	 */
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
 		String facultyName = request.getParameter(Fields.FACULTY_NAME);
 
-		LOG.trace("Faculty name to look for is equal to: '" + facultyName+"'");
+		LOG.trace("Faculty name to look for is equal to: '" + facultyName + "'");
 
 		String result = null;
 
