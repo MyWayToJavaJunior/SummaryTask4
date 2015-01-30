@@ -15,12 +15,26 @@ import ua.nure.norkin.SummaryTask4.entity.Subject;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
+/**
+ * View all subjects Command.
+ *
+ * @author Mark Norkin
+ * @see Subject
+ */
 public class ViewAllSubjectsCommand extends Command {
 
 	private static final long serialVersionUID = 19699623476838931L;
 	private static final Logger LOG = Logger
 			.getLogger(ViewAllSubjectsCommand.class);
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.command.Command#execute(javax.servlet.http
+	 * .HttpServletRequest, javax.servlet.http.HttpServletResponse,
+	 * ua.nure.norkin.SummaryTask4.utils.ActionType)
+	 */
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response, ActionType actionType)
@@ -45,6 +59,11 @@ public class ViewAllSubjectsCommand extends Command {
 		return result;
 	}
 
+	/**
+	 * Forwards admin to the view of all subjects.
+	 *
+	 * @return path to all subjects view
+	 */
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
 		SubjectRepository subjectRepository = new SubjectRepository();
