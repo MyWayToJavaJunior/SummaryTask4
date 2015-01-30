@@ -13,9 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
 /**
- * Encoding filter.
+ * Encoding filter. Checks for requested client encoding. If none requested
+ * - sets to UTF-8.
  *
- * @author D.Kolesnikov
+ * @author Mark Norkin
  *
  */
 public class EncodingFilter implements Filter {
@@ -24,12 +25,23 @@ public class EncodingFilter implements Filter {
 
 	private String encoding;
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see javax.servlet.Filter#destroy()
+	 */
 	public void destroy() {
 		LOG.debug("Filter destruction starts");
 		// do nothing
 		LOG.debug("Filter destruction finished");
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest,
+	 * javax.servlet.ServletResponse, javax.servlet.FilterChain)
+	 */
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 
@@ -48,6 +60,11 @@ public class EncodingFilter implements Filter {
 		chain.doFilter(request, response);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
+	 */
 	public void init(FilterConfig fConfig) throws ServletException {
 		LOG.debug("Filter initialization starts");
 		encoding = fConfig.getInitParameter("encoding");
