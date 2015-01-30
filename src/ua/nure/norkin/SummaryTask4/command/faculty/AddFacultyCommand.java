@@ -21,11 +21,25 @@ import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 import ua.nure.norkin.SummaryTask4.utils.FieldValidation;
 
+/**
+ * Invoked when user wants to add faculty. Command allowed only for admins.
+ *
+ * @author Mark Norkin
+ *
+ */
 public class AddFacultyCommand extends Command {
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(AddFacultyCommand.class);
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.command.Command#execute(javax.servlet.http
+	 * .HttpServletRequest, javax.servlet.http.HttpServletResponse,
+	 * ua.nure.norkin.SummaryTask4.utils.ActionType)
+	 */
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response, ActionType actionType)
@@ -55,6 +69,11 @@ public class AddFacultyCommand extends Command {
 		return result;
 	}
 
+	/**
+	 * Forwards to add page.
+	 *
+	 * @return path to the add faculty page.
+	 */
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
 		LOG.trace("Request for only showing (not already adding) faculty/add.jsp");
@@ -68,6 +87,12 @@ public class AddFacultyCommand extends Command {
 		return Path.FORWARD_FACULTY_ADD_ADMIN;
 	}
 
+	/**
+	 * Redirects user after submitting add faculty form.
+	 *
+	 * @return path to the view of added faculty if fields properly filled,
+	 *         otherwise redisplays add Faculty page.
+	 */
 	private String doPost(HttpServletRequest request,
 			HttpServletResponse response) {
 		String result = null;
@@ -78,6 +103,8 @@ public class AddFacultyCommand extends Command {
 		String facultyBudgetSeats = request
 				.getParameter(Fields.FACULTY_BUDGET_SEATS);
 
+		// TODO check name for uniqueness and budget seats is lower then total
+		// seats
 		if (!FieldValidation.isFilled(facultyName)
 				|| !FieldValidation.isNumber(facultyTotalSeats,
 						facultyBudgetSeats)) {
