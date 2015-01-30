@@ -19,7 +19,7 @@ import ua.nure.norkin.SummaryTask4.repository.UserRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 /**
- * View profile command.
+ * Edit profile command.
  *
  * @author Mark Norkin
  *
@@ -31,6 +31,14 @@ public class EditProfileCommand extends Command {
 	private static final Logger LOG = Logger
 			.getLogger(EditProfileCommand.class);
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.command.Command#execute(javax.servlet.http
+	 * .HttpServletRequest, javax.servlet.http.HttpServletResponse,
+	 * ua.nure.norkin.SummaryTask4.utils.ActionType)
+	 */
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response, ActionType actionType)
@@ -56,6 +64,11 @@ public class EditProfileCommand extends Command {
 		return result;
 	}
 
+	/**
+	 * Invoked when user wants to edit his page.
+	 *
+	 * @return path to the edit profile page.
+	 */
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
 		String result = null;
@@ -98,6 +111,12 @@ public class EditProfileCommand extends Command {
 	}
 
 	// TODO validation
+	/**
+	 * Invoked when user already edit his profile and wants to update it.
+	 *
+	 * @return path to the user profile if command succeeds, otherwise
+	 *         redisplays editing page.
+	 */
 	private String doPost(HttpServletRequest request,
 			HttpServletResponse response) {
 		// user updated info and we should update db
