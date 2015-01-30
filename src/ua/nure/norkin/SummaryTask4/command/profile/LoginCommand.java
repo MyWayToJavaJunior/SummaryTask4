@@ -9,13 +9,14 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import ua.nure.norkin.SummaryTask4.Path;
 import ua.nure.norkin.SummaryTask4.command.Command;
 import ua.nure.norkin.SummaryTask4.entity.User;
 import ua.nure.norkin.SummaryTask4.repository.UserRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 /**
- * Login command.
+ * Invoked when user logins in the system.
  *
  * @author Mark Norkin.
  *
@@ -26,6 +27,14 @@ public class LoginCommand extends Command {
 
 	private static final Logger LOG = Logger.getLogger(LoginCommand.class);
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.command.Command#execute(javax.servlet.http
+	 * .HttpServletRequest, javax.servlet.http.HttpServletResponse,
+	 * ua.nure.norkin.SummaryTask4.utils.ActionType)
+	 */
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response, ActionType actionType)
@@ -45,6 +54,11 @@ public class LoginCommand extends Command {
 		return result;
 	}
 
+	/**
+	 * Logins user in system. As first page displays view of all faculties.
+	 *
+	 * @return path to the view of all faculties.
+	 */
 	private String doPost(HttpServletRequest request,
 			HttpServletResponse response) {
 		String result = null;
@@ -59,7 +73,6 @@ public class LoginCommand extends Command {
 			request.setAttribute("errorMessage",
 					"Cannot find user with such login/password");
 			LOG.error("errorMessage: Cannot find user with such login/password");
-			// result.setFirst(ActionType.FORWARD);
 			result = null;
 		} else {
 			HttpSession session = request.getSession(true);
@@ -74,7 +87,7 @@ public class LoginCommand extends Command {
 
 			LOG.info("User: " + user + " logged as " + role);
 
-			result = "controller?command=viewAllFaculties";
+			result = Path.REDIRECT_TO_VIEW_ALL_FACULTIES;
 		}
 		return result;
 	}
