@@ -13,6 +13,13 @@ import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.entity.FacultySubjects;
 
+/**
+ * Faculty Subjects DAO. Performs basic read/write operations on Faculty
+ * Subjects database table.
+ *
+ * @author Mark Norkin
+ *
+ */
 public class FacultySubjectsRepository extends
 		AbstractRepository<FacultySubjects> {
 
@@ -24,8 +31,15 @@ public class FacultySubjectsRepository extends
 
 	private final static Logger LOG = Logger
 			.getLogger(FacultySubjectsRepository.class);
-	private static final String DELETE_FACULTY_SUBJECT_BY_FACULTY="DELETE FROM university_admission.faculty_subjects WHERE university_admission.faculty_subjects.Faculty_idFaculty=? LIMIT 1;";
+	private static final String DELETE_FACULTY_SUBJECT_BY_FACULTY = "DELETE FROM university_admission.faculty_subjects WHERE university_admission.faculty_subjects.Faculty_idFaculty=? LIMIT 1;";
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.repository.Repository#create(java.lang.Object
+	 * )
+	 */
 	@Override
 	public void create(FacultySubjects entity) {
 		Connection connection = null;
@@ -55,6 +69,13 @@ public class FacultySubjectsRepository extends
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.repository.Repository#update(java.lang.Object
+	 * )
+	 */
 	@Override
 	public void update(FacultySubjects entity) {
 		Connection connection = null;
@@ -78,6 +99,13 @@ public class FacultySubjectsRepository extends
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.repository.Repository#delete(java.lang.Object
+	 * )
+	 */
 	@Override
 	public void delete(FacultySubjects entity) {
 		Connection connection = null;
@@ -98,13 +126,19 @@ public class FacultySubjectsRepository extends
 		}
 	}
 
-
+	/**
+	 * Deletes all preliminary subjects of specified faculty.
+	 *
+	 * @param entity
+	 *            - faculty by which delete operation should be performed
+	 */
 	public void deleteAllSubjects(Faculty entity) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
 		try {
 			connection = getConnection();
-			pstmt = connection.prepareStatement(DELETE_FACULTY_SUBJECT_BY_FACULTY);
+			pstmt = connection
+					.prepareStatement(DELETE_FACULTY_SUBJECT_BY_FACULTY);
 			pstmt.setInt(1, entity.getId());
 
 			pstmt.execute();
@@ -118,7 +152,11 @@ public class FacultySubjectsRepository extends
 		}
 	}
 
-
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#find(int)
+	 */
 	@Override
 	public FacultySubjects find(int entityPK) {
 		Connection connection = null;
@@ -147,6 +185,11 @@ public class FacultySubjectsRepository extends
 		return facultySubject;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#findAll()
+	 */
 	@Override
 	public List<FacultySubjects> findAll() {
 		Connection connection = null;
@@ -172,6 +215,14 @@ public class FacultySubjectsRepository extends
 		return facultySubjects;
 	}
 
+	/**
+	 * Unmarshals specified Faculty Subjects database record to java Faculty
+	 * Subjects entity instance.
+	 *
+	 * @param rs
+	 *            - ResultSet record of Faculty Subject
+	 * @return entity instance of this record
+	 */
 	private static FacultySubjects unmarshal(ResultSet rs) {
 		FacultySubjects facultySubject = new FacultySubjects();
 		try {
