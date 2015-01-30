@@ -26,12 +26,26 @@ import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 import ua.nure.norkin.SummaryTask4.utils.FieldValidation;
 
+/**
+ * Invoked when admin wants to edit information about some faculty
+ *
+ * @author Mark Norkin
+ *
+ */
 public class EditFacultyCommand extends Command {
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger
 			.getLogger(EditFacultyCommand.class);
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.command.Command#execute(javax.servlet.http
+	 * .HttpServletRequest, javax.servlet.http.HttpServletResponse,
+	 * ua.nure.norkin.SummaryTask4.utils.ActionType)
+	 */
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response, ActionType actionType)
@@ -61,6 +75,11 @@ public class EditFacultyCommand extends Command {
 
 	}
 
+	/**
+	 * Forwards to the edit faculty page
+	 *
+	 * @return path to edit page.
+	 */
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
 		String facultyName = request.getParameter("name");
@@ -92,6 +111,13 @@ public class EditFacultyCommand extends Command {
 		return Path.FORWARD_FACULTY_EDIT_ADMIN;
 	}
 
+	/**
+	 * Edits faculty according to entered data by admin.
+	 *
+	 * @return path to the view of edited faculty if succeeded, otherwise
+	 *         redisplays page with <code>doGet</code>
+	 * @throws UnsupportedEncodingException
+	 */
 	private String doPost(HttpServletRequest request,
 			HttpServletResponse response) throws UnsupportedEncodingException {
 		String result = null;
@@ -106,6 +132,7 @@ public class EditFacultyCommand extends Command {
 		LOG.trace("Get parameter 'budget_seats' = " + facultyBudgetSeats);
 
 		// check if they are valid
+		// TODO budget < total
 		if (!FieldValidation.isFilled(facultyName)
 				|| !FieldValidation.isNumber(facultyTotalSeats,
 						facultyBudgetSeats)) {
