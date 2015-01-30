@@ -13,6 +13,12 @@ import org.apache.log4j.Logger;
 import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
 
+/**
+ * Faculty DAO. Performs basic read/write operations on Faculty entity.
+ *
+ * @author Mark Norkin
+ *
+ */
 public class FacultyRepository extends AbstractRepository<Faculty> {
 
 	private static final String FIND_ALL_FACULTIES = "SELECT * FROM university_admission.faculty;";
@@ -24,6 +30,13 @@ public class FacultyRepository extends AbstractRepository<Faculty> {
 
 	private final static Logger LOG = Logger.getLogger(FacultyRepository.class);
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.repository.Repository#create(java.lang.Object
+	 * )
+	 */
 	@Override
 	public void create(Faculty entity) {
 		Connection connection = null;
@@ -55,6 +68,13 @@ public class FacultyRepository extends AbstractRepository<Faculty> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.repository.Repository#update(java.lang.Object
+	 * )
+	 */
 	@Override
 	public void update(Faculty entity) {
 		Connection connection = null;
@@ -80,6 +100,13 @@ public class FacultyRepository extends AbstractRepository<Faculty> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.repository.Repository#delete(java.lang.Object
+	 * )
+	 */
 	@Override
 	public void delete(Faculty entity) {
 		Connection connection = null;
@@ -100,6 +127,11 @@ public class FacultyRepository extends AbstractRepository<Faculty> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#find(int)
+	 */
 	@Override
 	public Faculty find(int entityPK) {
 		Connection connection = null;
@@ -128,6 +160,14 @@ public class FacultyRepository extends AbstractRepository<Faculty> {
 		return faculty;
 	}
 
+	/**
+	 * Finds Faculty record in database through faculty name. This can be
+	 * achieved, because all faculties have unique names.
+	 *
+	 * @param facultyName
+	 *            - faculty name to be searched through
+	 * @return Faculty instance with specified name
+	 */
 	public Faculty find(String facultyName) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -155,6 +195,11 @@ public class FacultyRepository extends AbstractRepository<Faculty> {
 		return faculty;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#findAll()
+	 */
 	@Override
 	public List<Faculty> findAll() {
 		Connection connection = null;
@@ -180,6 +225,13 @@ public class FacultyRepository extends AbstractRepository<Faculty> {
 		return faculties;
 	}
 
+	/**
+	 * Unmarshals database Faculty record to java Faculty instance.
+	 *
+	 * @param rs
+	 *            - ResultSet record
+	 * @return Faculty instance of this record
+	 */
 	private static Faculty unmarshal(ResultSet rs) {
 		Faculty faculty = new Faculty();
 		try {
