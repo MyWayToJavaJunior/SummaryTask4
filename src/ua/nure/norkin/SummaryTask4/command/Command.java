@@ -20,7 +20,9 @@ public abstract class Command implements Serializable {
 
 	/**
 	 * Execution method for command. Returns path to go to based on the client
-	 * request.
+	 * request. If Command is specific to some user role, then subclasses in
+	 * this method should perform validation and grant or not permissions to
+	 * proceed.
 	 *
 	 * @param request
 	 *            - client request
