@@ -15,11 +15,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import ua.nure.norkin.SummaryTask4.Path;
 
+/**
+ * Filter which performs authorization of the user to access some resources.
+ *
+ * @author Mark Norkin
+ *
+ */
 public class AuthFilter implements Filter {
 
-	private  List<String> urls;
+	private final List<String> urls;
+	private static final Logger LOG = Logger.getLogger(AuthFilter.class);
 
 	/**
 	 * Default constructor.
@@ -33,7 +42,11 @@ public class AuthFilter implements Filter {
 	 * @see Filter#destroy()
 	 */
 	public void destroy() {
-		urls = null;
+		LOG.debug("Start destroying filter: "
+				+ AuthFilter.class.getSimpleName());
+		// do nothing
+		LOG.debug("Finished destroying filter: "
+				+ AuthFilter.class.getSimpleName());
 	}
 
 	/**
@@ -45,20 +58,25 @@ public class AuthFilter implements Filter {
 		HttpServletResponse res = (HttpServletResponse) response;
 
 		String url = req.getContextPath();
-		String url2 = req.getServletPath();
-		//TODO
-		System.out.println("ContextPath "+url);
-		System.out.println("ServletPath"+url2);
 
+		LOG.debug("Context path from request: " + url);
 		if (urls.contains(url)) {
+
+			LOG.debug("This url is accessed to all clients: " + url);
 			chain.doFilter(req, res); // request for accessible url
 		}
 
+		LOG.debug("Requested url can't be viewed by all clients");
+
 		HttpSession session = req.getSession(false);
+
 		if (session == null || session.getAttribute("user") == null) {
+			LOG.debug("Unauthorized access to resource. Client is not logged-in.");
+
 			res.sendRedirect(Path.WELCOME_PAGE); // No logged-in user found, so
 													// redirect to login page.
 		} else {
+			LOG.debug("Client is logged-in. Access granted to the resource. Filter execution finished.");
 			chain.doFilter(req, res); // Logged-in user found, so just continue
 										// request.
 		}
