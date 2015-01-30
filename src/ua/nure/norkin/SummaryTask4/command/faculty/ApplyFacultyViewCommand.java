@@ -28,12 +28,26 @@ import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.repository.UserRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
+/**
+ * Invoked when client wants to apply for some faculty.
+ *
+ * @author Mark Norkin
+ *
+ */
 public class ApplyFacultyViewCommand extends Command {
 
 	private static final long serialVersionUID = 8295388021320200832L;
 	private static final Logger LOG = Logger
 			.getLogger(ApplyFacultyViewCommand.class);
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * ua.nure.norkin.SummaryTask4.command.Command#execute(javax.servlet.http
+	 * .HttpServletRequest, javax.servlet.http.HttpServletResponse,
+	 * ua.nure.norkin.SummaryTask4.utils.ActionType)
+	 */
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response, ActionType actionType)
@@ -64,6 +78,11 @@ public class ApplyFacultyViewCommand extends Command {
 
 	}
 
+	/**
+	 * Forwards user to apply page of interested faculty.
+	 *
+	 * @return path to apply for faculty page
+	 */
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
 		String result = null;
@@ -100,7 +119,11 @@ public class ApplyFacultyViewCommand extends Command {
 		return result;
 	}
 
-	//TODO validation
+	// TODO validation
+	/**
+	 * @return redirects user to view of applied faculty if applying is
+	 *         successful, otherwise redisplays this page.
+	 */
 	private String doPost(HttpServletRequest request,
 			HttpServletResponse response) {
 		LOG.trace("Start processing applying for faculty form");
