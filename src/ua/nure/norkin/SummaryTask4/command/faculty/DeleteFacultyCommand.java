@@ -69,14 +69,12 @@ public class DeleteFacultyCommand extends Command {
 	 */
 	private String doPost(HttpServletRequest request,
 			HttpServletResponse response) {
-		String facultyName = request.getParameter(Fields.FACULTY_NAME);
+		int facultyId = Integer.valueOf(request.getParameter(Fields.ENTITY_ID));
 
 		FacultyRepository facultyRepository = new FacultyRepository();
 
-		Faculty facultyToDelete = facultyRepository.find(facultyName);
-
-		LOG.trace("Database faculty record that will be deleted was found: "
-				+ facultyToDelete);
+		Faculty facultyToDelete = new Faculty();
+		facultyToDelete.setId(facultyId);
 
 		facultyRepository.delete(facultyToDelete);
 

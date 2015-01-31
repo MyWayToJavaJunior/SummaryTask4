@@ -77,6 +77,10 @@ public class ViewFacultyCommand extends Command {
 
 		LOG.trace("Faculty record found: " + facultyRecord);
 
+		request.setAttribute(Fields.ENTITY_ID, facultyRecord.getId());
+		LOG.trace("Set the request attribute: 'id' = "
+				+ facultyRecord.getId());
+
 		request.setAttribute(Fields.FACULTY_NAME, facultyRecord.getName());
 		LOG.trace("Set the request attribute: 'name' = "
 				+ facultyRecord.getName());

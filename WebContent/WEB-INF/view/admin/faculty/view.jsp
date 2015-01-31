@@ -34,6 +34,11 @@
 	<a
 		href="controller?command=editFaculty&show=true&name=${requestScope.name}"><fmt:message
 			key="faculty.view_jsp.button.edit" /></a>
+	<form id="delete_faculty" action="controller" method="POST">
+		<input type="hidden" name="command" value="deleteFaculty" /><input
+			type="hidden" name="id" value="${id}" /><input type="submit"
+			value="Delete" />
+	</form>
 
 </body>
 </html>
