@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import ua.nure.norkin.SummaryTask4.command.faculty.AddFacultyCommand;
 import ua.nure.norkin.SummaryTask4.command.faculty.ApplyFacultyViewCommand;
+import ua.nure.norkin.SummaryTask4.command.faculty.DeleteFacultyCommand;
 import ua.nure.norkin.SummaryTask4.command.faculty.EditFacultyCommand;
 import ua.nure.norkin.SummaryTask4.command.faculty.ViewAllFacultiesCommand;
 import ua.nure.norkin.SummaryTask4.command.faculty.ViewFacultyCommand;
@@ -48,6 +49,7 @@ public class CommandManager {
 		commands.put("admin_registration", new AdminRegistrationCommand());
 		commands.put("editFaculty", new EditFacultyCommand());
 		commands.put("addFaculty", new AddFacultyCommand());
+		commands.put("deleteFaculty", new DeleteFacultyCommand());
 		commands.put("addSubject", new AddSubjectCommand());
 		commands.put("editSubject", new EditSubjectCommand());
 		commands.put("viewAllSubjects", new ViewAllSubjectsCommand());
