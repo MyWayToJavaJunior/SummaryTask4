@@ -13,6 +13,7 @@ import ua.nure.norkin.SummaryTask4.Path;
 import ua.nure.norkin.SummaryTask4.command.Command;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
+import ua.nure.norkin.SummaryTask4.repository.FacultySubjectsRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 /**
@@ -71,11 +72,15 @@ public class DeleteFacultyCommand extends Command {
 			HttpServletResponse response) {
 		int facultyId = Integer.valueOf(request.getParameter(Fields.ENTITY_ID));
 
-		FacultyRepository facultyRepository = new FacultyRepository();
-
 		Faculty facultyToDelete = new Faculty();
 		facultyToDelete.setId(facultyId);
 
+		FacultySubjectsRepository facultySubjectsRepository = new FacultySubjectsRepository();
+		facultySubjectsRepository.deleteAllSubjects(facultyToDelete);
+		LOG.trace("Delete preliminary subjects records in database of a faculty: "
+				+ facultyToDelete);
+
+		FacultyRepository facultyRepository = new FacultyRepository();
 		facultyRepository.delete(facultyToDelete);
 
 		LOG.trace("Delete faculty record in database: " + facultyToDelete);
