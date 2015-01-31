@@ -132,18 +132,19 @@ public class AddFacultyCommand extends Command {
 			// adding faculty subjects
 			String[] choosedSubjects = request.getParameterValues("subjects");
 
-			SubjectRepository subjectRepository = new SubjectRepository();
-			FacultySubjectsRepository facultySubjectsRepository = new FacultySubjectsRepository();
+			if (choosedSubjects != null) {
+				SubjectRepository subjectRepository = new SubjectRepository();
+				FacultySubjectsRepository facultySubjectsRepository = new FacultySubjectsRepository();
 
-			for (String subject : choosedSubjects) {
-				Subject subjectRecord = subjectRepository.find(subject);
-				FacultySubjects facultySubject = new FacultySubjects(
-						subjectRecord, faculty);
-				facultySubjectsRepository.create(facultySubject);
-				LOG.trace("FacultySubjects record created in databaset: "
-						+ facultySubject);
+				for (String subject : choosedSubjects) {
+					Subject subjectRecord = subjectRepository.find(subject);
+					FacultySubjects facultySubject = new FacultySubjects(
+							subjectRecord, faculty);
+					facultySubjectsRepository.create(facultySubject);
+					LOG.trace("FacultySubjects record created in databaset: "
+							+ facultySubject);
+				}
 			}
-
 			result = Path.REDIRECT_TO_FACULTY + facultyName;
 		}
 		return result;
