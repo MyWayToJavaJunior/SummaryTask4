@@ -12,7 +12,7 @@ Header (top area).
 		<c:when test="${empty user}">
 			<td><a href="welcome.jsp"> <fmt:message
 						key="header_jspf.anchor.login" /></a></td>
-			<td><a href="registration.jsp"><fmt:message
+			<td><a href="controller?command=client_registration"><fmt:message
 						key="header_jspf.anchor.register" /></a></td>
 		</c:when>
 		<c:otherwise>
@@ -27,8 +27,6 @@ Header (top area).
 		</c:otherwise>
 	</c:choose>
 </tr>
-<br>
-<br>
 <br>
 <br>
 <br>
