@@ -103,20 +103,38 @@ public class AddFacultyCommand extends Command {
 		String facultyBudgetSeats = request
 				.getParameter(Fields.FACULTY_BUDGET_SEATS);
 
-		// TODO check name for uniqueness and budget seats is lower then total
-		// seats
-		if (!FieldValidation.isFilled(facultyName)
-				|| !FieldValidation.isNumber(facultyTotalSeats,
-						facultyBudgetSeats)) {
+		boolean valid = true;
+
+		if (!FieldValidation.isFilled(facultyName, facultyBudgetSeats,
+				facultyTotalSeats)) {
 			request.setAttribute("errorMessage",
-					"<br> Please fill all fields properly!");
-
+					"Please fill all fields properly!");
 			LOG.error("errorMessage: Not all fields are properly filled");
-			result = Path.REDIRECT_FACULTY_ADD_ADMIN;
-		} else {
+			valid = false;
+		}
+		if (!FieldValidation.isByte(facultyTotalSeats, facultyBudgetSeats)) {
+			request.setAttribute("errorMessage", "Please enter a valid number!");
+			LOG.error("errorMessage: not a numbers");
+			valid = false;
 
-			Byte totalSeats = Byte.valueOf(facultyTotalSeats);
-			Byte budgetSeats = Byte.valueOf(facultyBudgetSeats);
+		}
+
+		Byte totalSeats = Byte.valueOf(facultyTotalSeats);
+		Byte budgetSeats = Byte.valueOf(facultyBudgetSeats);
+
+		if (!FieldValidation.checkBudgetLowerTotal(budgetSeats, totalSeats)) {
+			request.setAttribute("errorMessage",
+					"Budget seats should be lower then Total seats!");
+			LOG.error("errorMessage: not valid number's for faculty seats");
+			valid = false;
+		}
+
+		if (valid == false) {
+			result = Path.REDIRECT_FACULTY_ADD_ADMIN;
+		}
+		if (valid) {
+
+			// TODO check name for uniqueness
 
 			Faculty faculty = new Faculty(facultyName, budgetSeats, totalSeats);
 
@@ -126,7 +144,7 @@ public class AddFacultyCommand extends Command {
 
 			facultyRepository.create(faculty);
 
-			LOG.trace("Create faculty record in databaset: " + faculty);
+			LOG.trace("Create faculty record in database: " + faculty);
 
 			// only after creating a faculty record we can proceed with
 			// adding faculty subjects
