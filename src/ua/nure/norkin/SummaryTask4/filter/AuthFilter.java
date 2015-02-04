@@ -66,8 +66,9 @@ public class AuthFilter implements Filter {
 			chain.doFilter(req, res); // request for accessible url
 		}
 
-		LOG.debug("Requested url can't be viewed by all clients");
+		LOG.debug("Requested url can't be viewed by all clients.");
 
+		LOG.trace("Check if user is logged in the sytem.");
 		HttpSession session = req.getSession(false);
 
 		if (session == null || session.getAttribute("user") == null) {
