@@ -28,10 +28,10 @@ public class FacultySubjectsRepository extends
 	private static final String INSERT_FACULTY_SUBJECT = "INSERT INTO university_admission.faculty_subjects (university_admission.faculty_subjects.Faculty_idFaculty, university_admission.faculty_subjects.Subject_idSubject) VALUES (?,?);";
 	private static final String UPDATE_FACULTY_SUBJECT = "UPDATE university_admission.faculty_subjects SET university_admission.faculty_subjects.Faculty_idFaculty=?, university_admission.faculty_subjects.Subject_idSubject=? WHERE university_admission.faculty_subjects.id=? LIMIT 1;";
 	private static final String DELETE_FACULTY_SUBJECT = "DELETE FROM university_admission.faculty_subjects WHERE university_admission.faculty_subjects.id=? LIMIT 1;";
+	private static final String DELETE_ALL_FACULTY_SUBJECTS = "DELETE FROM university_admission.faculty_subjects WHERE university_admission.faculty_subjects.Faculty_idFaculty=?";
 
 	private final static Logger LOG = Logger
 			.getLogger(FacultySubjectsRepository.class);
-	private static final String DELETE_FACULTY_SUBJECT_BY_FACULTY = "DELETE FROM university_admission.faculty_subjects WHERE university_admission.faculty_subjects.Faculty_idFaculty=? LIMIT 1;";
 
 	/*
 	 * (non-Javadoc)
@@ -138,7 +138,7 @@ public class FacultySubjectsRepository extends
 		try {
 			connection = getConnection();
 			pstmt = connection
-					.prepareStatement(DELETE_FACULTY_SUBJECT_BY_FACULTY);
+					.prepareStatement(DELETE_ALL_FACULTY_SUBJECTS);
 			pstmt.setInt(1, entity.getId());
 
 			pstmt.execute();
