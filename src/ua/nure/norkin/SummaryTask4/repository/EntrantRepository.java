@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.Entrant;
+import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.entity.User;
 
 /**
@@ -24,11 +25,12 @@ public class EntrantRepository extends AbstractRepository<Entrant> {
 	private static final String FIND_ALL_ENTRANTS = "SELECT * FROM university_admission.entrant;";
 	private static final String FIND_ENTRANT = "SELECT * FROM university_admission.entrant WHERE entrant.id = ? LIMIT 1;";
 	private static final String FIND_ENTRANT_BY_USER_ID = "SELECT * FROM university_admission.entrant WHERE entrant.User_idUser = ? LIMIT 1;";
-	private static final String INSERT_USER = "INSERT INTO university_admission.entrant(entrant.city,entrant.district,entrant.school,entrant.User_idUser,entrant.isBlocked) VALUES (?,?,?,?,?);";
-	private static final String UPDATE_ENTRANT = "UPDATE entrant SET entrant.city=?, entrant.district=?,entrant.school=?,entrant.User_idUser=?,entrant.isBlocked WHERE entrant.id=? LIMIT 1;";
+	private static final String INSERT_ENTRANT = "INSERT INTO university_admission.entrant(entrant.city,entrant.district,entrant.school,entrant.User_idUser,entrant.isBlocked) VALUES (?,?,?,?,?);";
+	private static final String UPDATE_ENTRANT = "UPDATE entrant SET entrant.city=?, entrant.district=?,entrant.school=?,entrant.User_idUser=?, entrant.isBlocked=? WHERE entrant.id=? LIMIT 1;";
 	private static final String DELETE_ENTRANT = "DELETE FROM university_admission.entrant WHERE entrant.id=? LIMIT 1;";
 
 	private final static Logger LOG = Logger.getLogger(EntrantRepository.class);
+	private static final String FIND_ALL_FACULTY_ENTRANTS = "SELECT university_admission.entrant.* FROM university_admission.entrant INNER JOIN university_admission.faculty_entrants ON university_admission.faculty_entrants.Entrant_idEntrant=university_admission.entrant.id  WHERE faculty_entrants.Faculty_idFaculty = ? ;";
 
 	/*
 	 * (non-Javadoc)
@@ -44,14 +46,14 @@ public class EntrantRepository extends AbstractRepository<Entrant> {
 		ResultSet rs = null;
 		try {
 			connection = getConnection();
-			pstmt = connection.prepareStatement(INSERT_USER,
+			pstmt = connection.prepareStatement(INSERT_ENTRANT,
 					PreparedStatement.RETURN_GENERATED_KEYS);
 			int counter = 1;
 			pstmt.setString(counter++, entity.getCity());
 			pstmt.setString(counter++, entity.getDistrict());
 			pstmt.setString(counter++, entity.getSchool());
 			pstmt.setInt(counter++, entity.getUserId());
-			pstmt.setBoolean(counter, entity.isBlocked());
+			pstmt.setBoolean(counter, entity.getBlockedStatus());
 
 			pstmt.execute();
 			connection.commit();
@@ -89,7 +91,9 @@ public class EntrantRepository extends AbstractRepository<Entrant> {
 			pstmt.setString(counter++, entity.getDistrict());
 			pstmt.setString(counter++, entity.getSchool());
 			pstmt.setInt(counter++, entity.getUserId());
-			pstmt.setBoolean(counter++, entity.isBlocked());
+			pstmt.setBoolean(counter++, entity.getBlockedStatus());
+
+			pstmt.setInt(counter, entity.getId());
 
 			pstmt.executeUpdate();
 			connection.commit();
@@ -227,6 +231,31 @@ public class EntrantRepository extends AbstractRepository<Entrant> {
 		return users;
 	}
 
+	public List<Entrant> findAllFacultyEntrants(Faculty faculty) {
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<Entrant> facultyEntrants = new ArrayList<Entrant>();
+		try {
+			connection = getConnection();
+			pstmt = connection.prepareStatement(FIND_ALL_FACULTY_ENTRANTS);
+			pstmt.setInt(1, faculty.getId());
+			rs = pstmt.executeQuery();
+			connection.commit();
+			while (rs.next()) {
+				facultyEntrants.add(unmarshal(rs));
+			}
+		} catch (SQLException e) {
+			rollback(connection);
+			LOG.error("Can not find all faculty entrants", e);
+		} finally {
+			close(connection);
+			close(pstmt);
+			close(rs);
+		}
+		return facultyEntrants;
+	}
+
 	/**
 	 * Unmarshals Entrant record in database to Java Entrant instance.
 	 *
@@ -242,6 +271,7 @@ public class EntrantRepository extends AbstractRepository<Entrant> {
 			entrant.setDistrict(rs.getString(Fields.ENTRANT_DISTRICT));
 			entrant.setSchool(rs.getString(Fields.ENTRANT_SCHOOL));
 			entrant.setUserId(rs.getInt(Fields.USER_FOREIGN_KEY_ID));
+			entrant.setBlockedStatus(rs.getBoolean(Fields.ENTRANT_IS_BLOCKED));
 		} catch (SQLException e) {
 			LOG.error("Can not unmarshal ResultSet to entrant", e);
 		}
