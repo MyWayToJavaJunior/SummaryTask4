@@ -34,11 +34,29 @@
 	<a
 		href="controller?command=editFaculty&show=true&name=${requestScope.name}"><fmt:message
 			key="faculty.view_jsp.button.edit" /></a>
+
 	<form id="delete_faculty" action="controller" method="POST">
 		<input type="hidden" name="command" value="deleteFaculty" /><input
 			type="hidden" name="id" value="${id}" /><input type="submit"
 			value="Delete" />
 	</form>
+
+	<br>
+	<label> Faculty entrants: </label>
+	<br>
+	<c:if test="${empty facultyEntrants}">
+		<%-- <fmt:message key="faculty.view_jsp.label.no_subjects_msg" /> --%>
+			no one applied!
+		</c:if>
+
+	<c:if test="${not empty facultyEntrants}">
+		<c:forEach var="entrant" items="${facultyEntrants}" varStatus="item">
+			<a
+				href="<c:url value="controller?command=viewEntrant"> <c:param name="userId" value="${entrant.key.userId}"/></c:url>"><c:out
+					value="${item.index + 1} ${entrant.value}"></c:out></a>
+			<br>
+		</c:forEach>
+	</c:if>
 
 </body>
 </html>

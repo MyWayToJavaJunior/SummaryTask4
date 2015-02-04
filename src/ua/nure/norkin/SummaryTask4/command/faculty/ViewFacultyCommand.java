@@ -1,7 +1,10 @@
 package ua.nure.norkin.SummaryTask4.command.faculty;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,10 +16,14 @@ import org.apache.log4j.Logger;
 import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.Path;
 import ua.nure.norkin.SummaryTask4.command.Command;
+import ua.nure.norkin.SummaryTask4.entity.Entrant;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.entity.Subject;
+import ua.nure.norkin.SummaryTask4.entity.User;
+import ua.nure.norkin.SummaryTask4.repository.EntrantRepository;
 import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
+import ua.nure.norkin.SummaryTask4.repository.UserRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 /**
@@ -78,8 +85,7 @@ public class ViewFacultyCommand extends Command {
 		LOG.trace("Faculty record found: " + facultyRecord);
 
 		request.setAttribute(Fields.ENTITY_ID, facultyRecord.getId());
-		LOG.trace("Set the request attribute: 'id' = "
-				+ facultyRecord.getId());
+		LOG.trace("Set the request attribute: 'id' = " + facultyRecord.getId());
 
 		request.setAttribute(Fields.FACULTY_NAME, facultyRecord.getName());
 		LOG.trace("Set the request attribute: 'name' = "
@@ -107,6 +113,29 @@ public class ViewFacultyCommand extends Command {
 		if ("client".equals(role)) {
 			result = Path.FORWARD_FACULTY_VIEW_CLIENT;
 		} else if ("admin".equals(role)) {
+			EntrantRepository entrantRepository = new EntrantRepository();
+			List<Entrant> entrants = entrantRepository
+					.findAllFacultyEntrants(facultyRecord);
+
+			Map<Entrant, String> facultyEntrants = new TreeMap<>(
+					new Comparator<Entrant>() {
+						@Override
+						public int compare(Entrant first, Entrant second) {
+							return Integer.compare(first.getId(),
+									second.getId());
+						}
+					});
+
+			UserRepository userRepository = new UserRepository();
+			for (Entrant entrant : entrants) {
+				User user = userRepository.find(entrant.getUserId());
+				facultyEntrants.put(entrant,
+						user.getFirstName() + " " + user.getLastName());
+			}
+			request.setAttribute("facultyEntrants", facultyEntrants);
+			LOG.trace("Set the request attribute: 'facultyEntrants' = "
+					+ facultyEntrants);
+
 			result = Path.FORWARD_FACULTY_VIEW_ADMIN;
 		}
 
