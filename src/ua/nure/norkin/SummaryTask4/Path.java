@@ -48,4 +48,7 @@ public final class Path {
 	public static final String REDIRECT_SUBJECT_ADD_ADMIN = "/WEB-INF/view/admin/subject/add.jsp";
 	public static final String FORWARD_SUBJECT_EDIT_ADMIN = "/WEB-INF/view/admin/subject/edit.jsp";
 
+	public static final String FORWARD_ENTRANT_PROFILE = "/WEB-INF/view/admin/entrant/view.jsp";
+	public static final String REDIRECT_ENTRANT_PROFILE = "controller?command=viewEntrant&userId=";
+
 }
