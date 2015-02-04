@@ -15,7 +15,7 @@ public class Entrant extends Entity {
 	private String district;
 	private String school;
 	private int userId;
-	private boolean isBlocked;
+	private boolean blockedStatus;
 
 	public Entrant(String city, String district, String school, User user) {
 		this(city, district, school, user.getId());
@@ -26,18 +26,10 @@ public class Entrant extends Entity {
 		this.district = district;
 		this.school = school;
 		this.userId = userId;
-		this.isBlocked = false;
+		this.blockedStatus = false;
 	}
 
 	public Entrant() {
-	}
-
-	public void block() {
-		isBlocked = true;
-	}
-
-	public void unblock() {
-		isBlocked = false;
 	}
 
 	public int getUserId() {
@@ -72,14 +64,18 @@ public class Entrant extends Entity {
 		this.school = school;
 	}
 
-	public boolean isBlocked() {
-		return isBlocked;
+	public boolean getBlockedStatus() {
+		return blockedStatus;
+	}
+
+	public void setBlockedStatus(boolean blockedStatus) {
+		this.blockedStatus = blockedStatus;
 	}
 
 	@Override
 	public String toString() {
 		return "Entrant [city=" + city + ", district=" + district + ", school="
-				+ school + ", userId=" + userId + ", isBlocked=" + isBlocked
+				+ school + ", userId=" + userId + ", isBlocked=" + blockedStatus
 				+ "]";
 	}
 
