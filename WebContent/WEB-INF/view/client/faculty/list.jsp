@@ -7,12 +7,12 @@
 	You are in client faculties list!
 	<h1>Faculties list</h1>
 
-	<ul>
+	<ol>
 		<c:forEach var="faculty" items="${faculties}">
 			<li><a
-				href="<c:url value="controller?command=viewFaculty"> <c:param name="name" value="${faculty.name}"/></c:url>">${faculty.name}</a>
-			</li>
+				href="<c:url value="controller?command=viewFaculty"> <c:param name="name" value="${faculty.name}"/></c:url>"><c:out
+						value="${faculty.name}"></c:out></a></li>
 		</c:forEach>
-	</ul>
+	</ol>
 </body>
 </html>

@@ -4,9 +4,13 @@
 <%@ include file="/WEB-INF/view/jspf/head.jspf"%>
 <body>
 	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
-	<c:forEach var="subject" items="${allSubjects}" varStatus="item">
-		<li><a
-			href="<c:url value="controller?command=viewSubject"> <c:param name="name" value="${subject.name}"/></c:url>">${item.index} ${subject.name}</a></li>
-	</c:forEach>
+	<ol>
+		<c:forEach var="subject" items="${allSubjects}">
+			<li><a
+				href="<c:url value="controller?command=viewSubject"> <c:param name="name" value="${subject.name}"/></c:url>">
+					<c:out value="${subject.name}"></c:out>
+			</a></li>
+		</c:forEach>
+	</ol>
 	<a href="controller?command=addSubject"></a>
 </html>
