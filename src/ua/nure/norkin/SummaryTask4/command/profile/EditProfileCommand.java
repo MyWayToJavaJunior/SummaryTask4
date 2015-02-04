@@ -102,6 +102,10 @@ public class EditProfileCommand extends Command {
 			LOG.trace("Set attribute 'district': " + entrant.getDistrict());
 			request.setAttribute(Fields.ENTRANT_SCHOOL, entrant.getSchool());
 			LOG.trace("Set attribute 'school': " + entrant.getSchool());
+			request.setAttribute(Fields.ENTRANT_IS_BLOCKED,
+					entrant.getBlockedStatus());
+			LOG.trace("Set attribute 'isBlocked': "
+					+ entrant.getBlockedStatus());
 
 			result = Path.FORWARD_CLIENT_PROFILE_EDIT;
 		} else if ("admin".equals(role)) {
@@ -165,10 +169,14 @@ public class EditProfileCommand extends Command {
 			LOG.trace("Fetch request parameter: 'district' = " + district);
 			String city = request.getParameter(Fields.ENTRANT_CITY);
 			LOG.trace("Fetch request parameter: 'city' = " + city);
+			boolean blockedStatus = Boolean.valueOf(request
+					.getParameter(Fields.ENTRANT_IS_BLOCKED));
+			LOG.trace("Fetch request parameter: 'isBlocked' = " + blockedStatus);
 
 			entrant.setCity(city);
 			entrant.setDistrict(district);
 			entrant.setSchool(school);
+			entrant.setBlockedStatus(blockedStatus);
 
 			LOG.trace("After calling setters with request parapeters on entrant entity: "
 					+ entrant);

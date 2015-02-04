@@ -8,8 +8,8 @@
 
 	<form id="profile" method="POST" action="controller">
 		<input type="hidden" name="command" value="editProfile"> <input
-			type="hidden" name="show" value="false"> <input type="hidden"
-			name="oldEmail" value="${requestScope.email}">
+			type="hidden" name="isBlocked" value="${requestScope.isBlocked}">
+		<input type="hidden" name="oldEmail" value="${requestScope.email}">
 		<div>
 			<p>
 				<fmt:message key="profile.edit_jsp.label.language" />
