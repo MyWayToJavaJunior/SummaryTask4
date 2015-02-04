@@ -131,24 +131,39 @@ public class EditFacultyCommand extends Command {
 				.getParameter(Fields.FACULTY_BUDGET_SEATS);
 		LOG.trace("Get parameter 'budget_seats' = " + facultyBudgetSeats);
 
-		// check if they are valid
-		// TODO budget < total
-		if (!FieldValidation.isFilled(facultyName)
-				|| !FieldValidation.isNumber(facultyTotalSeats,
-						facultyBudgetSeats)) {
+		boolean valid = true;
+
+		if (!FieldValidation.isFilled(facultyName, facultyBudgetSeats,
+				facultyTotalSeats)) {
 			request.setAttribute("errorMessage",
-					"<br> Please fill all fields properly!");
-
+					"Please fill all fields properly!");
 			LOG.error("errorMessage: Not all fields are properly filled");
+			valid = false;
+		}
+		if (!FieldValidation.isByte(facultyTotalSeats, facultyBudgetSeats)) {
+			request.setAttribute("errorMessage", "Please enter a valid number!");
+			LOG.error("errorMessage: not a numbers");
+			valid = false;
 
+		}
+
+		Byte totalSeats = Byte.valueOf(facultyTotalSeats);
+		Byte budgetSeats = Byte.valueOf(facultyBudgetSeats);
+
+		if (!FieldValidation.checkBudgetLowerTotal(budgetSeats, totalSeats)) {
+			request.setAttribute("errorMessage",
+					"Budget seats should be lower then Total seats!");
+			LOG.error("errorMessage: not valid number's for faculty seats");
+			valid = false;
+		}
+
+		if (valid == false) {
 			result = Path.REDIRECT_FACULTY_EDIT_ADMIN + facultyName;
-		} else {
+		}
+		if (valid) {
 			// if it's true then let's start to update the db
 
 			LOG.trace("All fields are properly filled. Start updating database.");
-
-			Byte totalSeats = Byte.valueOf(facultyTotalSeats);
-			Byte budgetSeats = Byte.valueOf(facultyBudgetSeats);
 
 			Faculty faculty = new Faculty(facultyName, budgetSeats, totalSeats);
 
@@ -183,48 +198,17 @@ public class EditFacultyCommand extends Command {
 
 			FacultySubjectsRepository facultySubjectsRepository = new FacultySubjectsRepository();
 
-			// if user made unchecked all checkbox's and before there
-			// were some checked subjects
-			if (newCheckedSubjectsIds == null && oldCheckedSubjectIds != null) {
-				LOG.trace("No subjects were checked for this faculty - all records that will be found will be deleted ");
-				facultySubjectsRepository.deleteAllSubjects(faculty);
-			}
-			// if before all subjects were unchecked and they are still
-			// are
-			// then nothing changed - do nothing
-			if (newCheckedSubjectsIds == null && oldCheckedSubjectIds == null) {
-				// NOPE
-				LOG.trace("No faculty subjects records will be changed");
-			}
-
-			// if user checked something,but before no subjects were checked
-			if (newCheckedSubjectsIds != null && oldCheckedSubjectIds == null) {
-				for (String newCheckedSubject : newCheckedSubjectsIds) {
-					Integer subjectId = Integer.valueOf(newCheckedSubject);
-					FacultySubjects facultySubject = new FacultySubjects(
-							subjectId, faculty.getId());
-					facultySubjectsRepository.create(facultySubject);
-					LOG.trace("Faculty subjects record was created: "
-							+ facultySubject);
-				}
-			}
-
-			// if there were checked subjects and still are
-			if (newCheckedSubjectsIds != null && oldCheckedSubjectIds != null) {
-				// then for INSERT we should check if the record already
-				// exists in db
-				Set<String> existingRecords = new HashSet<>(
-						Arrays.asList(oldCheckedSubjectIds));
-
-				for (String newCheckedSubject : newCheckedSubjectsIds) {
-					if (existingRecords.contains(newCheckedSubject)) {
-						// if exists - then do nothing
-						LOG.trace("This faculty subjects records already exists in db: "
-								+ "facultyId = "
-								+ faculty.getId()
-								+ ", subjectId = " + newCheckedSubject);
-					} else {
-						// otherwise INSERT
+			if (oldCheckedSubjectIds == null) {
+				if (newCheckedSubjectsIds == null) {
+					// if before all subjects were unchecked and they are
+					// still
+					// are
+					// then nothing changed - do nothing
+					LOG.trace("No faculty subjects records will be changed");
+				} else if (newCheckedSubjectsIds != null) {
+					// if user checked something,but before no subjects were
+					// checked
+					for (String newCheckedSubject : newCheckedSubjectsIds) {
 						Integer subjectId = Integer.valueOf(newCheckedSubject);
 						FacultySubjects facultySubject = new FacultySubjects(
 								subjectId, faculty.getId());
@@ -233,33 +217,67 @@ public class EditFacultyCommand extends Command {
 								+ facultySubject);
 					}
 				}
-				// and check for DELETE records that were previously
-				// checked and now are not
+			}
 
-				Set<String> newRecords = new HashSet<>(
-						Arrays.asList(newCheckedSubjectsIds));
+			if (oldCheckedSubjectIds != null) {
+				if (newCheckedSubjectsIds == null) {
+					// if user made unchecked all checkbox's and before
+					// there
+					// were some checked subjects
+					LOG.trace("No subjects were checked for this faculty - all records that will be found will be deleted ");
+					facultySubjectsRepository.deleteAllSubjects(faculty);
+				} else if (newCheckedSubjectsIds != null) {
+					// if there were checked subjects and still are
 
-				for (String oldCkeckedSubject : oldCheckedSubjectIds) {
-					if (newRecords.contains(oldCheckedSubjectIds)) {
-						// then do nothing
-					} else {
-						// otherwise DELETE record in database
-						Integer subjectId = Integer.valueOf(oldCkeckedSubject);
-						FacultySubjects facultySubjectRecordToDelete = new FacultySubjects(
-								subjectId, faculty.getId());
-						facultySubjectsRepository
-								.delete(facultySubjectRecordToDelete);
-						LOG.trace("Faculty subjects record was deleted: "
-								+ facultySubjectRecordToDelete);
+					// then for INSERT we should check if the record already
+					// exists in db
+					Set<String> existingRecords = new HashSet<>(
+							Arrays.asList(oldCheckedSubjectIds));
+
+					for (String newCheckedSubject : newCheckedSubjectsIds) {
+						if (existingRecords.contains(newCheckedSubject)) {
+							// if exists - then do nothing
+							LOG.trace("This faculty subjects records already exists in db: "
+									+ "facultyId = "
+									+ faculty.getId()
+									+ ", subjectId = " + newCheckedSubject);
+						} else {
+							// otherwise INSERT
+							Integer subjectId = Integer
+									.valueOf(newCheckedSubject);
+							FacultySubjects facultySubject = new FacultySubjects(
+									subjectId, faculty.getId());
+							facultySubjectsRepository.create(facultySubject);
+							LOG.trace("Faculty subjects record was created: "
+									+ facultySubject);
+						}
+					}
+					// and check for DELETE records that were previously
+					// checked and now are not
+
+					Set<String> newRecords = new HashSet<>(
+							Arrays.asList(newCheckedSubjectsIds));
+
+					for (String oldCkeckedSubject : oldCheckedSubjectIds) {
+						if (newRecords.contains(oldCheckedSubjectIds)) {
+							// then do nothing
+						} else {
+							// otherwise DELETE record in database
+							Integer subjectId = Integer
+									.valueOf(oldCkeckedSubject);
+							FacultySubjects facultySubjectRecordToDelete = new FacultySubjects(
+									subjectId, faculty.getId());
+							facultySubjectsRepository
+									.delete(facultySubjectRecordToDelete);
+							LOG.trace("Faculty subjects record was deleted: "
+									+ facultySubjectRecordToDelete);
+						}
 					}
 				}
-
 			}
 			result = Path.REDIRECT_TO_FACULTY
 					+ URLEncoder.encode(facultyName, "UTF-8");
 		}
 		return result;
-
 	}
-
 }
