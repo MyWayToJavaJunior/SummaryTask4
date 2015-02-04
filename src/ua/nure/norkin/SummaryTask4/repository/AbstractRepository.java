@@ -13,13 +13,14 @@ import javax.sql.DataSource;
 import org.apache.log4j.Logger;
 
 /**
- * Main parent for all DAO objects that working with relational databases. Declares and implements methods for closing
- * Connections, ResultSets and Statements. Also performs rollbacking of
- * transaction.
+ * Main parent for all DAO objects that working with relational databases.
+ * Declares and implements methods for closing Connections, ResultSets and
+ * Statements. Also performs rollbacking of transaction.
  *
  * @author Mark Norkin
  *
- * @param <T> type of entity
+ * @param <T>
+ *            type of entity
  */
 public abstract class AbstractRepository<T> implements Repository<T> {
 
