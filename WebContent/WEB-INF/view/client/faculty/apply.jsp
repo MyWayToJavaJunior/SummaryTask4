@@ -15,8 +15,7 @@
 
 	<form action="controller" method="POST">
 		<input type="hidden" name="command" value="applyFaculty" /> <input
-			type="hidden" name="facultyId" value="${id}" /><input type="hidden"
-			name="show" value="false" />
+			type="hidden" name="id" value="${id}" />
 
 		<h1>Your preliminary marks</h1>
 

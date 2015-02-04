@@ -1,6 +1,8 @@
 package ua.nure.norkin.SummaryTask4.command.faculty;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
@@ -59,7 +61,7 @@ public class ApplyFacultyViewCommand extends Command {
 				"userRole"));
 
 		// admins are not permitted to access this page
-		if ("admin".equals(role)) {
+		if (role == null || "admin".equals(role)) {
 			return null;
 		}
 
@@ -119,13 +121,14 @@ public class ApplyFacultyViewCommand extends Command {
 		return result;
 	}
 
-	// TODO validation
+	// TODO validation of marks
 	/**
 	 * @return redirects user to view of applied faculty if applying is
 	 *         successful, otherwise redisplays this page.
+	 * @throws UnsupportedEncodingException
 	 */
 	private String doPost(HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response) throws UnsupportedEncodingException {
 		LOG.trace("Start processing applying for faculty form");
 
 		HttpSession session = request.getSession(false);
@@ -140,53 +143,66 @@ public class ApplyFacultyViewCommand extends Command {
 
 		LOG.trace("Found entrant record in database for this user: " + entrant);
 
-		LOG.trace("Start extracting data from request");
-
-		Map<String, String[]> parameterMap = request.getParameterMap();
-		for (String parameterName : parameterMap.keySet()) {
-
-			if (parameterName.endsWith("preliminary")
-					|| parameterName.endsWith("diploma")) {
-				String[] value = parameterMap.get(parameterName);
-				Byte markValue = Byte.valueOf(value[0]);
-				String[] subjectIdAndExamType = parameterName.split("_");
-
-				Integer subjectId = Integer.valueOf(subjectIdAndExamType[0]);
-				String examType = subjectIdAndExamType[1];
-
-				Mark mark = new Mark(subjectId, entrant.getId(), markValue,
-						examType);
-				LOG.trace("Create Mark transfer object: " + mark);
-
-				MarkRepository markRepository = new MarkRepository();
-
-				markRepository.create(mark);
-
-				LOG.trace("Mark record was created in database: " + mark);
-			}
-		}
-
-		Integer facultyId = Integer.valueOf(request.getParameter("facultyId"));
-
-		LOG.trace("End extracting data from request");
-		FacultyEntrants newFacultyEntrant = new FacultyEntrants(facultyId,
-				entrant.getId());
-
-		LOG.trace("Create FacultyEntrants transfer object: "
-				+ newFacultyEntrant);
-
 		FacultyEntrantsRepository facultyEntrantsRepository = new FacultyEntrantsRepository();
 
-		facultyEntrantsRepository.create(newFacultyEntrant);
+		Integer facultyId = Integer.valueOf(request
+				.getParameter(Fields.ENTITY_ID));
 
-		LOG.trace("FacultyEntrants record was created in database: "
-				+ newFacultyEntrant);
+		FacultyEntrants newFacultyEntrant = new FacultyEntrants(facultyId,
+				entrant.getId());
+		FacultyEntrants existingRecord = facultyEntrantsRepository
+				.find(newFacultyEntrant);
 
-		LOG.trace("Finished processing applying for faculty form");
+		if (existingRecord != null) {
+			// user is already applied
+			LOG.trace("User: " + user + " with Entrant record: " + entrant
+					+ " already applied for faculti with id: " + facultyId);
+			return Path.REDIRECT_TO_VIEW_ALL_FACULTIES;
+		} else {
 
-		FacultyRepository facultyRepository = new FacultyRepository();
-		Faculty faculty = facultyRepository.find(facultyId);
-		return Path.REDIRECT_TO_FACULTY + faculty.getName();
+			LOG.trace("Start extracting data from request");
+
+			Map<String, String[]> parameterMap = request.getParameterMap();
+			for (String parameterName : parameterMap.keySet()) {
+
+				if (parameterName.endsWith("preliminary")
+						|| parameterName.endsWith("diploma")) {
+					String[] value = parameterMap.get(parameterName);
+					Byte markValue = Byte.valueOf(value[0]);
+					String[] subjectIdAndExamType = parameterName.split("_");
+
+					Integer subjectId = Integer
+							.valueOf(subjectIdAndExamType[0]);
+					String examType = subjectIdAndExamType[1];
+
+					Mark mark = new Mark(subjectId, entrant.getId(), markValue,
+							examType);
+					LOG.trace("Create Mark transfer object: " + mark);
+
+					MarkRepository markRepository = new MarkRepository();
+
+					markRepository.create(mark);
+
+					LOG.trace("Mark record was created in database: " + mark);
+				}
+			}
+
+			LOG.trace("End extracting data from request");
+
+			LOG.trace("Create FacultyEntrants transfer object: "
+					+ newFacultyEntrant);
+
+			facultyEntrantsRepository.create(newFacultyEntrant);
+
+			LOG.trace("FacultyEntrants record was created in database: "
+					+ newFacultyEntrant);
+
+			LOG.trace("Finished processing applying for faculty form");
+
+			FacultyRepository facultyRepository = new FacultyRepository();
+			Faculty faculty = facultyRepository.find(facultyId);
+			return Path.REDIRECT_TO_FACULTY
+					+ URLEncoder.encode(faculty.getName(), "UTF-8");
+		}
 	}
-
 }
