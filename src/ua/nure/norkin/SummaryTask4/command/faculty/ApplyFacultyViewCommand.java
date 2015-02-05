@@ -121,7 +121,6 @@ public class ApplyFacultyViewCommand extends Command {
 		return result;
 	}
 
-	// TODO validation of marks
 	/**
 	 * @return redirects user to view of applied faculty if applying is
 	 *         successful, otherwise redisplays this page.
@@ -163,6 +162,7 @@ public class ApplyFacultyViewCommand extends Command {
 			LOG.trace("Start extracting data from request");
 
 			Map<String, String[]> parameterMap = request.getParameterMap();
+
 			for (String parameterName : parameterMap.keySet()) {
 
 				if (parameterName.endsWith("preliminary")
