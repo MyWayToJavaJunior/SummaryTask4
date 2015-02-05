@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+	<description>Custom Tag for marks</description>
+	<tlib-version>2.1</tlib-version>
+	<short-name>marks</short-name>
+	<uri>/WEB-INF/customtag</uri>
+	<tag>
+		<description>Tag that illuminates bad entered data by the client. Two attributes are required: 'subjectId' and 'examType'. They will be concatenated and later treated as one name.</description>
+		<name>insert</name>
+		<tag-class>ua.nure.norkin.SummaryTask4.CustomTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>Subject ID</description>
+			<name>subjectId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>Choose one of 'preliminary' or 'diploma'</description>
+			<name>examType</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+</taglib>
