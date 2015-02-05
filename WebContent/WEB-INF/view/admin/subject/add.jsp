@@ -1,14 +1,22 @@
-<%@ include file="/WEB-INF/view/jspf/directive/page.jspf" %>
-<%@ include file="/WEB-INF/view/jspf/directive/taglib.jspf" %>
+<%@ include file="/WEB-INF/view/jspf/directive/page.jspf"%>
+<%@ include file="/WEB-INF/view/jspf/directive/taglib.jspf"%>
 <html>
-<%@ include file="/WEB-INF/view/jspf/head.jspf" %>
+<%@ include file="/WEB-INF/view/jspf/head.jspf"%>
 <body>
-<%@ include file="/WEB-INF/view/jspf/header.jspf" %>
-	<form id="add_subject" action="controller" method="POST">
-		<input type="hidden" name="command" value="addSubject" />
-		 <input type="text" name="name" value="" />
-		<p>
-			<input type="submit" value="OK">
-		</p>
-	</form>
+	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
+	<div class="form">
+		<form id="add_subject" action="controller" method="POST">
+			<input type="hidden" name="command" value="addSubject" />
+			<div class="field">
+				<label for="name"><fmt:message
+						key="subject.add_jsp.label.name" /></label> <input type="text"
+					name="name" value="" required />
+			</div>
+			<p>
+				<input type="submit"
+					value="<fmt:message key="subject.add_jsp.button.submit" />">
+			</p>
+		</form>
+	</div>
+</body>
 </html>
