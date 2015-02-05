@@ -1,0 +1,92 @@
+@CHARSET "UTF-8";
+
+<
+style type ="text /css">h2 {
+	text-align: "center;
+}
+
+body {
+	font-size: 16px;
+	font-family: "Times New Roman";
+}
+
+label {
+	float: left;
+	padding-right: 10px;
+	color: #3366FF;
+	font-family: inherit;
+}
+
+a {
+	color: #708090;
+}
+
+a:link {
+	color: #708090;
+}
+
+/* visited link */
+a:visited {
+	color: #708090;
+}
+
+/* mouse over link */
+a:hover {
+	color: #708090;
+}
+
+/* selected link */
+a:active {
+	color: #708090;
+}
+
+.field {
+	clear: both;
+	text-align: right;
+	line-height: 25px;
+}
+
+.form {
+	float: left;
+	margin-left: 20%;
+}
+
+.view {
+	float: left;
+	margin-left: 20%;
+}
+
+.menu {
+text-align:center;
+}
+
+/*removes pointers in browsers for number inputs in Mozilla */
+input[type=number] {
+	-moz-appearance: textfield;
+}
+
+/*removes pointers in browsers for number inputs in Chrome */
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button
+	{
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+input[type=text] {
+	width: 150px;
+}
+
+select {
+	width: 156px;
+}
+
+input[type=password] {
+	width: 150px;
+}
+
+input[type=number] {
+	width: 150px;
+}
+</
+style
+>
