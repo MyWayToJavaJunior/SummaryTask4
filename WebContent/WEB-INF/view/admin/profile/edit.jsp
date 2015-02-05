@@ -4,38 +4,46 @@
 <%@ include file="/WEB-INF/view/jspf/head.jspf"%>
 <body>
 	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
-	<h1>Edit Profile</h1>
+	<h2>Edit Profile</h2>
 
 	<form id="profile" method="POST" action="controller">
 		<input type="hidden" name="command" value="editProfile"> <input
 			type="hidden" name="isBlocked" value="${requestScope.isBlocked}">
 		<input type="hidden" name="oldEmail" value="${requestScope.email}">
-		<div>
-			<p>
-				<fmt:message key="profile.edit_jsp.label.language" />
-			</p>
-			<select name="locale">
+		<div class="field">
+			<label for="locale"> <fmt:message
+					key="profile.edit_jsp.label.language" />
+			</label> <select name="locale">
 				<option value="ru">Russian</option>
 				<option value="en">English</option>
 			</select>
 		</div>
-		<br>
 
-		<fieldset>
+		<div class="field">
 			<label for="first_name"><fmt:message
 					key="profile.edit_jsp.label.first_name" /></label> <input
-				name="first_name" type="text" value="${requestScope.first_name}" /><br>
+				name="first_name" type="text" value="${requestScope.first_name}"
+				required />
+		</div>
+		<div class="field">
 			<label for="last_name"><fmt:message
 					key="profile.edit_jsp.label.last_name" /></label> <input name="last_name"
-				type="text" value="${requestScope.last_name}" /><br> <label
-				for="email"><fmt:message key="profile.edit_jsp.label.email" /></label>
-			<input name="email" type="text" value="${requestScope.email}" /> <br>
+				type="text" value="${requestScope.last_name}" required />
+		</div>
+		<div class="field">
+			<label for="email"><fmt:message
+					key="profile.edit_jsp.label.email" /></label> <input name="email"
+				type="text" value="${requestScope.email}" required />
+		</div>
+		<div class="field">
 			<label for="password"><fmt:message
 					key="profile.edit_jsp.label.password" /></label> <input name="password"
-				type="password" value="${requestScope.password}" /> <input
-				type="submit"
-				value="<fmt:message key="profile.edit_jsp.button.update"/>" />
-		</fieldset>
+				type="password" value="${requestScope.password}" required />
+		</div>
+		<div class="field">
+			<input type="submit"
+				value="<fmt:message key="profile.edit_jsp.button.update" />" />
+		</div>
 	</form>
 </body>
 </html>
