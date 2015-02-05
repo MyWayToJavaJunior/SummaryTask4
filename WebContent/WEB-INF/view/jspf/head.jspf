@@ -1,21 +1,43 @@
-<%@ include file="/WEB-INF/view/jspf/directive/page.jspf" %>
-<%@ include file="/WEB-INF/view/jspf/directive/taglib.jspf" %>
+<%@ include file="/WEB-INF/view/jspf/directive/page.jspf"%>
+<%@ include file="/WEB-INF/view/jspf/directive/taglib.jspf"%>
 
 <head>
 
-	<title>
-		${title}
-	</title>
+<title>${title}</title>
 
-<%--===========================================================================
-Bind CSS document.
-===========================================================================--%>
-	<link rel="stylesheet" type="text/css" media="screen" href="style/st4.css"/>
+<link rel="stylesheet" type="text/css" media="screen"
+	href="/SummaryTask4/css/main.css" />
 
-<%--===========================================================================
-If you define http-equiv attribute, set the content type and the charset the same
-as you set them in a page directive.
-===========================================================================--%>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<!-- <script type="text/javascript" src="/script/jquery.js"></script>
+<script type="text/javascript" src="/script/jquery.dataTables.min.js"></script> -->
+
+<script type="text/javascript"
+	src="/SummaryTask4/script/jquery-1.11.2.min.js"></script>
+<script type="text/javascript"
+	src="/SummaryTask4/script/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="/SummaryTask4/css/jquery.dataTables.min.css">
+
+<script type="text/javascript">
+	var language = "ru";/* "${lang}"; */
+
+	if (language == 'ru') {
+		$(document).ready(function() {
+			$('#facultiesTable').dataTable({
+				"language" : {
+					"url" : "/SummaryTask4/script/russian.lang",
+
+				}
+			});
+		});
+	} else {
+		$(document).ready(function() {
+			$('#facultiesTable').dataTable();
+
+		});
+	}
+</script>
 
 </head>
