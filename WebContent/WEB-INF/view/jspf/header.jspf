@@ -1,32 +1,33 @@
-<%--===========================================================================
-Header (top area).
-===========================================================================--%>
+<!-- Header - top area. -->
 
 <%@ include file="/WEB-INF/view/jspf/directive/page.jspf"%>
 <%@ include file="/WEB-INF/view/jspf/directive/taglib.jspf"%>
 
-<tr>
-	<td><a href="controller?command=viewAllFaculties"><fmt:message
-				key="header_jspf.anchor.faculties" /></a></td>
+<br>
+<br>
+
+<div class="menu">
+	<a href="controller?command=viewAllFaculties"><fmt:message
+			key="header_jspf.anchor.faculties" /></a>
 	<c:choose>
 		<c:when test="${empty user}">
-			<td><a href="welcome.jsp"> <fmt:message
-						key="header_jspf.anchor.login" /></a></td>
-			<td><a href="controller?command=client_registration"><fmt:message
-						key="header_jspf.anchor.register" /></a></td>
+			<a href="welcome.jsp"> <fmt:message
+					key="header_jspf.anchor.login" /></a>
+			<a href="controller?command=client_registration"><fmt:message
+					key="header_jspf.anchor.register" /></a>
 		</c:when>
 		<c:otherwise>
 			<c:if test="${userRole eq 'admin'}">
-				<td><a href="controller?command=viewAllSubjects"><fmt:message
-							key="header_jspf.anchor.subjects" /></a></td>
+				<a href="controller?command=viewAllSubjects"><fmt:message
+						key="header_jspf.anchor.subjects" /></a>
 			</c:if>
-			<td><a href="controller?command=viewProfile"><fmt:message
-						key="header_jspf.anchor.profile" /></a></td>
-			<td><a href="controller?command=logout"><fmt:message
-						key="header_jspf.anchor.logout" /></a></td>
+			<a href="controller?command=viewProfile"><fmt:message
+					key="header_jspf.anchor.profile" /></a>
+			<a href="controller?command=logout"><fmt:message
+					key="header_jspf.anchor.logout" /></a>
 		</c:otherwise>
 	</c:choose>
-</tr>
+</div>
 <br>
 <br>
 <br>
