@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--============================================================ Deployment
-	Descriptor: web.xml ============================================================= -->
+<!--Deployment Descriptor web.xml -->
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
   <resource-ref>
     <description>Database for university admission</description>
@@ -8,21 +7,31 @@
     <res-type>javax.sql.DataSource</res-type>
     <res-auth>Container</res-auth>
   </resource-ref>
+
   <display-name>SummaryTask4</display-name>
+
   <welcome-file-list>
     <welcome-file>welcome.jsp</welcome-file>
   </welcome-file-list>
 
+  <!-- Custom tag used in applying for faculty form-->
+   <jsp-config>
+  <taglib>
+    <taglib-uri>/WEB-INF/customtag</taglib-uri>
+    <taglib-location>/WEB-INF/customtag.tld</taglib-location>
+  </taglib>
+  </jsp-config>
+
   <!--============================================================
 	i18n support
 =============================================================-->
-  <!-- this way we set the resource bundle name -->
+  <!-- set the resource bundle name -->
 <context-param>
     <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
     <param-value>resources</param-value>
   </context-param>
 
-  <!-- this way we set the default locale (optional) -->
+  <!--set the default locale (optional) -->
   <!-- the (preferable) browser's locale will be used if we don't set the default locale -->
  <context-param>
     <param-name>javax.servlet.jsp.jstl.fmt.locale</param-name>
@@ -67,12 +76,12 @@
     </filter-class>
     <init-param>
       <param-name>avoid-urls</param-name>
-      <param-value>welcome.jsp,registration.jsp</param-value>
+      <param-value>welcome.jsp</param-value>
     </init-param>
   </filter>
   <filter-mapping>
     <filter-name>AuthFilter</filter-name>
-    <url-pattern>/WEB-INF/view/*</url-pattern>
+    <url-pattern>/SummaryTask4/*</url-pattern>
   </filter-mapping>
 
   <listener>
