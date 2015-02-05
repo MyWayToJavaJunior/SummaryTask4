@@ -4,59 +4,67 @@
 <%@ include file="/WEB-INF/view/jspf/head.jspf"%>
 <body>
 	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
-	You are in admin faculty view!
-	<h1>${requestScope.name}</h1>
-	<ul>
-		<li><label><fmt:message key="faculty.view_jsp.label.name" /></label>
-			<c:out value="${name}"></c:out></li>
-		<li><label><fmt:message
-					key="faculty.view_jsp.label.total_seats" /></label> <c:out
-				value="${total_seats}"></c:out></li>
-		<li><label><fmt:message
-					key="faculty.view_jsp.label.budget_seats" /></label> <c:out
-				value="${budget_seats}"></c:out></li>
-		<li><label><fmt:message
-					key="faculty.view_jsp.label.preliminary_subjects" /></label></li>
+	<h2>${requestScope.name}</h2>
+	<div class="view">
+		<p>
+			<label><fmt:message key="faculty.view_jsp.label.name" /></label>
+			<c:out value="${name}"></c:out>
+		</p>
+		<p>
+			<label><fmt:message key="faculty.view_jsp.label.total_seats" /></label>
+			<c:out value="${total_seats}"></c:out>
+		</p>
+		<p>
+			<label><fmt:message key="faculty.view_jsp.label.budget_seats" /></label>
+			<c:out value="${budget_seats}"></c:out>
+		</p>
+		<p>
+			<label><fmt:message
+					key="faculty.view_jsp.label.preliminary_subjects" /></label>
+		</p>
 
 		<c:if test="${empty facultySubjects}">
 			<fmt:message key="faculty.view_jsp.label.no_subjects_msg" />
 		</c:if>
 
+		<br>
 		<c:if test="${not empty facultySubjects}">
-			<c:forEach var="subject" items="${facultySubjects}" varStatus="item">
-				<a
-					href="<c:url value="controller?command=viewSubject"> <c:param name="name" value="${subject.name}"/></c:url>"><c:out
-						value="${item.index + 1} ${subject.name}"></c:out></a>
-				<br>
-			</c:forEach>
+			<ol>
+				<c:forEach var="subject" items="${facultySubjects}">
+					<li><a
+						href="<c:url value="controller?command=viewSubject"> <c:param name="name" value="${subject.name}"/></c:url>"><c:out
+								value="${subject.name}"></c:out></a></li>
+				</c:forEach>
+			</ol>
 		</c:if>
-	</ul>
-	<a
-		href="controller?command=editFaculty&show=true&name=${requestScope.name}"><fmt:message
-			key="faculty.view_jsp.button.edit" /></a>
-
-	<form id="delete_faculty" action="controller" method="POST">
-		<input type="hidden" name="command" value="deleteFaculty" /><input
-			type="hidden" name="id" value="${id}" /><input type="submit"
-			value="Delete" />
-	</form>
-
-	<br>
-	<label> Faculty entrants: </label>
-	<br>
-	<c:if test="${empty facultyEntrants}">
-		<%-- <fmt:message key="faculty.view_jsp.label.no_subjects_msg" /> --%>
-			no one applied!
-		</c:if>
-
-	<c:if test="${not empty facultyEntrants}">
-		<c:forEach var="entrant" items="${facultyEntrants}" varStatus="item">
+		<p>
 			<a
-				href="<c:url value="controller?command=viewEntrant"> <c:param name="userId" value="${entrant.key.userId}"/></c:url>"><c:out
-					value="${item.index + 1} ${entrant.value}"></c:out></a>
-			<br>
-		</c:forEach>
-	</c:if>
+				href="controller?command=editFaculty&show=true&name=${requestScope.name}"><fmt:message
+					key="faculty.view_jsp.button.edit" /></a>
+		</p>
 
+		<p>
+		<form id="delete_faculty" action="controller" method="POST">
+			<input type="hidden" name="command" value="deleteFaculty" /><input
+				type="hidden" name="id" value="${id}" /><input type="submit"
+				value="<fmt:message key="faculty.view_jsp.button.delete" />" />
+		</form>
+
+		<br> <label><fmt:message
+				key="faculty.view_jsp.label.faculty_entrants" /> </label> <br>
+		<c:if test="${empty facultyEntrants}">
+			<fmt:message key="faculty.view_jsp.label.no_faculty_entrants_msg" />
+		</c:if>
+
+		<c:if test="${not empty facultyEntrants}">
+			<ol>
+				<c:forEach var="entrant" items="${facultyEntrants}">
+					<li><a
+						href="<c:url value="controller?command=viewEntrant"> <c:param name="userId" value="${entrant.key.userId}"/></c:url>"><c:out
+								value="${entrant.value}"></c:out></a> <br></li>
+				</c:forEach>
+			</ol>
+		</c:if>
+	</div>
 </body>
 </html>
