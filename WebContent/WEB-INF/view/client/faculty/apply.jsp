@@ -1,9 +1,9 @@
-<%@ include file="/WEB-INF/view/jspf/directive/page.jspf" %>
-<%@ include file="/WEB-INF/view/jspf/directive/taglib.jspf" %>
+<%@ include file="/WEB-INF/view/jspf/directive/page.jspf"%>
+<%@ include file="/WEB-INF/view/jspf/directive/taglib.jspf"%>
 <html>
-<%@ include file="/WEB-INF/view/jspf/head.jspf" %>
+<%@ include file="/WEB-INF/view/jspf/head.jspf"%>
 <body>
-<%@ include file="/WEB-INF/view/jspf/header.jspf" %>
+	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
 	You are in client apply for faculty view!
 
 	<h1>${name}</h1>
@@ -29,8 +29,8 @@
 				<tr>
 					<td><c:out value="${facultySubject.name}">${facultySubject.name}</c:out>
 					</td>
-					<td><input type="text" name="${facultySubject.id}_preliminary"
-						value="" /></td>
+					<td><marks:insert subjectId="${facultySubject.id}"
+							examType="preliminary" /></td>
 				</tr>
 			</c:forEach>
 
@@ -43,7 +43,8 @@
 			<c:forEach var="subject" items="${allSubjects}">
 				<tr>
 					<td><c:out value="${subject.name}">${subject.name}</c:out></td>
-					<td><input type="text" name="${subject.id}_diploma" value="" /></td>
+					<td><marks:insert subjectId="${subject.id}" examType="diploma" /></td>
+
 				</tr>
 			</c:forEach>
 
