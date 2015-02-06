@@ -81,7 +81,7 @@ public class EditFacultyCommand extends Command {
 	 */
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
-		String facultyName = request.getParameter("name");
+		String facultyName = request.getParameter(Fields.FACULTY_NAME_ENG);
 
 		FacultyRepository facultyRepository = new FacultyRepository();
 		Faculty faculty = facultyRepository.find(facultyName);

@@ -11,14 +11,14 @@
 			<input type="hidden" name="command" value="editFaculty" /> <input
 				type="hidden" name="oldName" value="${requestScope.name_eng}" />
 			<div class="field">
-				<label for="name"><fmt:message
+				<label for="name_ru"><fmt:message
 						key="faculty.edit_jsp.label.name" /></label> <input type="text"
-					name="name" value="${requestScope.name_ru}" required />
+					name="name_ru" value="${requestScope.name_ru}" required />
 			</div>
 			<div class="field">
-				<label for="name"><fmt:message
+				<label for="name_eng"><fmt:message
 						key="faculty.edit_jsp.label.name" /></label> <input type="text"
-					name="name" value="${requestScope.name_eng}" required />
+					name="name_eng" value="${requestScope.name_eng}" required />
 			</div>
 			<div class="field">
 				<label for="total_seats"><fmt:message
@@ -29,7 +29,7 @@
 			<div class="field">
 				<label for="budget_seats"><fmt:message
 						key="faculty.edit_jsp.label.budget_seats" /></label> <input type="number"
-					name="budget_seats" value="${requestScope.budget_seats} " min="0"
+					name="budget_seats" value="${requestScope.budget_seats}" min="0"
 					max="126" required />
 			</div>
 			<p>
@@ -45,7 +45,7 @@
 					<p>
 						<input type="checkbox" name="subjects"
 							value="${oldCheckedSubject.id}" checked />
-						<c:out value="${oldCheckedSubject.name}"></c:out>
+							<c:out value="${lang eq 'ru' ? oldCheckedSubject.nameRu : oldCheckedSubject.nameEng}"></c:out>
 					</p>
 				</c:forEach>
 			</c:if>
@@ -55,7 +55,7 @@
 					<p>
 						<input type="checkbox" name="subjects"
 							value="${oldUncheckedSubject.id}" />
-						<c:out value="${oldUncheckedSubject.name}"></c:out>
+						<c:out value="${lang eq 'ru' ? oldUncheckedSubject.nameRu : oldUncheckedSubject.nameEng}"></c:out>
 					</p>
 				</c:forEach>
 			</c:if>
