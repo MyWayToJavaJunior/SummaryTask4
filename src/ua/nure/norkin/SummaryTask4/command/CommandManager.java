@@ -12,6 +12,7 @@ import ua.nure.norkin.SummaryTask4.command.faculty.EditFacultyCommand;
 import ua.nure.norkin.SummaryTask4.command.faculty.ViewAllFacultiesCommand;
 import ua.nure.norkin.SummaryTask4.command.faculty.ViewEntrantCommand;
 import ua.nure.norkin.SummaryTask4.command.faculty.ViewFacultyCommand;
+import ua.nure.norkin.SummaryTask4.command.faculty.result.CreateFacultyReportCommand;
 import ua.nure.norkin.SummaryTask4.command.profile.EditProfileCommand;
 import ua.nure.norkin.SummaryTask4.command.profile.LoginCommand;
 import ua.nure.norkin.SummaryTask4.command.profile.LogoutCommand;
@@ -56,6 +57,7 @@ public class CommandManager {
 		commands.put("viewAllSubjects", new ViewAllSubjectsCommand());
 		commands.put("viewSubject", new ViewSubjectCommand());
 		commands.put("viewEntrant", new ViewEntrantCommand());
+		commands.put("createReport", new CreateFacultyReportCommand());
 
 		LOG.debug("Command container was successfully initialized");
 		LOG.trace("Total number of commands equals to " + commands.size());
