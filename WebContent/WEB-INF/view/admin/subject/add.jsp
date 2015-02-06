@@ -8,9 +8,15 @@
 		<form id="add_subject" action="controller" method="POST">
 			<input type="hidden" name="command" value="addSubject" />
 			<div class="field">
-				<label for="name"><fmt:message
-						key="subject.add_jsp.label.name" /></label> <input type="text"
-					name="name" value="" required />
+				<label for="name_ru"><fmt:message
+						key="subject.add_jsp.label.name" /> (ru)</label> <input type="text"
+					name="name_ru" value="" required />
+			</div>
+
+			<div class="field">
+				<label for="name_eng"><fmt:message
+						key="subject.add_jsp.label.name" /> (eng)</label> <input type="text"
+					name="name_eng" value="" required />
 			</div>
 			<p>
 				<input type="submit"
