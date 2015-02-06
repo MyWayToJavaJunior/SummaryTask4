@@ -9,26 +9,36 @@ package ua.nure.norkin.SummaryTask4.entity;
 public class Subject extends Entity {
 
 	private static final long serialVersionUID = -5388561545513613948L;
-	private String name;
+	private String nameRu;
+	private String nameEng;
 
-	public Subject(String name) {
-		this.name = name;
+	public Subject(String nameRu, String nameEng) {
+		this.nameRu = nameRu;
+		this.nameEng = nameEng;
 	}
 
 	public Subject() {
 	}
 
-	public String getName() {
-		return name;
+	public String getNameRu() {
+		return nameRu;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNameRu(String nameRu) {
+		this.nameRu = nameRu;
+	}
+
+	public String getNameEng() {
+		return nameEng;
+	}
+
+	public void setNameEng(String nameEng) {
+		this.nameEng = nameEng;
 	}
 
 	@Override
 	public String toString() {
-		return "Subject [name=" + name + "]";
+		return "Subject [nameRu=" + nameRu + ", nameEng=" + nameEng + "]";
 	}
 
 }

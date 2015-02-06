@@ -24,12 +24,12 @@ public class SubjectRepository extends AbstractRepository<Subject> {
 
 	private static final String FIND_ALL_SUBJECTS = "SELECT * FROM university_admission.subject;";
 	private static final String FIND_SUBJECT_BY_ID = "SELECT * FROM university_admission.subject WHERE subject.id=? LIMIT 1;";
-	private final static String FIND_SUBJECT_BY_NAME = "SELECT * FROM university_admission.subject WHERE subject.name=? LIMIT 1;";
-	private static final String INSERT_SUBJECT = "INSERT INTO subject(name) VALUES(?)";
-	private static final String UPDATE_SUBJECT = "UPDATE subject SET subject.name=? WHERE subject.id=?;";
+	private final static String FIND_SUBJECT_BY_NAME = "SELECT * FROM university_admission.subject WHERE subject.name_ru=? OR subject.name_eng=? LIMIT 1;";
+	private static final String INSERT_SUBJECT = "INSERT INTO subject(name_ru,name_eng) VALUES(?,?)";
+	private static final String UPDATE_SUBJECT = "UPDATE subject SET subject.name_ru=?, subject.name_eng=? WHERE subject.id=?;";
 	private static final String DELETE_SUBJECT = "DELETE FROM university_admission.subject WHERE subject.id=? LIMIT 1;";
-	private static final String FIND_ALL_FACULTY_SUBJECTS = "SELECT university_admission.subject.id, university_admission.subject.name FROM university_admission.subject,university_admission.faculty_subjects WHERE faculty_subjects.Faculty_idFaculty = ? AND university_admission.faculty_subjects.Subject_idSubject=university_admission.subject.id ;";
-	private static final String FIND_ALL_NOT_FACULTY_SUBJECTS = "SELECT university_admission.subject.id, university_admission.subject.name FROM university_admission.subject LEFT JOIN university_admission.Faculty_Subjects ON university_admission.Faculty_Subjects.Subject_idSubject = university_admission.subject.id AND university_admission.Faculty_Subjects.Faculty_idFaculty = ? WHERE university_admission.Faculty_Subjects.id IS NULL;";
+	private static final String FIND_ALL_FACULTY_SUBJECTS = "SELECT university_admission.subject.id, university_admission.subject.name_ru, university_admission.subject.name_eng FROM university_admission.subject,university_admission.faculty_subjects WHERE faculty_subjects.Faculty_idFaculty = ? AND university_admission.faculty_subjects.Subject_idSubject=university_admission.subject.id ;";
+	private static final String FIND_ALL_NOT_FACULTY_SUBJECTS = "SELECT university_admission.subject.id, university_admission.subject.name_ru, university_admission.subject.name_eng FROM university_admission.subject LEFT JOIN university_admission.Faculty_Subjects ON university_admission.Faculty_Subjects.Subject_idSubject = university_admission.subject.id AND university_admission.Faculty_Subjects.Faculty_idFaculty = ? WHERE university_admission.Faculty_Subjects.id IS NULL;";
 
 	private final static Logger LOG = Logger.getLogger(SubjectRepository.class);
 
@@ -49,8 +49,9 @@ public class SubjectRepository extends AbstractRepository<Subject> {
 			connection = getConnection();
 			pstmt = connection.prepareStatement(INSERT_SUBJECT,
 					Statement.RETURN_GENERATED_KEYS);
-			// pstmt.setInt(1, entity.getId());
-			pstmt.setString(1, entity.getName());
+
+			pstmt.setString(1, entity.getNameRu());
+			pstmt.setString(2, entity.getNameEng());
 
 			pstmt.execute();
 			connection.commit();
@@ -83,8 +84,10 @@ public class SubjectRepository extends AbstractRepository<Subject> {
 		try {
 			connection = getConnection();
 			pstmt = connection.prepareStatement(UPDATE_SUBJECT);
-			pstmt.setString(1, entity.getName());
-			pstmt.setInt(2, entity.getId());
+			pstmt.setString(1, entity.getNameRu());
+			pstmt.setString(2, entity.getNameEng());
+
+			pstmt.setInt(3, entity.getId());
 
 			pstmt.executeUpdate();
 			connection.commit();
@@ -175,6 +178,8 @@ public class SubjectRepository extends AbstractRepository<Subject> {
 			connection = getConnection();
 			pstmt = connection.prepareStatement(FIND_SUBJECT_BY_NAME);
 			pstmt.setString(1, subjectName);
+			pstmt.setString(2, subjectName);
+
 			rs = pstmt.executeQuery();
 			connection.commit();
 			if (!rs.next()) {
@@ -297,7 +302,8 @@ public class SubjectRepository extends AbstractRepository<Subject> {
 		Subject subject = new Subject();
 		try {
 			subject.setId(rs.getInt(Fields.ENTITY_ID));
-			subject.setName(rs.getString(Fields.SUBJECT_NAME));
+			subject.setNameRu(rs.getString(Fields.SUBJECT_NAME_RU));
+			subject.setNameEng(rs.getString(Fields.SUBJECT_NAME_ENG));
 		} catch (SQLException e) {
 			LOG.error("Can not unmarshal ResultSet to subject", e);
 		}
