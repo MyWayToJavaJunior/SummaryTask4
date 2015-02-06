@@ -85,6 +85,7 @@ public class AdminRegistrationCommand extends Command {
 		String password = request.getParameter(Fields.USER_PASSWORD);
 		String firstName = request.getParameter(Fields.USER_FIRST_NAME);
 		String lastName = request.getParameter(Fields.USER_LAST_NAME);
+		String lang = request.getParameter(Fields.USER_LANG);
 
 		String result = null;
 
@@ -95,7 +96,7 @@ public class AdminRegistrationCommand extends Command {
 			result = Path.REDIRECT_ADMIN_REGISTRATION_PAGE;
 		} else {
 			User user = new User(email, password, firstName, lastName,
-					Role.ADMIN);
+					Role.ADMIN, lang);
 			UserRepository userRepository = new UserRepository();
 			userRepository.create(user);
 			LOG.trace("User record created: " + user);

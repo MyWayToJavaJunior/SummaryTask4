@@ -81,6 +81,8 @@ public class ClientRegistrationCommand extends Command {
 		String password = request.getParameter(Fields.USER_PASSWORD);
 		String firstName = request.getParameter(Fields.USER_FIRST_NAME);
 		String lastName = request.getParameter(Fields.USER_LAST_NAME);
+		String lang = request.getParameter(Fields.USER_LANG);
+
 		String town = request.getParameter(Fields.ENTRANT_CITY);
 		String district = request.getParameter(Fields.ENTRANT_DISTRICT);
 		String school = request.getParameter(Fields.ENTRANT_SCHOOL);
@@ -102,7 +104,7 @@ public class ClientRegistrationCommand extends Command {
 			result = Path.REDIRECT_CLIENT_REGISTRATION_PAGE;
 		} else {
 			User user = new User(email, password, firstName, lastName,
-					Role.CLIENT);
+					Role.CLIENT, lang);
 			UserRepository userRepository = new UserRepository();
 			userRepository.create(user);
 			LOG.trace("User record created: " + user);
@@ -112,7 +114,7 @@ public class ClientRegistrationCommand extends Command {
 
 			LOG.trace("Entrant record created: " + entrant);
 			request.setAttribute("successfulMessage",
-					"<br> Your successfully registered!");
+					"Your successfully registered!");
 			result = Path.WELCOME_PAGE;
 		}
 		return result;
