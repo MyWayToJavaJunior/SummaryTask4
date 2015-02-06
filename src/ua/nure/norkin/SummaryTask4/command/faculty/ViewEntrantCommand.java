@@ -53,9 +53,9 @@ public class ViewEntrantCommand extends Command {
 			return null;
 		}
 
-		if (actionType == ActionType.FORWARD) {
+		if (actionType == ActionType.GET) {
 			result = doGet(request, response);
-		} else if (actionType == ActionType.REDIRECT) {
+		} else if (actionType == ActionType.POST) {
 			result = doPost(request, response);
 		}
 

@@ -30,7 +30,7 @@ public class FrontController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		process(request, response, ActionType.FORWARD);
+		process(request, response, ActionType.GET);
 	}
 
 	/**
@@ -39,7 +39,7 @@ public class FrontController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		process(request, response, ActionType.REDIRECT);
+		process(request, response, ActionType.POST);
 	}
 
 	/**
@@ -76,12 +76,12 @@ public class FrontController extends HttpServlet {
 			LOG.debug("Controller proccessing finished");
 			response.sendRedirect(Path.WELCOME_PAGE);
 		} else {
-			if (actionType == ActionType.FORWARD) {
+			if (actionType == ActionType.GET) {
 				LOG.trace("Forward to address = " + path);
 				LOG.debug("Controller proccessing finished");
 				RequestDispatcher disp = request.getRequestDispatcher(path);
 				disp.forward(request, response);
-			} else if (actionType == ActionType.REDIRECT) {
+			} else if (actionType == ActionType.POST) {
 				LOG.trace("Redirect to address = " + path);
 				LOG.debug("Controller proccessing finished");
 				response.sendRedirect(path);

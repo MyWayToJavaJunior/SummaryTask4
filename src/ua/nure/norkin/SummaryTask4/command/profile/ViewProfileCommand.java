@@ -51,7 +51,7 @@ public class ViewProfileCommand extends Command {
 		if (role == null) {
 			return null;
 		}
-		if (actionType == ActionType.FORWARD) {
+		if (actionType == ActionType.GET) {
 			result = doGet(request, response);
 		}
 

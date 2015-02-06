@@ -67,9 +67,9 @@ public class ApplyFacultyViewCommand extends Command {
 		String result = null;
 
 		if ("client".equals(role)) {
-			if (ActionType.FORWARD == actionType) {
+			if (ActionType.GET == actionType) {
 				result = doGet(request, response);
-			} else if (ActionType.REDIRECT == actionType) {
+			} else if (ActionType.POST == actionType) {
 				result = doPost(request, response);
 			}
 		}

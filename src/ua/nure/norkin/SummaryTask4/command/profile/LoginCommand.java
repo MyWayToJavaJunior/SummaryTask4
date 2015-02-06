@@ -44,7 +44,7 @@ public class LoginCommand extends Command {
 
 		String result = null;
 
-		if (actionType == ActionType.REDIRECT) {
+		if (actionType == ActionType.POST) {
 			result = doPost(request, response);
 		} else {
 			result = null;

@@ -52,7 +52,7 @@ public class DeleteFacultyCommand extends Command {
 
 		String result = null;
 
-		if (ActionType.REDIRECT == actionType) {
+		if (ActionType.POST == actionType) {
 			result = doPost(request, response);
 		} else {
 			result = null;

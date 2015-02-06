@@ -53,7 +53,7 @@ public class ViewFacultyCommand extends Command {
 		LOG.debug("Start executing Command");
 
 		String result = null;
-		if (actionType == ActionType.FORWARD) {
+		if (actionType == ActionType.GET) {
 			result = doGet(request, response);
 		} else {
 			return null;

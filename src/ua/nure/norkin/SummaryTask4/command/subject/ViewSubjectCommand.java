@@ -54,7 +54,7 @@ public class ViewSubjectCommand extends Command {
 
 		String result = null;
 
-		if (actionType == ActionType.FORWARD) {
+		if (actionType == ActionType.GET) {
 			result = doGet(request, response);
 		}
 
