@@ -88,8 +88,8 @@ public class EditProfileCommand extends Command {
 		LOG.trace("Set attribute 'email': " + user.getEmail());
 		request.setAttribute(Fields.USER_PASSWORD, user.getPassword());
 		LOG.trace("Set attribute 'password': " + user.getPassword());
-
-		// result.setFirst(ActionType.FORWARD);
+		request.setAttribute(Fields.USER_LANG, user.getLang());
+		LOG.trace("Set attribute 'lang': " + user.getLang());
 
 		if ("client".equals(role)) {
 
@@ -140,12 +140,14 @@ public class EditProfileCommand extends Command {
 		LOG.trace("Fetch request parapeter: 'email' = " + email);
 		String password = request.getParameter("password");
 		LOG.trace("Fetch request parapeter: 'password' = " + password);
+		String language = request.getParameter("lang");
+		LOG.trace("Fetch request parapeter: 'lang' = " + language);
 
-		// user.setEmail(userEmail);
 		user.setFirstName(userFirstName);
 		user.setLastName(userLastName);
 		user.setEmail(email);
 		user.setPassword(password);
+		user.setLang(language);
 
 		LOG.trace("After calling setters with request parapeters on user entity: "
 				+ user);
@@ -186,8 +188,10 @@ public class EditProfileCommand extends Command {
 
 		}
 
-		// update session attribute if user changed it
-		request.getSession().setAttribute("user", email);
+		// update session attributes if user changed it
+		HttpSession session = request.getSession(false);
+		session.setAttribute("user", email);
+		session.setAttribute(Fields.USER_LANG, language);
 
 		return Path.REDIRECT_TO_PROFILE;
 	}
