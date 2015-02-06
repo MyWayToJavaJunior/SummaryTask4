@@ -9,9 +9,14 @@
 		<form id="add_faculty" action="controller" method="POST">
 			<input type="hidden" name="command" value="addFaculty" />
 			<div class="field">
-				<label for="name"><fmt:message
-						key="faculty.add_jsp.label.name" /></label> <input type="text"
-					name="name" value="" required />
+				<label for="name_ru"><fmt:message
+						key="faculty.add_jsp.label.name" /> (ru)</label> <input type="text"
+					name="name_ru" value="" required />
+			</div>
+			<div class="field">
+				<label for="name_eng"><fmt:message
+						key="faculty.add_jsp.label.name" /> (eng)</label> <input type="text"
+					name="name_eng" value="" required />
 			</div>
 			<div class="field">
 				<label for="total_seats"><fmt:message
@@ -30,8 +35,8 @@
 			<br>
 			<c:forEach var="subject" items="${allSubjects}">
 				<p>
-					<input type="checkbox" name="subjects" value="${subject.name}" />
-					<c:out value="${subject.name}"></c:out>
+					<input type="checkbox" name="subjects" value="${subject.id}" />
+					<c:out value="${lang eq 'ru' ? subject.nameRu : subject.nameEng}"></c:out>
 				</p>
 			</c:forEach>
 			<p>
