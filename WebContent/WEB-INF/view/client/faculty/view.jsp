@@ -4,11 +4,13 @@
 <%@ include file="/WEB-INF/view/jspf/head.jspf"%>
 <body>
 	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
-	<h1>${name}</h1>
+	<h2>
+		<c:out value="${lang eq 'ru' ? name_ru : name_eng}"></c:out>
+	</h2>
 	<div class="view">
 		<p>
 			<label><fmt:message key="faculty.view_jsp.label.name" /></label>
-			<c:out value="${name}"></c:out>
+			<c:out value="${lang eq 'ru' ? name_ru : name_eng}"></c:out>
 		</p>
 		<p>
 			<label><fmt:message key="faculty.view_jsp.label.total_seats" /></label>
@@ -31,12 +33,13 @@
 		<c:if test="${not empty facultySubjects}">
 			<ol>
 				<c:forEach var="subject" items="${facultySubjects}">
-					<li><c:out value="${subject.name}"></c:out></li>
+					<li><c:out
+							value="${lang eq 'ru' ? subject.nameRu : subject.nameEng}"></c:out></li>
 				</c:forEach>
 			</ol>
 		</c:if>
 		<p>
-			<a href="controller?command=applyFaculty&name=${name}"><fmt:message
+			<a href="controller?command=applyFaculty&name_eng=${name_eng}"><fmt:message
 					key="faculty.view_jsp.button.apply" /></a>
 		</p>
 	</div>

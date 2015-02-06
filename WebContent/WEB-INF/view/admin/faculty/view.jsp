@@ -4,11 +4,18 @@
 <%@ include file="/WEB-INF/view/jspf/head.jspf"%>
 <body>
 	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
-	<h2>${requestScope.name}</h2>
+	<h2>
+		<c:out value="${lang eq 'ru' ? name_ru : name_eng}"></c:out>
+	</h2>
 	<div class="view">
 		<p>
-			<label><fmt:message key="faculty.view_jsp.label.name" /></label>
-			<c:out value="${name}"></c:out>
+			<label><fmt:message key="faculty.view_jsp.label.name" /> (ru)</label>
+			<c:out value="${name_ru}"></c:out>
+		</p>
+		<p>
+			<label><fmt:message key="faculty.view_jsp.label.name" />
+				(eng)</label>
+			<c:out value="${name_eng}"></c:out>
 		</p>
 		<p>
 			<label><fmt:message key="faculty.view_jsp.label.total_seats" /></label>
@@ -32,14 +39,15 @@
 			<ol>
 				<c:forEach var="subject" items="${facultySubjects}">
 					<li><a
-						href="<c:url value="controller?command=viewSubject"> <c:param name="name" value="${subject.name}"/></c:url>"><c:out
-								value="${subject.name}"></c:out></a></li>
+						href="<c:url value="controller?command=viewSubject"> <c:param name="name_eng" value="${subject.nameEng}"/></c:url>">
+							<c:out value="${lang eq 'ru' ? subject.nameRu : subject.nameEng}"></c:out>
+					</a></li>
 				</c:forEach>
 			</ol>
 		</c:if>
 		<p>
 			<a
-				href="controller?command=editFaculty&show=true&name=${requestScope.name}"><fmt:message
+				href="controller?command=editFaculty&name_eng=${requestScope.nameEng}"><fmt:message
 					key="faculty.view_jsp.button.edit" /></a>
 		</p>
 
