@@ -32,10 +32,23 @@
 				}
 			});
 		});
+
+		$(document).ready(function() {
+			$('#reportTable').dataTable({
+				"language" : {
+					"url" : "/SummaryTask4/script/russian.lang",
+
+				}
+			});
+		});
+
 	} else {
 		$(document).ready(function() {
 			$('#facultiesTable').dataTable();
+		});
 
+		$(document).ready(function() {
+			$('#reportTable').dataTable();
 		});
 	}
 </script>
