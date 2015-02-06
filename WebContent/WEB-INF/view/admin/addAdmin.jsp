@@ -14,6 +14,14 @@
 			</h2>
 
 			<div class="field">
+				<label for=""lang""> <fmt:message
+						key="registration.label.language" />
+				</label> <select name="lang">
+					<option value="ru">Russian</option>
+					<option value="en">English</option>
+				</select>
+			</div>
+			<div class="field">
 				<fmt:message key="registration.label.first_name" />
 				<input type="text" name="first_name" value="" required />
 			</div>
