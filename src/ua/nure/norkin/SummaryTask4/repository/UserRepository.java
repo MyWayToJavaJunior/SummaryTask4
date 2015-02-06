@@ -24,11 +24,14 @@ public class UserRepository extends AbstractRepository<User> {
 	private static final String FIND_USER = "SELECT * FROM university_admission.user WHERE user.id = ? LIMIT 1;";
 	private static final String FIND_USER_BY_EMAIL_AND_PASS = "SELECT * FROM university_admission.user WHERE user.email = ? AND user.password=? LIMIT 1;";
 	private static final String FIND_USER_BY_EMAIL = "SELECT * FROM university_admission.user WHERE user.email = ? LIMIT 1;";
-	private static final String INSERT_USER = "INSERT INTO university_admission.user(user.first_name,user.last_name,user.email,user.password,user.role) VALUES (?,?,?,?,?);";
-	private static final String UPDATE_USER = "UPDATE user SET first_name=?,last_name=?,email=?,password=?,role=? WHERE user.id= ? LIMIT 1;";
+	private static final String INSERT_USER = "INSERT INTO university_admission.user(user.first_name,user.last_name,user.email,user.password,user.role, lang) VALUES (?,?,?,?,?,?);";
+	private static final String UPDATE_USER = "UPDATE user SET first_name=?,last_name=?,email=?,password=?,role=?, lang=? WHERE user.id= ? LIMIT 1;";
 	private static final String DELETE_USER = "DELETE FROM university_admission.user WHERE user.id=? LIMIT 1;";
 
 	private final static Logger LOG = Logger.getLogger(UserRepository.class);
+
+	public UserRepository() {
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -52,6 +55,7 @@ public class UserRepository extends AbstractRepository<User> {
 			pstmt.setString(counter++, user.getEmail());
 			pstmt.setString(counter++, user.getPassword());
 			pstmt.setString(counter, user.getRole());
+			pstmt.setString(counter, user.getLang());
 
 			pstmt.execute();
 			connection.commit();
@@ -89,6 +93,8 @@ public class UserRepository extends AbstractRepository<User> {
 			pstmt.setString(counter++, user.getEmail());
 			pstmt.setString(counter++, user.getPassword());
 			pstmt.setString(counter++, user.getRole());
+			pstmt.setString(counter++, user.getLang());
+
 			pstmt.setInt(counter, user.getId());
 
 			pstmt.executeUpdate();
@@ -280,6 +286,7 @@ public class UserRepository extends AbstractRepository<User> {
 			user.setEmail(rs.getString(Fields.USER_EMAIL));
 			user.setPassword(rs.getString(Fields.USER_PASSWORD));
 			user.setRole(rs.getString(Fields.USER_ROLE));
+			user.setLang(rs.getString(Fields.USER_LANG));
 		} catch (SQLException e) {
 			LOG.error("Can not unmarshal result set to user", e);
 		}
