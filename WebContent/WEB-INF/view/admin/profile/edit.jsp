@@ -11,9 +11,9 @@
 			type="hidden" name="isBlocked" value="${requestScope.isBlocked}">
 		<input type="hidden" name="oldEmail" value="${requestScope.email}">
 		<div class="field">
-			<label for="locale"> <fmt:message
+			<label for="lang"> <fmt:message
 					key="profile.edit_jsp.label.language" />
-			</label> <select name="locale">
+			</label> <select name="lang">
 				<option value="ru">Russian</option>
 				<option value="en">English</option>
 			</select>
