@@ -51,4 +51,6 @@ public final class Path {
 	public static final String FORWARD_ENTRANT_PROFILE = "/WEB-INF/view/admin/entrant/view.jsp";
 	public static final String REDIRECT_ENTRANT_PROFILE = "controller?command=viewEntrant&userId=";
 
+	public static final String FORWARD_REPORT_SHEET_VIEW = "/WEB-INF/view/admin/report/view.jsp";
+
 }
