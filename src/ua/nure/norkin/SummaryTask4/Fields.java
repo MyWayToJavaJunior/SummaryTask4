@@ -1,6 +1,5 @@
 package ua.nure.norkin.SummaryTask4;
 
-
 /**
  * Holder for fields names in database tables.
  *
@@ -40,4 +39,12 @@ public final class Fields {
 	public static final String MARK_EXAM_TYPE = "exam_type";
 	public static final String MARK_FOREIGN_KEY_ID = "Mark_idMark";
 
+	public static final String REPORT_SHEET_FACULTY_ID = "facultyId";
+	public static final String REPORT_SHEET_USER_FIRST_NAME = "first_name";
+	public static final String REPORT_SHEET_USER_LAST_NAME = "last_name";
+	public static final String REPORT_SHEET_USER_EMAIL = "email";
+	public static final String REPORT_SHEET_ENTRANT_IS_BLOCKED = "isBlocked";
+	public static final String REPORT_SHEET_ENTRANT_PRELIMINARY_SUM = "preliminary_sum";
+	public static final String REPORT_SHEET_ENTRANT_DIPLOMA_SUM = "diploma_sum";
+	public static final String REPORT_SHEET_ENTRANT_TOTAL_SUM = "total_sum";
 }
