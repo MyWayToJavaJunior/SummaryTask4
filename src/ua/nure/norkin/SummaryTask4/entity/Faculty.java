@@ -11,13 +11,15 @@ package ua.nure.norkin.SummaryTask4.entity;
 public class Faculty extends Entity {
 
 	private static final long serialVersionUID = 1590962657803610445L;
-	private String name;
+	private String nameRu;
+	private String nameEng;
 	private byte budgetSeats;
 	private byte totalSeats;
 
-	public Faculty(String name, byte budgetSeats, byte totalSeats) {
+	public Faculty(String nameRu, String nameEng, byte budgetSeats, byte totalSeats) {
 		super();
-		this.name = name;
+		this.nameRu = nameRu;
+		this.nameEng = nameEng;
 		this.budgetSeats = budgetSeats;
 		this.totalSeats = totalSeats;
 	}
@@ -25,12 +27,20 @@ public class Faculty extends Entity {
 	public Faculty() {
 	}
 
-	public String getName() {
-		return name;
+	public String getNameRu() {
+		return nameRu;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNameRu(String nameRu) {
+		this.nameRu = nameRu;
+	}
+
+	public String getNameEng() {
+		return nameEng;
+	}
+
+	public void setNameEng(String nameEng) {
+		this.nameEng = nameEng;
 	}
 
 	public byte getBudgetSeats() {
@@ -51,8 +61,9 @@ public class Faculty extends Entity {
 
 	@Override
 	public String toString() {
-		return "Faculty [name=" + name + ", budgetSeats=" + budgetSeats
-				+ ", totalSeats=" + totalSeats + "]";
+		return "Faculty [nameRu=" + nameRu + ", nameEng=" + nameEng
+				+ ", budgetSeats=" + budgetSeats + ", totalSeats=" + totalSeats
+				+ "]";
 	}
 
 }

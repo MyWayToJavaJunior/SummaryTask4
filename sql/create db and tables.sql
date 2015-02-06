@@ -9,6 +9,8 @@ USE `university_admission` ;
 -- -----------------------------------------------------
 -- Table `university_admission`.`User`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `university_admission`.`User` ;
+
 CREATE TABLE IF NOT EXISTS `university_admission`.`User` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `first_name` VARCHAR(45) NOT NULL,
@@ -16,6 +18,7 @@ CREATE TABLE IF NOT EXISTS `university_admission`.`User` (
   `email` VARCHAR(255) NOT NULL,
   `password` VARCHAR(32) NOT NULL,
   `role` ENUM('client', 'admin') NOT NULL,
+  `lang` ENUM('ru','en') NOT NULL DEFAULT 'ru',
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC));
@@ -24,6 +27,8 @@ CREATE TABLE IF NOT EXISTS `university_admission`.`User` (
 -- -----------------------------------------------------
 -- Table `university_admission`.`Entrant`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `university_admission`.`Entrant` ;
+
 CREATE TABLE IF NOT EXISTS `university_admission`.`Entrant` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `city` VARCHAR(45) NOT NULL,
@@ -45,30 +50,40 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `university_admission`.`Faculty`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `university_admission`.`Faculty` ;
+
 CREATE TABLE IF NOT EXISTS `university_admission`.`Faculty` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(100) NOT NULL,
+  `name_ru` VARCHAR(100) NOT NULL,
+  `name_eng` VARCHAR(100) NOT NULL,
   `total_seats` TINYINT UNSIGNED NOT NULL,
   `budget_seats` TINYINT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC))
+  UNIQUE INDEX `name_UNIQUE` (`name_ru` ASC),
+  UNIQUE INDEX `name_eng_UNIQUE` (`name_eng` ASC))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `university_admission`.`Subject`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `university_admission`.`Subject` ;
+
 CREATE TABLE IF NOT EXISTS `university_admission`.`Subject` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
+  `name_ru` VARCHAR(45) NOT NULL,
+  `name_eng` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC))
+  UNIQUE INDEX `name_UNIQUE` (`name_ru` ASC),
+  UNIQUE INDEX `name_eng_UNIQUE` (`name_eng` ASC))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `university_admission`.`Faculty_Entrants`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `university_admission`.`Faculty_Entrants` ;
+
 CREATE TABLE IF NOT EXISTS `university_admission`.`Faculty_Entrants` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `Entrant_idEntrant` INT NOT NULL,
@@ -93,6 +108,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `university_admission`.`Faculty_Subjects`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `university_admission`.`Faculty_Subjects` ;
+
 CREATE TABLE IF NOT EXISTS `university_admission`.`Faculty_Subjects` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `Faculty_idFaculty` INT NOT NULL,
@@ -117,6 +134,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `university_admission`.`Mark`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `university_admission`.`Mark` ;
+
 CREATE TABLE IF NOT EXISTS `university_admission`.`Mark` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `Entrant_idEntrant` INT NOT NULL,
@@ -143,6 +162,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `university_admission`.`ReportSheet`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `university_admission`.`ReportSheet` ;
+
 CREATE TABLE IF NOT EXISTS `university_admission`.`ReportSheet` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `Faculty_idFaculty` INT NOT NULL,
@@ -165,34 +186,15 @@ CREATE TABLE IF NOT EXISTS `university_admission`.`ReportSheet` (
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `university_admission`.`Role`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `university_admission`.`Role` (
-  `idRole` INT NOT NULL,
-  `role_type` VARCHAR(45) NULL,
-  PRIMARY KEY (`idRole`),
-  UNIQUE INDEX `role_type_UNIQUE` (`role_type` ASC))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `university_admission`.`Exam_Type`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `university_admission`.`Exam_Type` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `mark_type_UNIQUE` (`name` ASC))
-ENGINE = InnoDB;
-
-
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 USE `university_admission`;
 
 DELIMITER $$
+
+USE `university_admission`$$
+DROP TRIGGER IF EXISTS `university_admission`.`Entrant_BINS` $$
 USE `university_admission`$$
 CREATE TRIGGER `Entrant_BINS` BEFORE INSERT ON `Entrant` FOR EACH ROW
 BEGIN
@@ -203,16 +205,18 @@ BEGIN
     END IF;
 END;$$
 
+
 USE `university_admission`$$
-CREATE TRIGGER `Faculty_Entrants_BINS` BEFORE INSERT ON `Faculty_Entrants` FOR EACH ROW
+DROP TRIGGER IF EXISTS `university_admission`.`Faculty_BINS` $$
+USE `university_admission`$$
+CREATE TRIGGER `Faculty_BINS` BEFORE INSERT ON `Faculty` FOR EACH ROW
 BEGIN
     -- throw exception when condition not satisfied
-    IF (NEW.Entrant_idEntrant=Faculty_Entrants.Entrant_idEntrant AND NEW.Faculty_idFaculty=Faculty_Entrants.Faculty_idFaculty) THEN
+    IF (NEW.budget_seats > NEW.total_seats) THEN
         SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Entrant is already applied for this faculty', MYSQL_ERRNO = 1001;
+            SET MESSAGE_TEXT = 'Budget seats amount must be lower then total.', MYSQL_ERRNO = 1001;
     END IF;
-END;
-$$
+END;$$
 
 
 DELIMITER ;

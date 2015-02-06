@@ -9,12 +9,16 @@
 	<div class="form">
 		<form id="edit_faculty" action="controller" method="POST">
 			<input type="hidden" name="command" value="editFaculty" /> <input
-				type="hidden" name="oldName" value="${requestScope.name}" />
+				type="hidden" name="oldName" value="${requestScope.name_eng}" />
 			<div class="field">
 				<label for="name"><fmt:message
 						key="faculty.edit_jsp.label.name" /></label> <input type="text"
-					name="name" value="${requestScope.name}" size="${fn:length(name)}"
-					required />
+					name="name" value="${requestScope.name_ru}" required />
+			</div>
+			<div class="field">
+				<label for="name"><fmt:message
+						key="faculty.edit_jsp.label.name" /></label> <input type="text"
+					name="name" value="${requestScope.name_eng}" required />
 			</div>
 			<div class="field">
 				<label for="total_seats"><fmt:message

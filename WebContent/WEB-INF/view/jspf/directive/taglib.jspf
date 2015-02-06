@@ -7,9 +7,14 @@ JSTL core tag library.
 JSTL functions tag library.
 ===========================================================================--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<!-- Custom tag  -->
+<%@ taglib uri="/WEB-INF/customtag.tld" prefix="marks"%>
 <%--===========================================================================
 JSTL i18n tag library.
 ===========================================================================--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<!-- Custom tag  -->
-<%@ taglib uri="/WEB-INF/customtag.tld" prefix="marks"%>
+<%--===========================================================================
+ Switch ON i18n support
+===========================================================================--%>
+<c:set var="language" value="${not empty lang ? lang : pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${lang}" />

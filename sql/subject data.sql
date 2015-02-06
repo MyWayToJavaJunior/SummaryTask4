@@ -1,8 +1,8 @@
-INSERT INTO `subject` (`name`) VALUES ("Математика");
-INSERT INTO `subject` (`name`) VALUES ("Литература");
-INSERT INTO `subject` (`name`) VALUES ("Биология");
-INSERT INTO `subject` (`name`) VALUES ("Химия");
-INSERT INTO `subject` (`name`) VALUES ("Украинский язык");
-INSERT INTO `subject` (`name`) VALUES ("История");
-INSERT INTO `subject` (`name`) VALUES ("Физика");
-INSERT INTO `subject` (`name`) VALUES ("Английский язык");
+INSERT INTO `subject` (name_ru, name_eng) VALUES ("Математика", "Math");
+INSERT INTO `subject` (name_ru, name_eng) VALUES ("Литература", "Literature");
+INSERT INTO `subject` (name_ru, name_eng) VALUES ("Биология", "Biology");
+INSERT INTO `subject` (name_ru, name_eng) VALUES ("Химия", "Chemistry");
+INSERT INTO `subject` (name_ru, name_eng) VALUES ("Украинский язык", "Ukrainian");
+INSERT INTO `subject` (name_ru, name_eng) VALUES ("История", "History");
+INSERT INTO `subject` (name_ru, name_eng) VALUES ("Физика", "Physics");
+INSERT INTO `subject` (name_ru, name_eng) VALUES ("Английский язык", "English");

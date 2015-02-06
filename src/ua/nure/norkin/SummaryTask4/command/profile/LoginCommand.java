@@ -80,12 +80,14 @@ public class LoginCommand extends Command {
 			session.setAttribute("user", user.getEmail());
 			LOG.trace("Set the session attribute 'user' = " + user.getEmail());
 
-			String role = user.getRole();
+			session.setAttribute("userRole", user.getRole());
+			LOG.trace("Set the session attribute: 'userRole' = "
+					+ user.getRole());
 
-			session.setAttribute("userRole", role);
-			LOG.trace("Set the session attribute: 'userRole' = " + role);
+			session.setAttribute("lang", user.getLang());
+			LOG.trace("Set the session attribute 'lang' = " + user.getLang());
 
-			LOG.info("User: " + user + " logged as " + role);
+			LOG.info("User: " + user + " logged as " + user.getRole());
 
 			result = Path.REDIRECT_TO_VIEW_ALL_FACULTIES;
 		}

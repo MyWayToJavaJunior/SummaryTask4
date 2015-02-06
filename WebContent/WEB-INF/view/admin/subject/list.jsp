@@ -12,8 +12,8 @@
 		<ol>
 			<c:forEach var="subject" items="${allSubjects}">
 				<li><a
-					href="<c:url value="controller?command=viewSubject"> <c:param name="name" value="${subject.name}"/></c:url>">
-						<c:out value="${subject.name}"></c:out>
+					href="<c:url value="controller?command=viewSubject"> <c:param name="name_eng" value="${subject.nameEng}"/></c:url>">
+						<c:out value="${lang eq 'ru' ? subject.nameRu : subject.nameEng}"></c:out>
 				</a></li>
 			</c:forEach>
 		</ol>

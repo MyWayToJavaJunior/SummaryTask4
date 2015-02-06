@@ -24,8 +24,9 @@
 			<c:forEach var="faculty" items="${faculties}">
 				<tr>
 					<td><a
-						href="<c:url value="controller?command=viewFaculty"> <c:param name="name" value="${faculty.name}"/></c:url>"><c:out
-								value="${faculty.name}"></c:out></a></td>
+						href="<c:url value="controller?command=viewFaculty"> <c:param name="name_eng" value="${faculty.nameEng}"/></c:url>">
+						 	<c:out value="${lang eq 'ru' ? faculty.nameRu : faculty.nameEng}"></c:out>
+					</a></td>
 					<td><c:out value="${faculty.totalSeats}"></c:out></td>
 					<td><c:out value="${faculty.budgetSeats}"></c:out></td>
 				</tr>

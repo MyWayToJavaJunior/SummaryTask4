@@ -2,7 +2,6 @@ package ua.nure.norkin.SummaryTask4.command.faculty;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
@@ -88,16 +87,19 @@ public class ApplyFacultyViewCommand extends Command {
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
 		String result = null;
-		String facultyName = request.getParameter(Fields.FACULTY_NAME);
+		String facultyNameEng = request.getParameter(Fields.FACULTY_NAME_ENG);
 		FacultyRepository facultyRepository = new FacultyRepository();
-		Faculty faculty = facultyRepository.find(facultyName);
+		Faculty faculty = facultyRepository.find(facultyNameEng);
 
 		request.setAttribute(Fields.ENTITY_ID, faculty.getId());
 		LOG.trace("Set the request faculty attribute: 'id' = "
 				+ faculty.getId());
 
-		request.setAttribute(Fields.FACULTY_NAME, faculty.getName());
-		LOG.trace("Set the request attribute: 'name' = " + faculty.getName());
+		request.setAttribute(Fields.FACULTY_NAME_RU, faculty.getNameRu());
+		LOG.trace("Set the request attribute: 'name' = " + faculty.getNameRu());
+		request.setAttribute(Fields.FACULTY_NAME_ENG, faculty.getNameEng());
+		LOG.trace("Set the request attribute: 'name_eng' = "
+				+ faculty.getNameEng());
 		request.setAttribute(Fields.FACULTY_TOTAL_SEATS,
 				faculty.getTotalSeats());
 		LOG.trace("Set the request attribute: 'total_seats' = "
@@ -201,8 +203,7 @@ public class ApplyFacultyViewCommand extends Command {
 
 			FacultyRepository facultyRepository = new FacultyRepository();
 			Faculty faculty = facultyRepository.find(facultyId);
-			return Path.REDIRECT_TO_FACULTY
-					+ URLEncoder.encode(faculty.getName(), "UTF-8");
+			return Path.REDIRECT_TO_FACULTY + faculty.getNameEng();
 		}
 	}
 }

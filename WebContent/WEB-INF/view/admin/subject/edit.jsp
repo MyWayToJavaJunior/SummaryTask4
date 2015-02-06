@@ -4,15 +4,35 @@
 <%@ include file="/WEB-INF/view/jspf/head.jspf"%>
 <body>
 	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
-	<form id="edit_subject" method="POST" action="controller">
-		<input type="hidden" name="command" value="editSubject"> <input
-			type="hidden" name="oldName" value="${name}"> <label
-			for="name"><fmt:message key="subject.edit_jsp.label.name" /></label>
-		<input type="text" name="name" value="${name}" required> <input
-			type="submit"
-			value="<fmt:message key="subject.edit_jsp.button.submit" />">
-	</form>
-	<a href="controller?command=viewSubject&name=${name}"><fmt:message
-			key="subject.edit_jsp.button.back" /></a>
+	<div class="form">
+		<form id="edit_subject" method="POST" action="controller">
+			<input type="hidden" name="command" value="editSubject"> <input
+				type="hidden" name="oldName" value="${name_eng}">
+
+			<div class="field">
+				<p>
+					<label for="name_ru"><fmt:message
+							key="subject.edit_jsp.label.name" /> (ru)</label> <input type="text"
+						name="name_ru" value="${name_ru}" required>
+				</p>
+			</div>
+			<div class="field">
+				<p>
+					<label for="name_eng"><fmt:message
+							key="subject.edit_jsp.label.name" /> (eng)</label> <input type="text"
+						name="name_eng" value="${name_eng}" required>
+				</p>
+			</div>
+			<p>
+				<input type="submit"
+					value="<fmt:message key="subject.edit_jsp.button.submit" />">
+			</p>
+		</form>
+
+		<p>
+			<a href="controller?command=viewSubject&name_eng=${name_eng}"><fmt:message
+					key="subject.edit_jsp.button.back" /></a>
+		</p>
+	</div>
 </body>
 </html>

@@ -16,17 +16,18 @@ public class User extends Entity {
 	private String firstName;
 	private String lastName;
 	private String role;
+	private String lang;
 
 	public User() {
 	}
 
 	public User(String email, String password, String firstName,
-			String lastName, Role role) {
-		this(email, password, firstName, lastName, role.getName());
+			String lastName, Role role, String lang) {
+		this(email, password, firstName, lastName, role.getName(), lang);
 	}
 
 	public User(String email, String password, String firstName,
-			String lastName, String role) {
+			String lastName, String role, String lang) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -75,11 +76,19 @@ public class User extends Entity {
 		this.role = role;
 	}
 
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
+	}
+
 	@Override
 	public String toString() {
 		return "User [email=" + email + ", password=" + password
 				+ ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", role=" + role + "]";
+				+ ", role=" + role + ", lang=" + lang + "]";
 	}
 
 }

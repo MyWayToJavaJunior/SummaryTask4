@@ -50,7 +50,7 @@ public class AddFacultyCommand extends Command {
 				"userRole"));
 
 		// clients are not permitted to access this page
-		if ("client".equals(role)) {
+		if (role == null || "client".equals(role)) {
 			return null;
 		}
 
@@ -97,7 +97,8 @@ public class AddFacultyCommand extends Command {
 			HttpServletResponse response) {
 		String result = null;
 
-		String facultyName = request.getParameter(Fields.FACULTY_NAME);
+		String facultyNameRu = request.getParameter(Fields.FACULTY_NAME_RU);
+		String facultyNameEng = request.getParameter(Fields.FACULTY_NAME_ENG);
 		String facultyTotalSeats = request
 				.getParameter(Fields.FACULTY_TOTAL_SEATS);
 		String facultyBudgetSeats = request
@@ -105,8 +106,8 @@ public class AddFacultyCommand extends Command {
 
 		boolean valid = true;
 
-		if (!FieldValidation.isFilled(facultyName, facultyBudgetSeats,
-				facultyTotalSeats)) {
+		if (!FieldValidation.isFilled(facultyNameRu, facultyNameEng,
+				facultyBudgetSeats, facultyTotalSeats)) {
 			request.setAttribute("errorMessage",
 					"Please fill all fields properly!");
 			LOG.error("errorMessage: Not all fields are properly filled");
@@ -136,7 +137,8 @@ public class AddFacultyCommand extends Command {
 
 			// TODO check name for uniqueness
 
-			Faculty faculty = new Faculty(facultyName, budgetSeats, totalSeats);
+			Faculty faculty = new Faculty(facultyNameRu, facultyNameEng,
+					budgetSeats, totalSeats);
 
 			LOG.trace("Create faculty transfer object: " + faculty);
 
@@ -148,22 +150,21 @@ public class AddFacultyCommand extends Command {
 
 			// only after creating a faculty record we can proceed with
 			// adding faculty subjects
-			String[] choosedSubjects = request.getParameterValues("subjects");
+			String[] choosedSubjectsIds = request
+					.getParameterValues("subjects");
 
-			if (choosedSubjects != null) {
-				SubjectRepository subjectRepository = new SubjectRepository();
+			if (choosedSubjectsIds != null) {
 				FacultySubjectsRepository facultySubjectsRepository = new FacultySubjectsRepository();
 
-				for (String subject : choosedSubjects) {
-					Subject subjectRecord = subjectRepository.find(subject);
+				for (String subjectId : choosedSubjectsIds) {
 					FacultySubjects facultySubject = new FacultySubjects(
-							subjectRecord, faculty);
+							Integer.valueOf(subjectId), faculty.getId());
 					facultySubjectsRepository.create(facultySubject);
 					LOG.trace("FacultySubjects record created in databaset: "
 							+ facultySubject);
 				}
 			}
-			result = Path.REDIRECT_TO_FACULTY + facultyName;
+			result = Path.REDIRECT_TO_FACULTY + facultyNameEng;
 		}
 		return result;
 	}

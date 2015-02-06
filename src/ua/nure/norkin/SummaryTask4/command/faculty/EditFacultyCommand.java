@@ -2,7 +2,6 @@ package ua.nure.norkin.SummaryTask4.command.faculty;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -87,8 +86,10 @@ public class EditFacultyCommand extends Command {
 		FacultyRepository facultyRepository = new FacultyRepository();
 		Faculty faculty = facultyRepository.find(facultyName);
 
-		request.setAttribute(Fields.FACULTY_NAME, faculty.getName());
-		LOG.trace("Set attribute 'name': " + faculty.getName());
+		request.setAttribute(Fields.FACULTY_NAME_RU, faculty.getNameRu());
+		LOG.trace("Set attribute 'name_ru': " + faculty.getNameRu());
+		request.setAttribute(Fields.FACULTY_NAME_ENG, faculty.getNameEng());
+		LOG.trace("Set attribute 'name_eng': " + faculty.getNameEng());
 		request.setAttribute(Fields.FACULTY_TOTAL_SEATS,
 				faculty.getTotalSeats());
 		LOG.trace("Set attribute 'total_seats': " + faculty.getTotalSeats());
@@ -111,6 +112,7 @@ public class EditFacultyCommand extends Command {
 		return Path.FORWARD_FACULTY_EDIT_ADMIN;
 	}
 
+	// TODO
 	/**
 	 * Edits faculty according to entered data by admin.
 	 *
@@ -122,8 +124,10 @@ public class EditFacultyCommand extends Command {
 			HttpServletResponse response) throws UnsupportedEncodingException {
 		String result = null;
 		// get parameters from page
-		String facultyName = request.getParameter(Fields.FACULTY_NAME);
-		LOG.trace("Get parameter 'name' = " + facultyName);
+		String facultyNameRu = request.getParameter(Fields.FACULTY_NAME_RU);
+		LOG.trace("Get parameter 'name_ru' = " + facultyNameRu);
+		String facultyNameEng = request.getParameter(Fields.FACULTY_NAME_ENG);
+		LOG.trace("Get parameter 'name_eng' = " + facultyNameEng);
 		String facultyTotalSeats = request
 				.getParameter(Fields.FACULTY_TOTAL_SEATS);
 		LOG.trace("Get parameter 'total_seats' = " + facultyTotalSeats);
@@ -133,19 +137,18 @@ public class EditFacultyCommand extends Command {
 
 		boolean valid = true;
 
-		if (!FieldValidation.isFilled(facultyName, facultyBudgetSeats,
-				facultyTotalSeats)) {
-			request.setAttribute("errorMessage",
-					"Please fill all fields properly!");
-			LOG.error("errorMessage: Not all fields are properly filled");
-			valid = false;
-		}
-		if (!FieldValidation.isByte(facultyTotalSeats, facultyBudgetSeats)) {
-			request.setAttribute("errorMessage", "Please enter a valid number!");
-			LOG.error("errorMessage: not a numbers");
-			valid = false;
-
-		}
+		/*
+		 * if (!FieldValidation.isFilled(facultyName, facultyBudgetSeats,
+		 * facultyTotalSeats)) { request.setAttribute("errorMessage",
+		 * "Please fill all fields properly!");
+		 * LOG.error("errorMessage: Not all fields are properly filled"); valid
+		 * = false; } if (!FieldValidation.isByte(facultyTotalSeats,
+		 * facultyBudgetSeats)) { request.setAttribute("errorMessage",
+		 * "Please enter a valid number!");
+		 * LOG.error("errorMessage: not a numbers"); valid = false;
+		 *
+		 * }
+		 */
 
 		Byte totalSeats = Byte.valueOf(facultyTotalSeats);
 		Byte budgetSeats = Byte.valueOf(facultyBudgetSeats);
@@ -158,14 +161,15 @@ public class EditFacultyCommand extends Command {
 		}
 
 		if (valid == false) {
-			result = Path.REDIRECT_FACULTY_EDIT_ADMIN + facultyName;
+			result = Path.REDIRECT_FACULTY_EDIT_ADMIN + facultyNameEng;
 		}
 		if (valid) {
 			// if it's true then let's start to update the db
 
 			LOG.trace("All fields are properly filled. Start updating database.");
 
-			Faculty faculty = new Faculty(facultyName, budgetSeats, totalSeats);
+			Faculty faculty = new Faculty(facultyNameRu, facultyNameEng,
+					budgetSeats, totalSeats);
 
 			FacultyRepository facultyRepository = new FacultyRepository();
 
@@ -276,7 +280,7 @@ public class EditFacultyCommand extends Command {
 				}
 			}
 			result = Path.REDIRECT_TO_FACULTY
-					+ URLEncoder.encode(facultyName, "UTF-8");
+					+ facultyNameEng;
 		}
 		return result;
 	}

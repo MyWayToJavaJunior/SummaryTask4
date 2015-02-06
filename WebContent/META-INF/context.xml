@@ -43,6 +43,6 @@ NONE  READ_COMMITTED  READ_UNCOMMITTED  REPEATABLE_READ SERIALIZABLE
 			driverClassName="com.mysql.jdbc.Driver"
 			defaultAutoCommit="false"
 			defaultTransactionIsolation="READ_COMMITTED"
-			url="jdbc:mysql://127.0.0.1:3306/university_admission"/>
+			url="jdbc:mysql://127.0.0.1:3306/university_admission?useEncoding=true&amp;characterEncoding=UTF-8"/>
 
 </Context>

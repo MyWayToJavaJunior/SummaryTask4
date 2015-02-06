@@ -46,7 +46,7 @@ public class AddSubjectCommand extends Command {
 				"userRole"));
 
 		// clients are not allowed to access this page
-		if ("client".equals(role)) {
+		if (role == null || "client".equals(role)) {
 			return null;
 		}
 
@@ -79,20 +79,24 @@ public class AddSubjectCommand extends Command {
 	 */
 	private String doPost(HttpServletRequest request,
 			HttpServletResponse response) {
-		String name = request.getParameter("name");
-		LOG.trace("Fetch request parapeter: 'name' = " + name);
+		String nameRu = request.getParameter("name_ru");
+		LOG.trace("Fetch request parapeter: 'name_ru' = " + nameRu);
+
+		String nameEng = request.getParameter("name_eng");
+		LOG.trace("Fetch request parapeter: 'name_eng' = " + nameEng);
 
 		SubjectRepository subjectRepository = new SubjectRepository();
 
 		Subject subject = new Subject();
-		subject.setName(name);
+		subject.setNameRu(nameRu);
+		subject.setNameEng(nameEng);
 
 		LOG.trace("Create subject transfer object: " + subject);
 
 		subjectRepository.create(subject);
 		LOG.trace("Create subject record in database: " + subject);
 
-		return Path.REDIRECT_TO_SUBJECT + name;
+		return Path.REDIRECT_TO_SUBJECT + nameEng;
 	}
 
 }

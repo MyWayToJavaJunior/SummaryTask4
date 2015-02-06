@@ -23,9 +23,9 @@ public class FacultyRepository extends AbstractRepository<Faculty> {
 
 	private static final String FIND_ALL_FACULTIES = "SELECT * FROM university_admission.faculty;";
 	private static final String FIND_FACULTY_BY_ID = "SELECT * FROM university_admission.faculty WHERE faculty.id = ? LIMIT 1;";
-	private static final String FIND_FACULTY_BY_NAME = "SELECT * FROM university_admission.faculty WHERE faculty.name = ? LIMIT 1;";
-	private static final String INSERT_FACULTY = "INSERT INTO university_admission.faculty(faculty.name,faculty.total_seats,faculty.budget_seats) VALUES (?,?,?);";
-	private static final String UPDATE_FACULTY = "UPDATE faculty SET faculty.name=?, faculty.total_seats=?,faculty.budget_seats=? WHERE faculty.id=? LIMIT 1;";
+	private static final String FIND_FACULTY_BY_NAME = "SELECT * FROM university_admission.faculty WHERE faculty.name_ru = ? OR faculty.name_eng = ? LIMIT 1;";
+	private static final String INSERT_FACULTY = "INSERT INTO university_admission.faculty(faculty.name_ru, faculty.name_eng, faculty.total_seats,faculty.budget_seats) VALUES (?,?,?,?);";
+	private static final String UPDATE_FACULTY = "UPDATE faculty SET faculty.name_ru=?, faculty.name_eng=?, faculty.total_seats=?,faculty.budget_seats=? WHERE faculty.id=? LIMIT 1;";
 	private static final String DELETE_FACULTY = "DELETE FROM university_admission.faculty WHERE faculty.id=? LIMIT 1;";
 
 	private final static Logger LOG = Logger.getLogger(FacultyRepository.class);
@@ -47,10 +47,10 @@ public class FacultyRepository extends AbstractRepository<Faculty> {
 			pstmt = connection.prepareStatement(INSERT_FACULTY,
 					Statement.RETURN_GENERATED_KEYS);
 			int counter = 1;
-			// pstmt.setInt(1, user.getId());
-			pstmt.setString(counter++, entity.getName());
+			pstmt.setString(counter++, entity.getNameRu());
+			pstmt.setString(counter++, entity.getNameEng());
 			pstmt.setByte(counter++, entity.getTotalSeats());
-			pstmt.setByte(counter++, entity.getBudgetSeats());
+			pstmt.setByte(counter, entity.getBudgetSeats());
 
 			pstmt.execute();
 			connection.commit();
@@ -83,9 +83,10 @@ public class FacultyRepository extends AbstractRepository<Faculty> {
 			connection = getConnection();
 			pstmt = connection.prepareStatement(UPDATE_FACULTY);
 			int counter = 1;
-			pstmt.setString(counter++, entity.getName());
+			pstmt.setString(counter++, entity.getNameRu());
+			pstmt.setString(counter++, entity.getNameEng());
 			pstmt.setByte(counter++, entity.getTotalSeats());
-			pstmt.setByte(counter++, entity.getBudgetSeats());
+			pstmt.setByte(counter, entity.getBudgetSeats());
 
 			pstmt.setInt(counter, entity.getId());
 
@@ -177,6 +178,7 @@ public class FacultyRepository extends AbstractRepository<Faculty> {
 			connection = getConnection();
 			pstmt = connection.prepareStatement(FIND_FACULTY_BY_NAME);
 			pstmt.setString(1, facultyName);
+			pstmt.setString(2, facultyName);
 			rs = pstmt.executeQuery();
 			connection.commit();
 			if (!rs.next()) {
@@ -236,7 +238,8 @@ public class FacultyRepository extends AbstractRepository<Faculty> {
 		Faculty faculty = new Faculty();
 		try {
 			faculty.setId(rs.getInt(Fields.ENTITY_ID));
-			faculty.setName(rs.getString(Fields.FACULTY_NAME));
+			faculty.setNameRu(rs.getString(Fields.FACULTY_NAME_RU));
+			faculty.setNameEng(rs.getString(Fields.FACULTY_NAME_ENG));
 			faculty.setTotalSeats(rs.getByte(Fields.FACULTY_TOTAL_SEATS));
 			faculty.setBudgetSeats(rs.getByte(Fields.FACULTY_BUDGET_SEATS));
 		} catch (SQLException e) {

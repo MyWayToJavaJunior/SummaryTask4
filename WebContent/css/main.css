@@ -1,8 +1,17 @@
 @CHARSET "UTF-8";
 
 <
-style type ="text /css">h2 {
-	text-align: "center;
+style type ="text /css">
+
+h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-top: 0.83em;
+    margin-bottom: 0.83em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+    text-align: center;
 }
 
 body {

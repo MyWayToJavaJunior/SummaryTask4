@@ -1,8 +1,6 @@
 package ua.nure.norkin.SummaryTask4.command.subject;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +46,7 @@ public class EditSubjectCommand extends Command {
 				"userRole"));
 
 		// clients are not permitted to access this page
-		if ("client".equals(role)) {
+		if (role == null || "client".equals(role)) {
 			return null;
 		}
 
@@ -71,11 +69,14 @@ public class EditSubjectCommand extends Command {
 	 */
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
-		String subjectName = request.getParameter("name");
+		String subjectName = request.getParameter(Fields.FACULTY_NAME_ENG);
 		Subject subject = new SubjectRepository().find(subjectName);
 
-		request.setAttribute(Fields.SUBJECT_NAME, subject.getName());
-		LOG.trace("Set attribute 'name': " + subject.getName());
+		request.setAttribute(Fields.SUBJECT_NAME_RU, subject.getNameRu());
+		LOG.trace("Set attribute 'name_ru': " + subject.getNameRu());
+
+		request.setAttribute(Fields.SUBJECT_NAME_ENG, subject.getNameEng());
+		LOG.trace("Set attribute 'name_eng': " + subject.getNameEng());
 
 		return Path.FORWARD_SUBJECT_EDIT_ADMIN;
 	}
@@ -86,10 +87,9 @@ public class EditSubjectCommand extends Command {
 	 *
 	 * @return path to the view of edited subject if all fields were properly
 	 *         filled, otherwise redisplays edit page.
-	 * @throws UnsupportedEncodingException
 	 */
 	private String doPost(HttpServletRequest request,
-			HttpServletResponse response) throws UnsupportedEncodingException {
+			HttpServletResponse response) {
 		// get parameters from page
 
 		String oldSubjectName = request.getParameter("oldName");
@@ -100,10 +100,14 @@ public class EditSubjectCommand extends Command {
 		Subject subject = subjectRepository.find(oldSubjectName);
 		LOG.trace("Subject record found with this data:" + subject);
 
-		String newSubjectName = request.getParameter("name");
-		LOG.trace("Fetch request parapeter: 'name' = " + newSubjectName);
+		String newSubjectNameRu = request.getParameter(Fields.SUBJECT_NAME_RU);
+		LOG.trace("Fetch request parapeter: 'name_ru' = " + newSubjectNameRu);
+		String newSubjectNameEng = request
+				.getParameter(Fields.SUBJECT_NAME_ENG);
+		LOG.trace("Fetch request parapeter: 'name_eng' = " + newSubjectNameEng);
 
-		subject.setName(newSubjectName);
+		subject.setNameRu(newSubjectNameRu);
+		subject.setNameEng(newSubjectNameEng);
 
 		LOG.trace("After calling setters with request parameters on subject entity: "
 				+ subject);
@@ -112,8 +116,7 @@ public class EditSubjectCommand extends Command {
 
 		LOG.trace("Subject record updated");
 
-		return Path.REDIRECT_TO_SUBJECT
-				+ URLEncoder.encode(newSubjectName, "UTF-8");
+		return Path.REDIRECT_TO_SUBJECT + newSubjectNameEng;
 	}
 
 }

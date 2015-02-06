@@ -72,24 +72,27 @@ public class ViewFacultyCommand extends Command {
 	 */
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
-		String facultyName = request.getParameter(Fields.FACULTY_NAME);
+		String facultyNameEng = request.getParameter(Fields.FACULTY_NAME_ENG);
 
-		LOG.trace("Faculty name to look for is equal to: '" + facultyName + "'");
+		LOG.trace("Faculty name to look for is equal to: '" + facultyNameEng + "'");
 
 		String result = null;
 
 		FacultyRepository facultyRepository = new FacultyRepository();
 
-		Faculty facultyRecord = facultyRepository.find(facultyName);
+		Faculty facultyRecord = facultyRepository.find(facultyNameEng);
 
 		LOG.trace("Faculty record found: " + facultyRecord);
 
 		request.setAttribute(Fields.ENTITY_ID, facultyRecord.getId());
 		LOG.trace("Set the request attribute: 'id' = " + facultyRecord.getId());
 
-		request.setAttribute(Fields.FACULTY_NAME, facultyRecord.getName());
-		LOG.trace("Set the request attribute: 'name' = "
-				+ facultyRecord.getName());
+		request.setAttribute(Fields.FACULTY_NAME_RU, facultyRecord.getNameRu());
+		LOG.trace("Set the request attribute: 'name_ru' = "
+				+ facultyRecord.getNameRu());
+		request.setAttribute(Fields.FACULTY_NAME_ENG, facultyRecord.getNameEng());
+		LOG.trace("Set the request attribute: 'name_eng' = "
+				+ facultyRecord.getNameEng());
 		request.setAttribute(Fields.FACULTY_TOTAL_SEATS,
 				facultyRecord.getTotalSeats());
 		LOG.trace("Set the request attribute: 'total_seats' = "
