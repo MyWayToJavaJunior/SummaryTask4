@@ -4,54 +4,88 @@
 <%@ include file="/WEB-INF/view/jspf/head.jspf"%>
 <body>
 	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
-	You are in client apply for faculty view!
 
-	<h1>${name}</h1>
-	<ul>
-		<li><label>Faculty name: </label> <c:out value="${name}"></c:out></li>
-		<li><label>Total seats: </label> <c:out value="${total_seats}"></c:out></li>
-		<li><label>Budget seats: </label> <c:out value="${budget_seats}"></c:out></li>
-	</ul>
+	<h2>
+		<c:out value="${lang eq 'ru' ? name_ru : name_eng}"></c:out>
+	</h2>
 
-	<form action="controller" method="POST">
-		<input type="hidden" name="command" value="applyFaculty" /> <input
-			type="hidden" name="id" value="${id}" />
+	<br>
+	<br>
 
-		<h1>Your preliminary marks</h1>
+	<div class="view">
+		<p>
+			<label><fmt:message key="faculty.apply_jsp.label.name" /></label>
 
-		<table id="preliminary">
+			<c:out value="${lang eq 'ru' ? name_ru : name_eng}"></c:out>
+		</p>
+		<p>
+			<label> <fmt:message
+					key="faculty.apply_jsp.label.total_seats" />
+			</label>
+
+			<c:out value="${total_seats}"></c:out>
+		</p>
+		<p>
+			<label><fmt:message
+					key="faculty.apply_jsp.label.budget_seats" /> </label>
+
+			<c:out value="${budget_seats}"></c:out>
+		</p>
+	</div>
+
+	<div class="form">
+		<form action="controller" method="POST">
+			<input type="hidden" name="command" value="applyFaculty" /> <input
+				type="hidden" name="id" value="${id}" />
+
+			<h2>
+				<fmt:message key="faculty.apply_jsp.label.preliminary_subjects" />
+			</h2>
+
 
 			<c:if test="${empty facultySubjects}">
-				<c:out value="Not needed"></c:out>
+				<fmt:message
+					key="faculty.apply_jsp.label.no_preliminary_subjects_msg" />
 			</c:if>
 
 			<c:forEach var="facultySubject" items="${facultySubjects}">
-				<tr>
-					<td><c:out value="${facultySubject.name}">${facultySubject.name}</c:out>
-					</td>
-					<td><marks:insert subjectId="${facultySubject.id}"
-							examType="preliminary" /></td>
-				</tr>
+				<div class="field">
+					<p>
+						<label><c:out
+								value="${lang eq 'ru' ? facultySubject.nameRu : facultySubject.nameEng}"></c:out>
+
+						</label>
+
+
+						<marks:insert subjectId="${facultySubject.id}"
+							examType="preliminary" />
+					</p>
+				</div>
+
 			</c:forEach>
 
-		</table>
+			<h2>
+				<fmt:message key="faculty.apply_jsp.label.diploma_subjects" />
+			</h2>
 
-		<h1>Your diploma marks</h1>
-
-		<table id="diploma">
 
 			<c:forEach var="subject" items="${allSubjects}">
-				<tr>
-					<td><c:out value="${subject.name}">${subject.name}</c:out></td>
-					<td><marks:insert subjectId="${subject.id}" examType="diploma" /></td>
+				<div class="field">
+					<p>
+						<label><c:out
+								value="${lang eq 'ru' ? subject.nameRu : subject.nameEng}">
+							</c:out></label>
+					<p>
 
-				</tr>
+						<marks:insert subjectId="${subject.id}" examType="diploma" />
+				</div>
 			</c:forEach>
 
-		</table>
-		<p>
-			<input type="submit" value="OK">
-		</p>
-	</form>
+			<p>
+				<input type="submit"
+					value="<fmt:message key="faculty.apply_jsp.button.submit" />">
+			</p>
+		</form>
+	</div>
 </body>
 </html>
