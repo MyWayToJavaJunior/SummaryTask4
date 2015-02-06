@@ -9,7 +9,8 @@
 	</h2>
 	<div class="view">
 		<p>
-			<label><fmt:message key="faculty.view_jsp.label.name" /> (ru)</label>
+			<label><fmt:message key="faculty.view_jsp.label.name" />
+				(ru)</label>
 			<c:out value="${name_ru}"></c:out>
 		</p>
 		<p>
@@ -47,11 +48,15 @@
 		</c:if>
 		<p>
 			<a
-				href="controller?command=editFaculty&name_eng=${requestScope.nameEng}"><fmt:message
+				href="controller?command=editFaculty&name_eng=${requestScope.name_eng}"><fmt:message
 					key="faculty.view_jsp.button.edit" /></a>
 		</p>
 
 		<p>
+			<a href="controller?command=createReport&id=${id}"><fmt:message
+					key="faculty.view_jsp.button.create_report" /></a>
+		</p>
+		<br>
 		<form id="delete_faculty" action="controller" method="POST">
 			<input type="hidden" name="command" value="deleteFaculty" /><input
 				type="hidden" name="id" value="${id}" /><input type="submit"
