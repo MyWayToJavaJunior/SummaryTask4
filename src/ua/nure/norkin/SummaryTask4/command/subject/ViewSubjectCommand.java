@@ -48,7 +48,7 @@ public class ViewSubjectCommand extends Command {
 		String role = String.valueOf(session.getAttribute("userRole"));
 
 		// clients are not permitted to access this page
-		if ("client".equals(role)) {
+		if (role == null || "client".equals(role)) {
 			return null;
 		}
 
@@ -69,17 +69,22 @@ public class ViewSubjectCommand extends Command {
 	 */
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
-		String subjectName = request.getParameter(Fields.SUBJECT_NAME);
+		String subjectNameEng = request.getParameter(Fields.SUBJECT_NAME_ENG);
 
-		LOG.trace("Subject name to look for is equal to: '" + subjectName + "'");
+		LOG.trace("Subject name to look for is equal to: '" + subjectNameEng
+				+ "'");
 
 		SubjectRepository subjectRepository = new SubjectRepository();
-		Subject subject = subjectRepository.find(subjectName);
+		Subject subject = subjectRepository.find(subjectNameEng);
 
 		LOG.trace("Subject record found: " + subject);
 
-		request.setAttribute(Fields.SUBJECT_NAME, subject.getName());
-		LOG.trace("Set the request attribute: 'name' = " + subject.getName());
+		request.setAttribute(Fields.SUBJECT_NAME_RU, subject.getNameRu());
+		LOG.trace("Set the request attribute: 'name_ru' = "
+				+ subject.getNameRu());
+		request.setAttribute(Fields.SUBJECT_NAME_ENG, subject.getNameEng());
+		LOG.trace("Set the request attribute: 'name_eng' = "
+				+ subject.getNameEng());
 		return Path.FORWARD_SUBJECT_VIEW_ADMIN;
 	}
 
