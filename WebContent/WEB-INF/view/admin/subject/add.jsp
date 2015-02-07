@@ -10,13 +10,13 @@
 			<div class="field">
 				<label for="name_ru"><fmt:message
 						key="subject.add_jsp.label.name" /> (ru)</label> <input type="text"
-					name="name_ru" value="" required />
+					name="name_ru" id="name_ru" value="" required />
 			</div>
 
 			<div class="field">
 				<label for="name_eng"><fmt:message
 						key="subject.add_jsp.label.name" /> (eng)</label> <input type="text"
-					name="name_eng" value="" required />
+					name="name_eng" id="name_eng" value="" required />
 			</div>
 			<p>
 				<input type="submit"
@@ -24,5 +24,6 @@
 			</p>
 		</form>
 	</div>
+	<script src="/script/subject-validation.js"></script>
 </body>
 </html>

@@ -13,14 +13,14 @@
 				<p>
 					<label for="name_ru"><fmt:message
 							key="subject.edit_jsp.label.name" /> (ru)</label> <input type="text"
-						name="name_ru" value="${name_ru}" required>
+						name="name_ru" id="name_ru" value="${name_ru}" required>
 				</p>
 			</div>
 			<div class="field">
 				<p>
 					<label for="name_eng"><fmt:message
 							key="subject.edit_jsp.label.name" /> (eng)</label> <input type="text"
-						name="name_eng" value="${name_eng}" required>
+						name="name_eng" id="name_eng" value="${name_eng}" required>
 				</p>
 			</div>
 			<p>
@@ -34,5 +34,6 @@
 					key="subject.edit_jsp.button.back" /></a>
 		</p>
 	</div>
+	<script src="/script/subject-validation.js"></script>
 </body>
 </html>
