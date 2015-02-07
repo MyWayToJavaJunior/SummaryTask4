@@ -10,9 +10,6 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<!-- <script type="text/javascript" src="/script/jquery.js"></script>
-<script type="text/javascript" src="/script/jquery.dataTables.min.js"></script> -->
-
 <script type="text/javascript"
 	src="/SummaryTask4/script/jquery-1.11.2.min.js"></script>
 <script type="text/javascript"
@@ -21,7 +18,7 @@
 	href="/SummaryTask4/css/jquery.dataTables.min.css">
 
 <script type="text/javascript">
-	var language = "ru";/* "${lang}"; */
+	var language = "${lang}";
 
 	if (language == 'ru') {
 		$(document).ready(function() {
