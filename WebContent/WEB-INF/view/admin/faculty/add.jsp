@@ -11,22 +11,22 @@
 			<div class="field">
 				<label for="name_ru"><fmt:message
 						key="faculty.add_jsp.label.name" /> (ru)</label> <input type="text"
-					name="name_ru" value="" required />
+					name="name_ru" id="name_ru" value="" required />
 			</div>
 			<div class="field">
 				<label for="name_eng"><fmt:message
 						key="faculty.add_jsp.label.name" /> (eng)</label> <input type="text"
-					name="name_eng" value="" required />
+					name="name_eng" id="name_eng" value="" required />
 			</div>
 			<div class="field">
 				<label for="total_seats"><fmt:message
 						key="faculty.add_jsp.label.total_seats" /></label> <input type="number"
-					name="total_seats" value="" min="1" max="127" required />
+					name="total_seats" value="" min="1" max="127" step="1" required />
 			</div>
 			<div class="field">
 				<label for="budget_seats"><fmt:message
 						key="faculty.add_jsp.label.budget_seats" /></label> <input type="number"
-					name="budget_seats" value="" min="0" max="126" required />
+					name="budget_seats" value="" min="0" max="126" step="1" required />
 			</div>
 			<p>
 				<label><fmt:message
@@ -49,5 +49,7 @@
 		<a href="controller?command=viewAllFaculties"><fmt:message
 				key="faculty.add_jsp.button.back" /></a>
 	</div>
+
+	<script src="/script/faculty-validation.js"></script>
 </body>
 </html>

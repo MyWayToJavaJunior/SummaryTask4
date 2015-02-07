@@ -13,24 +13,24 @@
 			<div class="field">
 				<label for="name_ru"><fmt:message
 						key="faculty.edit_jsp.label.name" /></label> <input type="text"
-					name="name_ru" value="${requestScope.name_ru}" required />
+					name="name_ru" id="name_ru" value="${requestScope.name_ru}" required />
 			</div>
 			<div class="field">
 				<label for="name_eng"><fmt:message
 						key="faculty.edit_jsp.label.name" /></label> <input type="text"
-					name="name_eng" value="${requestScope.name_eng}" required />
+					name="name_eng" id="name_eng" value="${requestScope.name_eng}" required />
 			</div>
 			<div class="field">
 				<label for="total_seats"><fmt:message
 						key="faculty.edit_jsp.label.total_seats" /></label> <input type="number"
 					name="total_seats" value="${requestScope.total_seats}" min="1"
-					max="127" required />
+					max="127" step="1" required />
 			</div>
 			<div class="field">
 				<label for="budget_seats"><fmt:message
 						key="faculty.edit_jsp.label.budget_seats" /></label> <input type="number"
 					name="budget_seats" value="${requestScope.budget_seats}" min="0"
-					max="126" required />
+					max="126" step="1" required />
 			</div>
 			<p>
 				<label><fmt:message
@@ -45,7 +45,8 @@
 					<p>
 						<input type="checkbox" name="subjects"
 							value="${oldCheckedSubject.id}" checked />
-							<c:out value="${lang eq 'ru' ? oldCheckedSubject.nameRu : oldCheckedSubject.nameEng}"></c:out>
+						<c:out
+							value="${lang eq 'ru' ? oldCheckedSubject.nameRu : oldCheckedSubject.nameEng}"></c:out>
 					</p>
 				</c:forEach>
 			</c:if>
@@ -55,7 +56,8 @@
 					<p>
 						<input type="checkbox" name="subjects"
 							value="${oldUncheckedSubject.id}" />
-						<c:out value="${lang eq 'ru' ? oldUncheckedSubject.nameRu : oldUncheckedSubject.nameEng}"></c:out>
+						<c:out
+							value="${lang eq 'ru' ? oldUncheckedSubject.nameRu : oldUncheckedSubject.nameEng}"></c:out>
 					</p>
 				</c:forEach>
 			</c:if>
@@ -64,5 +66,6 @@
 							key="faculty.edit_jsp.button.submit" />" />
 		</form>
 	</div>
+	 <script src="/script/faculty-validation.js"></script>
 </body>
 </html>
