@@ -158,32 +158,69 @@ CREATE TABLE IF NOT EXISTS `university_admission`.`Mark` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+USE `university_admission` ;
 
 -- -----------------------------------------------------
--- Table `university_admission`.`ReportSheet`
+-- Placeholder table for view `university_admission`.`faculties_report_sheet`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `university_admission`.`ReportSheet` ;
+CREATE TABLE IF NOT EXISTS `university_admission`.`faculties_report_sheet` (`facultyId` INT, `first_name` INT, `last_name` INT, `email` INT, `isBlocked` INT, `preliminary_sum` INT, `diploma_sum` INT, `total_sum` INT);
 
-CREATE TABLE IF NOT EXISTS `university_admission`.`ReportSheet` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `Faculty_idFaculty` INT NOT NULL,
-  `Mark_idMark` INT UNSIGNED NOT NULL,
-  `Mark_Entrant_idEntrant` INT NOT NULL,
-  `Mark_Subject_idSubject` INT NOT NULL,
-  PRIMARY KEY (`id`, `Mark_idMark`, `Mark_Entrant_idEntrant`, `Mark_Subject_idSubject`),
-  INDEX `fk_ReportSheet_Faculty1_idx` (`Faculty_idFaculty` ASC),
-  INDEX `fk_ReportSheet_Mark1_idx` (`Mark_idMark` ASC, `Mark_Entrant_idEntrant` ASC, `Mark_Subject_idSubject` ASC),
-  CONSTRAINT `fk_ReportSheet_Faculty1`
-    FOREIGN KEY (`Faculty_idFaculty`)
-    REFERENCES `university_admission`.`Faculty` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ReportSheet_Mark1`
-    FOREIGN KEY (`Mark_idMark` , `Mark_Entrant_idEntrant` , `Mark_Subject_idSubject`)
-    REFERENCES `university_admission`.`Mark` (`id` , `Entrant_idEntrant` , `Subject_idSubject`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- -----------------------------------------------------
+-- Placeholder table for view `university_admission`.`entrant_marks_sum`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `university_admission`.`entrant_marks_sum` (`facultyId` INT, `entrantId` INT, `preliminary_sum` INT, `diploma_sum` INT);
+
+-- -----------------------------------------------------
+-- View `university_admission`.`faculties_report_sheet`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `university_admission`.`faculties_report_sheet` ;
+DROP TABLE IF EXISTS `university_admission`.`faculties_report_sheet`;
+USE `university_admission`;
+CREATE  OR REPLACE VIEW university_admission.`faculties_report_sheet` AS
+    SELECT
+        `facultyId`,
+        university_admission.user.first_name,
+        university_admission.user.last_name,
+        university_admission.user.email,
+        university_admission.entrant.isBlocked,
+        `preliminary_sum`,
+        `diploma_sum`,
+        `preliminary_sum` + `diploma_sum` AS `total_sum`
+    FROM
+        university_admission.`entrant_marks_sum`
+            INNER JOIN
+        university_admission.faculty ON `entrant_marks_sum`.`entrantId` = university_admission.faculty.id
+            INNER JOIN
+        university_admission.entrant ON `entrantId` = university_admission.entrant.id
+            INNER JOIN
+        university_admission.user ON university_admission.entrant.User_idUser = university_admission.user.id
+    ORDER BY isBlocked ASC , `total_sum` DESC;
+
+
+
+-- -----------------------------------------------------
+-- View `university_admission`.`entrant_marks_sum`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `university_admission`.`entrant_marks_sum` ;
+DROP TABLE IF EXISTS `university_admission`.`entrant_marks_sum`;
+USE `university_admission`;
+CREATE  OR REPLACE VIEW `entrant_marks_sum` AS
+    SELECT
+        university_admission.faculty_entrants.Faculty_idFaculty AS `facultyId`,
+        university_admission.mark.Entrant_idEntrant AS `entrantId`,
+        SUM(CASE `exam_type`
+            WHEN 'preliminary' THEN university_admission.mark.value
+            ELSE 0
+        END) AS `preliminary_sum`,
+        SUM(CASE `exam_type`
+            WHEN 'diploma' THEN university_admission.mark.value
+            ELSE 0
+        END) AS `diploma_sum`
+    FROM
+        university_admission.faculty_entrants
+            INNER JOIN
+        university_admission.mark ON university_admission.faculty_entrants.Entrant_idEntrant = university_admission.mark.Entrant_idEntrant
+    GROUP BY entrantId;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
