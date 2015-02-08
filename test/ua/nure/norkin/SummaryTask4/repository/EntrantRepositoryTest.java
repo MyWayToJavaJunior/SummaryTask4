@@ -34,7 +34,7 @@ public class EntrantRepositoryTest {
 
 		userRepository = new UserRepository(
 				DataSourceFactory
-						.getDataSource(DataSourceType.MY_SQL_WO_JNDI_DATASOURCE)) {
+						.getDataSource(DataSourceType.MY_SQL_DATASOURCE_WITH_OUT_JNDI)) {
 			@Override
 			public Connection getConnection() throws SQLException {
 				Connection connection = ds.getConnection();
@@ -55,7 +55,7 @@ public class EntrantRepositoryTest {
 
 		entrantRepository = new EntrantRepository(
 				DataSourceFactory
-						.getDataSource(DataSourceType.MY_SQL_WO_JNDI_DATASOURCE)) {
+						.getDataSource(DataSourceType.MY_SQL_DATASOURCE_WITH_OUT_JNDI)) {
 			@Override
 			public Connection getConnection() throws SQLException {
 				Connection connection = ds.getConnection();

@@ -33,7 +33,7 @@ public class SubjectRepositoryTest {
 	public static void setUpBeforeClass() throws Exception {
 		subjectRepository = new SubjectRepository(
 				DataSourceFactory
-						.getDataSource(DataSourceType.MY_SQL_WO_JNDI_DATASOURCE)) {
+						.getDataSource(DataSourceType.MY_SQL_DATASOURCE_WITH_OUT_JNDI)) {
 			@Override
 			public Connection getConnection() throws SQLException {
 				Connection connection = ds.getConnection();
