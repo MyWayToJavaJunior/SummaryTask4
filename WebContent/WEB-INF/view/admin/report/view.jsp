@@ -5,14 +5,12 @@
 <body>
 	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
 
-	<div class="header">
+	<h2 align="center">
 		<fmt:message key="report.view_jsp.label.report" />
-	</div>
-	<br>
-	<div class="header">
+	</h2>
+	<h2 align="center">
 		<c:out value="${lang eq 'ru' ? name_ru : name_eng}"></c:out>
-	</div>
-	<br>
+	</h2>
 	<br>
 
 	<table id="reportTable" class="display">
