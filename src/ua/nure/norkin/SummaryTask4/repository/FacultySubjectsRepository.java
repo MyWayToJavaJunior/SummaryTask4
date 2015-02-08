@@ -30,7 +30,6 @@ public class FacultySubjectsRepository extends
 	private static final String FIND_ALL_FACULTY_SUBJECTS = "SELECT * FROM university_admission.faculty_subjects;";
 	private static final String FIND_FACULTY_SUBJECT = "SELECT * FROM university_admission.faculty_subjects WHERE university_admission.faculty_subjects.id = ? LIMIT 1;";
 	private static final String INSERT_FACULTY_SUBJECT = "INSERT INTO university_admission.faculty_subjects (university_admission.faculty_subjects.Faculty_idFaculty, university_admission.faculty_subjects.Subject_idSubject) VALUES (?,?);";
-	private static final String UPDATE_FACULTY_SUBJECT = "UPDATE university_admission.faculty_subjects SET university_admission.faculty_subjects.Faculty_idFaculty=?, university_admission.faculty_subjects.Subject_idSubject=? WHERE university_admission.faculty_subjects.id=? LIMIT 1;";
 	private static final String DELETE_FACULTY_SUBJECT = "DELETE FROM university_admission.faculty_subjects WHERE university_admission.faculty_subjects.Faculty_idFaculty=? AND university_admission.faculty_subjects.Subject_idSubject=? LIMIT 1;";
 	private static final String DELETE_ALL_FACULTY_SUBJECTS = "DELETE FROM university_admission.faculty_subjects WHERE university_admission.faculty_subjects.Faculty_idFaculty=?";
 
@@ -90,25 +89,8 @@ public class FacultySubjectsRepository extends
 	 */
 	@Override
 	public void update(FacultySubjects entity) {
-		Connection connection = null;
-		PreparedStatement pstmt = null;
-		try {
-			connection = getConnection();
-			pstmt = connection.prepareStatement(UPDATE_FACULTY_SUBJECT);
-			int counter = 1;
-			pstmt.setInt(counter++, entity.getFacultyId());
-			pstmt.setInt(counter++, entity.getSubjectId());
-			pstmt.setInt(counter, entity.getId());
-
-			pstmt.executeUpdate();
-			connection.commit();
-		} catch (SQLException e) {
-			rollback(connection);
-			LOG.error("Can not update a faculty subject", e);
-		} finally {
-			close(connection);
-			close(pstmt);
-		}
+		throw new UnsupportedOperationException(
+				"This operation is not supported on compound entity 'faculty_subjects'");
 	}
 
 	/*
