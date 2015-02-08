@@ -158,27 +158,9 @@ public class FacultyEntrantsRepositoryTest {
 		facultyEntrantsRepository.delete(facultyEntrants);
 	}
 
-	@Test
+	@Test(expected = UnsupportedOperationException.class)
 	public void testUpdate() {
-		Faculty newFaculty = new Faculty();
-
-		newFaculty.setNameRu("new ru");
-		newFaculty.setNameEng("name eng");
-		newFaculty.setBudgetSeats((byte) 30);
-		newFaculty.setTotalSeats((byte) 40);
-
-		facultyRepository.create(newFaculty);
-
-		facultyEntrants.setFacultyId(newFaculty.getId());
 		facultyEntrantsRepository.update(facultyEntrants);
-
-		assertThat(facultyEntrants.getFacultyId(),
-				equalTo(facultyEntrantsRepository.find(facultyEntrantsId)
-						.getFacultyId()));
-
-		// clean up
-		facultyRepository.delete(newFaculty);
-
 	}
 
 	@Test
