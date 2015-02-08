@@ -38,6 +38,11 @@
 					max="126" step="1" required />
 			</div>
 			<p>
+				<a
+					href="controller?command=viewFaculty&name_eng=${requestScope.name_eng}"><fmt:message
+						key="profile.edit_jsp.button.back" /></a>
+			</p>
+			<p>
 				<label><fmt:message
 						key="faculty.edit_jsp.label.preliminary_subjects" /></label>
 			</p>
