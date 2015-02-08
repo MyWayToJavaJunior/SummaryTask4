@@ -111,7 +111,7 @@ public class EntrantRepositoryTest {
 		entrant.setId(-1);// error code
 		entrantRepository.create(entrant);
 
-		assertThat(user.getId(), not(equalTo(-1)));
+		assertThat(entrant.getId(), not(equalTo(-1)));
 
 		entrantRepository.delete(entrant);
 	}
