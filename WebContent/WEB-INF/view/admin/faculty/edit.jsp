@@ -5,9 +5,9 @@
 <body>
 	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
 
-	<div class="header">
+	<h2 align="center">
 		<c:out value="${faculty.name}" />
-	</div>
+	</h2>
 
 	<div class="form">
 		<form id="edit_faculty" action="controller" method="POST">

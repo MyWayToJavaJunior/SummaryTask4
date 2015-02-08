@@ -5,9 +5,9 @@
 <body>
 	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
 
-	<div class="header">
+	<h2 align="center">
 		<c:out value="${lang eq 'ru' ? name_ru : name_eng}"></c:out>
-	</div>
+	</h2>
 
 	<br>
 	<br>
