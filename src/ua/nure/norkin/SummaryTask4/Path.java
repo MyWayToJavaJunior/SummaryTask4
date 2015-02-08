@@ -30,6 +30,8 @@ public final class Path {
 	public static final String FORWARD_CLIENT_PROFILE = "/WEB-INF/view/client/profile/view.jsp";
 	public static final String FORWARD_CLIENT_PROFILE_EDIT = "/WEB-INF/view/client/profile/edit.jsp";
 
+	public static final String REDIRECT_EDIT_PROFILE = "controller?command=editCommand";
+
 	public static final String FORWARD_FACULTY_VIEW_ALL_ADMIN = "/WEB-INF/view/admin/faculty/list.jsp";
 	public static final String FORWARD_FACULTY_VIEW_ALL_CLIENT = "/WEB-INF/view/client/faculty/list.jsp";
 
@@ -47,6 +49,7 @@ public final class Path {
 	public static final String FORWARD_SUBJECT_ADD_ADMIN = "/WEB-INF/view/admin/subject/add.jsp";
 	public static final String REDIRECT_SUBJECT_ADD_ADMIN = "/WEB-INF/view/admin/subject/add.jsp";
 	public static final String FORWARD_SUBJECT_EDIT_ADMIN = "/WEB-INF/view/admin/subject/edit.jsp";
+	public static final String REDIRECT_SUBJECT_EDIT_ADMIN = "controller?command=editSubject&name_eng=";
 
 	public static final String FORWARD_ENTRANT_PROFILE = "/WEB-INF/view/admin/entrant/view.jsp";
 	public static final String REDIRECT_ENTRANT_PROFILE = "controller?command=viewEntrant&userId=";
