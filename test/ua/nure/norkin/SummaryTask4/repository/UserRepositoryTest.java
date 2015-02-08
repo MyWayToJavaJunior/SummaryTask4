@@ -24,15 +24,14 @@ public class UserRepositoryTest {
 
 	private User user;
 	private static UserRepository userRepository;
-	private int userId;
+	private static int userId;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 
 		userRepository = new UserRepository(
 				DataSourceFactory
-						.getDataSource(DataSourceType.MY_SQL_WO_JNDI_DATASOURCE));
-		userRepository = new UserRepository() {
+						.getDataSource(DataSourceType.MY_SQL_WO_JNDI_DATASOURCE)) {
 			@Override
 			public Connection getConnection() throws SQLException {
 				Connection connection = ds.getConnection();
@@ -45,6 +44,10 @@ public class UserRepositoryTest {
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
+		//clean up db
+		User userToDelete = new User();
+		userToDelete.setId(userId);
+		userRepository.delete(userToDelete);
 	}
 
 	@Before
