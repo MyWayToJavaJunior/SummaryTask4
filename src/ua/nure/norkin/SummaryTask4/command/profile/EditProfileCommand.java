@@ -18,6 +18,7 @@ import ua.nure.norkin.SummaryTask4.repository.EntrantRepository;
 import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.UserRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
+import ua.nure.norkin.SummaryTask4.utils.validation.ProfileInputValidator;
 
 /**
  * Edit profile command.
@@ -117,7 +118,6 @@ public class EditProfileCommand extends Command {
 		return result;
 	}
 
-	// TODO validation
 	/**
 	 * Invoked when user already edit his profile and wants to update it.
 	 *
@@ -126,15 +126,8 @@ public class EditProfileCommand extends Command {
 	 */
 	private String doPost(HttpServletRequest request,
 			HttpServletResponse response) {
-		// user updated info and we should update db
 		String oldUserEmail = request.getParameter("oldEmail");
 		LOG.trace("Fetch request parapeter: 'oldEmail' = " + oldUserEmail);
-		UserRepository userRepository = MySQLRepositoryFactory
-				.getUserRepository();
-		// should not be null !
-		User user = userRepository.find(oldUserEmail);
-
-		LOG.trace("User found with such email:" + user);
 
 		String userFirstName = request.getParameter(Fields.USER_FIRST_NAME);
 		LOG.trace("Fetch request parapeter: 'first_name' = " + userFirstName);
@@ -147,58 +140,115 @@ public class EditProfileCommand extends Command {
 		String language = request.getParameter("lang");
 		LOG.trace("Fetch request parapeter: 'lang' = " + language);
 
-		user.setFirstName(userFirstName);
-		user.setLastName(userLastName);
-		user.setEmail(email);
-		user.setPassword(password);
-		user.setLang(language);
+		boolean valid = ProfileInputValidator.validateUserParameters(
+				userFirstName, userLastName, email, password, language);
 
-		LOG.trace("After calling setters with request parapeters on user entity: "
-				+ user);
-
-		userRepository.update(user);
-
-		LOG.trace("User info updated");
-
-		// if user role is client then we should also update entrant record
-		// for him
-		if ("client".equals(user.getRole())) {
-
-			EntrantRepository entrantRepository = MySQLRepositoryFactory
-					.getEntrantRepository();
-
-			// should not be null !!
-			Entrant entrant = entrantRepository.find(user);
-
-			String school = request.getParameter(Fields.ENTRANT_SCHOOL);
-			LOG.trace("Fetch request parameter: 'school' = " + school);
-			String district = request.getParameter(Fields.ENTRANT_DISTRICT);
-			LOG.trace("Fetch request parameter: 'district' = " + district);
-			String city = request.getParameter(Fields.ENTRANT_CITY);
-			LOG.trace("Fetch request parameter: 'city' = " + city);
-			boolean blockedStatus = Boolean.valueOf(request
-					.getParameter(Fields.ENTRANT_IS_BLOCKED));
-			LOG.trace("Fetch request parameter: 'isBlocked' = " + blockedStatus);
-
-			entrant.setCity(city);
-			entrant.setDistrict(district);
-			entrant.setSchool(school);
-			entrant.setBlockedStatus(blockedStatus);
-
-			LOG.trace("After calling setters with request parapeters on entrant entity: "
-					+ entrant);
-
-			entrantRepository.update(entrant);
-			LOG.trace("Entrant info updated");
-
-		}
-
-		// update session attributes if user changed it
 		HttpSession session = request.getSession(false);
-		session.setAttribute("user", email);
-		session.setAttribute(Fields.USER_LANG, language);
+		String role = String.valueOf(session.getAttribute("userRole"));
 
-		return Path.REDIRECT_TO_PROFILE;
+		String result = null;
+
+		if (valid == false) {
+			request.setAttribute("errorMessage",
+					"Please fill all fields properly!");
+			LOG.error("errorMessage: Not all fields are properly filled");
+			result = Path.REDIRECT_EDIT_PROFILE;
+		} else if (valid) {
+
+			if ("admin".equals(role)) {
+				UserRepository userRepository = MySQLRepositoryFactory
+						.getUserRepository();
+				// should not be null !
+				User user = userRepository.find(oldUserEmail);
+
+				LOG.trace("User found with such email:" + user);
+
+				user.setFirstName(userFirstName);
+				user.setLastName(userLastName);
+				user.setEmail(email);
+				user.setPassword(password);
+				user.setLang(language);
+
+				LOG.trace("After calling setters with request parapeters on user entity: "
+						+ user);
+
+				userRepository.update(user);
+
+				LOG.trace("User info updated");
+
+				// update session attributes if user changed it
+				session.setAttribute("user", email);
+				session.setAttribute(Fields.USER_LANG, language);
+
+				result = Path.REDIRECT_TO_PROFILE;
+
+			} else if ("client".equals(role)) {
+				// if user role is client then we should also update entrant
+				// record
+				// for him
+				String school = request.getParameter(Fields.ENTRANT_SCHOOL);
+				LOG.trace("Fetch request parameter: 'school' = " + school);
+				String district = request.getParameter(Fields.ENTRANT_DISTRICT);
+				LOG.trace("Fetch request parameter: 'district' = " + district);
+				String city = request.getParameter(Fields.ENTRANT_CITY);
+				LOG.trace("Fetch request parameter: 'city' = " + city);
+				boolean blockedStatus = Boolean.valueOf(request
+						.getParameter(Fields.ENTRANT_IS_BLOCKED));
+				LOG.trace("Fetch request parameter: 'isBlocked' = "
+						+ blockedStatus);
+
+				valid = ProfileInputValidator.validateEntrantParameters(school,
+						district, school);
+				if (valid == false) {
+					request.setAttribute("errorMessage",
+							"Please fill all fields properly!");
+					LOG.error("errorMessage: Not all fields are properly filled");
+					result = Path.REDIRECT_EDIT_PROFILE;
+				} else if (valid) {
+					UserRepository userRepository = MySQLRepositoryFactory
+							.getUserRepository();
+					// should not be null !
+					User user = userRepository.find(oldUserEmail);
+
+					LOG.trace("User found with such email:" + user);
+
+					user.setFirstName(userFirstName);
+					user.setLastName(userLastName);
+					user.setEmail(email);
+					user.setPassword(password);
+					user.setLang(language);
+
+					LOG.trace("After calling setters with request parapeters on user entity: "
+							+ user);
+
+					userRepository.update(user);
+
+					LOG.trace("User info updated");
+					EntrantRepository entrantRepository = MySQLRepositoryFactory
+							.getEntrantRepository();
+
+					// should not be null !!
+					Entrant entrant = entrantRepository.find(user);
+
+					entrant.setCity(city);
+					entrant.setDistrict(district);
+					entrant.setSchool(school);
+					entrant.setBlockedStatus(blockedStatus);
+
+					LOG.trace("After calling setters with request parapeters on entrant entity: "
+							+ entrant);
+
+					entrantRepository.update(entrant);
+					LOG.trace("Entrant info updated");
+
+					// update session attributes if user changed it
+					session.setAttribute("user", email);
+					session.setAttribute(Fields.USER_LANG, language);
+
+					result = Path.REDIRECT_TO_PROFILE;
+				}
+			}
+		}
+		return result;
 	}
-
 }
