@@ -15,6 +15,7 @@ import ua.nure.norkin.SummaryTask4.command.Command;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.entity.result.EntrantReportSheet;
 import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
+import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.ReportSheetRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
@@ -54,14 +55,16 @@ public class CreateFacultyReportCommand extends Command {
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
 
-		ReportSheetRepository reportSheetRepository = new ReportSheetRepository();
+		ReportSheetRepository reportSheetRepository = MySQLRepositoryFactory
+				.getReportSheetRepository();
 
 		String id = request.getParameter(Fields.ENTITY_ID);
 		int facultyId = Integer.valueOf(id);
 		List<EntrantReportSheet> report = reportSheetRepository
 				.getReport(facultyId);
 
-		FacultyRepository facultyRepository = new FacultyRepository();
+		FacultyRepository facultyRepository = MySQLRepositoryFactory
+				.getFacultyRepository();
 		Faculty faculty = facultyRepository.find(facultyId);
 
 		byte totalSeats = faculty.getTotalSeats();

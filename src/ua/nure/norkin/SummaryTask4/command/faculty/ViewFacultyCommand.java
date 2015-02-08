@@ -22,6 +22,7 @@ import ua.nure.norkin.SummaryTask4.entity.Subject;
 import ua.nure.norkin.SummaryTask4.entity.User;
 import ua.nure.norkin.SummaryTask4.repository.EntrantRepository;
 import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
+import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.repository.UserRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
@@ -74,11 +75,13 @@ public class ViewFacultyCommand extends Command {
 			HttpServletResponse response) {
 		String facultyNameEng = request.getParameter(Fields.FACULTY_NAME_ENG);
 
-		LOG.trace("Faculty name to look for is equal to: '" + facultyNameEng + "'");
+		LOG.trace("Faculty name to look for is equal to: '" + facultyNameEng
+				+ "'");
 
 		String result = null;
 
-		FacultyRepository facultyRepository = new FacultyRepository();
+		FacultyRepository facultyRepository = MySQLRepositoryFactory
+				.getFacultyRepository();
 
 		Faculty facultyRecord = facultyRepository.find(facultyNameEng);
 
@@ -90,7 +93,8 @@ public class ViewFacultyCommand extends Command {
 		request.setAttribute(Fields.FACULTY_NAME_RU, facultyRecord.getNameRu());
 		LOG.trace("Set the request attribute: 'name_ru' = "
 				+ facultyRecord.getNameRu());
-		request.setAttribute(Fields.FACULTY_NAME_ENG, facultyRecord.getNameEng());
+		request.setAttribute(Fields.FACULTY_NAME_ENG,
+				facultyRecord.getNameEng());
 		LOG.trace("Set the request attribute: 'name_eng' = "
 				+ facultyRecord.getNameEng());
 		request.setAttribute(Fields.FACULTY_TOTAL_SEATS,
@@ -102,7 +106,8 @@ public class ViewFacultyCommand extends Command {
 		LOG.trace("Set the request attribute: 'budget_seats' = "
 				+ facultyRecord.getBudgetSeats());
 
-		SubjectRepository subjectRepository = new SubjectRepository();
+		SubjectRepository subjectRepository = MySQLRepositoryFactory
+				.getSubjectRepository();
 		List<Subject> facultySubjects = subjectRepository
 				.findAllFacultySubjects(facultyRecord);
 
@@ -116,7 +121,8 @@ public class ViewFacultyCommand extends Command {
 		if ("client".equals(role)) {
 			result = Path.FORWARD_FACULTY_VIEW_CLIENT;
 		} else if ("admin".equals(role)) {
-			EntrantRepository entrantRepository = new EntrantRepository();
+			EntrantRepository entrantRepository = MySQLRepositoryFactory
+					.getEntrantRepository();
 			List<Entrant> entrants = entrantRepository
 					.findAllFacultyEntrants(facultyRecord);
 
@@ -129,7 +135,8 @@ public class ViewFacultyCommand extends Command {
 						}
 					});
 
-			UserRepository userRepository = new UserRepository();
+			UserRepository userRepository = MySQLRepositoryFactory
+					.getUserRepository();
 			for (Entrant entrant : entrants) {
 				User user = userRepository.find(entrant.getUserId());
 				facultyEntrants.put(entrant,

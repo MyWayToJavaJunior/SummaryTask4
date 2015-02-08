@@ -17,6 +17,7 @@ import ua.nure.norkin.SummaryTask4.entity.FacultySubjects;
 import ua.nure.norkin.SummaryTask4.entity.Subject;
 import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
 import ua.nure.norkin.SummaryTask4.repository.FacultySubjectsRepository;
+import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 import ua.nure.norkin.SummaryTask4.utils.FieldValidation;
@@ -78,7 +79,8 @@ public class AddFacultyCommand extends Command {
 			HttpServletResponse response) {
 		LOG.trace("Request for only showing (not already adding) faculty/add.jsp");
 
-		SubjectRepository subjectRepository = new SubjectRepository();
+		SubjectRepository subjectRepository = MySQLRepositoryFactory
+				.getSubjectRepository();
 		List<Subject> allSubjects = subjectRepository.findAll();
 		LOG.trace("All subjects found: " + allSubjects);
 		request.setAttribute("allSubjects", allSubjects);
@@ -142,7 +144,8 @@ public class AddFacultyCommand extends Command {
 
 			LOG.trace("Create faculty transfer object: " + faculty);
 
-			FacultyRepository facultyRepository = new FacultyRepository();
+			FacultyRepository facultyRepository = MySQLRepositoryFactory
+					.getFacultyRepository();
 
 			facultyRepository.create(faculty);
 
@@ -154,7 +157,8 @@ public class AddFacultyCommand extends Command {
 					.getParameterValues("subjects");
 
 			if (choosedSubjectsIds != null) {
-				FacultySubjectsRepository facultySubjectsRepository = new FacultySubjectsRepository();
+				FacultySubjectsRepository facultySubjectsRepository = MySQLRepositoryFactory
+						.getFacultySubjectsRepository();
 
 				for (String subjectId : choosedSubjectsIds) {
 					FacultySubjects facultySubject = new FacultySubjects(

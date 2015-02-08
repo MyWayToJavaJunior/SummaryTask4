@@ -8,11 +8,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.apache.log4j.Logger;
 
 import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.entity.Subject;
+import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
+import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
 /**
  * Subject DAO. Performs basic read/write operations on Subject entity.
@@ -32,6 +36,14 @@ public class SubjectRepository extends AbstractRepository<Subject> {
 	private static final String FIND_ALL_NOT_FACULTY_SUBJECTS = "SELECT university_admission.subject.id, university_admission.subject.name_ru, university_admission.subject.name_eng FROM university_admission.subject LEFT JOIN university_admission.Faculty_Subjects ON university_admission.Faculty_Subjects.Subject_idSubject = university_admission.subject.id AND university_admission.Faculty_Subjects.Faculty_idFaculty = ? WHERE university_admission.Faculty_Subjects.id IS NULL;";
 
 	private final static Logger LOG = Logger.getLogger(SubjectRepository.class);
+
+	public SubjectRepository(DataSource dataSource) {
+		super(dataSource);
+	}
+
+	public SubjectRepository() {
+		this(DataSourceFactory.getDataSource(DataSourceType.MY_SQL_DATASOURCE));
+	}
 
 	/*
 	 * (non-Javadoc)

@@ -7,10 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.apache.log4j.Logger;
 
 import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.result.EntrantReportSheet;
+import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
+import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
 public class ReportSheetRepository extends
 		AbstractRepository<EntrantReportSheet> {
@@ -19,6 +23,14 @@ public class ReportSheetRepository extends
 			.getLogger(ReportSheetRepository.class);
 
 	private static final String GET_REPORT_SHEET = "SELECT * FROM faculties_report_sheet WHERE facultyId=?;";
+
+	public ReportSheetRepository(DataSource dataSource) {
+		super(dataSource);
+	}
+
+	public ReportSheetRepository() {
+		this(DataSourceFactory.getDataSource(DataSourceType.MY_SQL_DATASOURCE));
+	}
 
 	public List<EntrantReportSheet> getReport(int facultyId) {
 		List<EntrantReportSheet> entrantsResults = new ArrayList<>();

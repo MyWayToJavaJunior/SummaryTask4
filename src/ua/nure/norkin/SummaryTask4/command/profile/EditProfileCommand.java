@@ -15,6 +15,7 @@ import ua.nure.norkin.SummaryTask4.command.Command;
 import ua.nure.norkin.SummaryTask4.entity.Entrant;
 import ua.nure.norkin.SummaryTask4.entity.User;
 import ua.nure.norkin.SummaryTask4.repository.EntrantRepository;
+import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.UserRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
@@ -77,7 +78,8 @@ public class EditProfileCommand extends Command {
 		String userEmail = String.valueOf(session.getAttribute("user"));
 		String role = String.valueOf(session.getAttribute("userRole"));
 
-		UserRepository userRepository = new UserRepository();
+		UserRepository userRepository = MySQLRepositoryFactory
+				.getUserRepository();
 		User user = userRepository.find(userEmail);
 
 		request.setAttribute(Fields.USER_FIRST_NAME, user.getFirstName());
@@ -93,7 +95,8 @@ public class EditProfileCommand extends Command {
 
 		if ("client".equals(role)) {
 
-			EntrantRepository entrantRepository = new EntrantRepository();
+			EntrantRepository entrantRepository = MySQLRepositoryFactory
+					.getEntrantRepository();
 			Entrant entrant = entrantRepository.find(user);
 
 			request.setAttribute(Fields.ENTRANT_CITY, entrant.getCity());
@@ -126,7 +129,8 @@ public class EditProfileCommand extends Command {
 		// user updated info and we should update db
 		String oldUserEmail = request.getParameter("oldEmail");
 		LOG.trace("Fetch request parapeter: 'oldEmail' = " + oldUserEmail);
-		UserRepository userRepository = new UserRepository();
+		UserRepository userRepository = MySQLRepositoryFactory
+				.getUserRepository();
 		// should not be null !
 		User user = userRepository.find(oldUserEmail);
 
@@ -160,7 +164,8 @@ public class EditProfileCommand extends Command {
 		// for him
 		if ("client".equals(user.getRole())) {
 
-			EntrantRepository entrantRepository = new EntrantRepository();
+			EntrantRepository entrantRepository = MySQLRepositoryFactory
+					.getEntrantRepository();
 
 			// should not be null !!
 			Entrant entrant = entrantRepository.find(user);

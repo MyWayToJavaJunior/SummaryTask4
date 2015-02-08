@@ -7,10 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.apache.log4j.Logger;
 
 import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.User;
+import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
+import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
 /**
  * User DAO object. Performs basic read/write operations on User data.
@@ -30,7 +34,12 @@ public class UserRepository extends AbstractRepository<User> {
 
 	private final static Logger LOG = Logger.getLogger(UserRepository.class);
 
+	public UserRepository(DataSource dataSource) {
+		super(dataSource);
+	}
+
 	public UserRepository() {
+		this(DataSourceFactory.getDataSource(DataSourceType.MY_SQL_DATASOURCE));
 	}
 
 	/*

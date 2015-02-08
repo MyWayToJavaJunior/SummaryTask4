@@ -7,11 +7,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.apache.log4j.Logger;
 
 import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.entity.FacultySubjects;
+import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
+import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
 /**
  * Faculty Subjects DAO. Performs basic read/write operations on Faculty
@@ -27,11 +31,19 @@ public class FacultySubjectsRepository extends
 	private static final String FIND_FACULTY_SUBJECT = "SELECT * FROM university_admission.faculty_subjects WHERE university_admission.faculty_subjects.id = ? LIMIT 1;";
 	private static final String INSERT_FACULTY_SUBJECT = "INSERT INTO university_admission.faculty_subjects (university_admission.faculty_subjects.Faculty_idFaculty, university_admission.faculty_subjects.Subject_idSubject) VALUES (?,?);";
 	private static final String UPDATE_FACULTY_SUBJECT = "UPDATE university_admission.faculty_subjects SET university_admission.faculty_subjects.Faculty_idFaculty=?, university_admission.faculty_subjects.Subject_idSubject=? WHERE university_admission.faculty_subjects.id=? LIMIT 1;";
-	private static final String DELETE_FACULTY_SUBJECT = "DELETE FROM university_admission.faculty_subjects WHERE university_admission.faculty_subjects.id=? LIMIT 1;";
+	private static final String DELETE_FACULTY_SUBJECT = "DELETE FROM university_admission.faculty_subjects WHERE university_admission.faculty_subjects.Faculty_idFaculty=? AND university_admission.faculty_subjects.Subject_idSubject=? LIMIT 1;";
 	private static final String DELETE_ALL_FACULTY_SUBJECTS = "DELETE FROM university_admission.faculty_subjects WHERE university_admission.faculty_subjects.Faculty_idFaculty=?";
 
 	private final static Logger LOG = Logger
 			.getLogger(FacultySubjectsRepository.class);
+
+	public FacultySubjectsRepository(DataSource dataSource) {
+		super(dataSource);
+	}
+
+	public FacultySubjectsRepository() {
+		this(DataSourceFactory.getDataSource(DataSourceType.MY_SQL_DATASOURCE));
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -113,7 +125,9 @@ public class FacultySubjectsRepository extends
 		try {
 			connection = getConnection();
 			pstmt = connection.prepareStatement(DELETE_FACULTY_SUBJECT);
-			pstmt.setInt(1, entity.getId());
+			// pstmt.setInt(1, entity.getId());
+			pstmt.setInt(1, entity.getFacultyId());
+			pstmt.setInt(2, entity.getSubjectId());
 
 			pstmt.execute();
 			connection.commit();
@@ -137,8 +151,7 @@ public class FacultySubjectsRepository extends
 		PreparedStatement pstmt = null;
 		try {
 			connection = getConnection();
-			pstmt = connection
-					.prepareStatement(DELETE_ALL_FACULTY_SUBJECTS);
+			pstmt = connection.prepareStatement(DELETE_ALL_FACULTY_SUBJECTS);
 			pstmt.setInt(1, entity.getId());
 
 			pstmt.execute();

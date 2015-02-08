@@ -7,12 +7,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.apache.log4j.Logger;
 
 import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.Entrant;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.entity.User;
+import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
+import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
 /**
  * Entrant DAO. Performs basic read/write operations on Entrant entity.
@@ -31,6 +35,14 @@ public class EntrantRepository extends AbstractRepository<Entrant> {
 
 	private final static Logger LOG = Logger.getLogger(EntrantRepository.class);
 	private static final String FIND_ALL_FACULTY_ENTRANTS = "SELECT university_admission.entrant.* FROM university_admission.entrant INNER JOIN university_admission.faculty_entrants ON university_admission.faculty_entrants.Entrant_idEntrant=university_admission.entrant.id  WHERE faculty_entrants.Faculty_idFaculty = ? ;";
+
+	public EntrantRepository() {
+		this(DataSourceFactory.getDataSource(DataSourceType.MY_SQL_DATASOURCE));
+	}
+
+	public EntrantRepository(DataSource dataSource) {
+		super(dataSource);
+	}
 
 	/*
 	 * (non-Javadoc)

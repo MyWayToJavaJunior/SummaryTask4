@@ -13,6 +13,7 @@ import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.Path;
 import ua.nure.norkin.SummaryTask4.command.Command;
 import ua.nure.norkin.SummaryTask4.entity.Subject;
+import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
@@ -74,7 +75,8 @@ public class ViewSubjectCommand extends Command {
 		LOG.trace("Subject name to look for is equal to: '" + subjectNameEng
 				+ "'");
 
-		SubjectRepository subjectRepository = new SubjectRepository();
+		SubjectRepository subjectRepository = MySQLRepositoryFactory
+				.getSubjectRepository();
 		Subject subject = subjectRepository.find(subjectNameEng);
 
 		LOG.trace("Subject record found: " + subject);
