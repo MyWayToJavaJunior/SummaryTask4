@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import ua.nure.norkin.SummaryTask4.Path;
 import ua.nure.norkin.SummaryTask4.command.Command;
 import ua.nure.norkin.SummaryTask4.entity.Subject;
+import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
@@ -85,7 +86,8 @@ public class AddSubjectCommand extends Command {
 		String nameEng = request.getParameter("name_eng");
 		LOG.trace("Fetch request parapeter: 'name_eng' = " + nameEng);
 
-		SubjectRepository subjectRepository = new SubjectRepository();
+		SubjectRepository subjectRepository = MySQLRepositoryFactory
+				.getSubjectRepository();
 
 		Subject subject = new Subject();
 		subject.setNameRu(nameRu);

@@ -12,6 +12,7 @@ import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.Path;
 import ua.nure.norkin.SummaryTask4.command.Command;
 import ua.nure.norkin.SummaryTask4.entity.Subject;
+import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
@@ -70,7 +71,8 @@ public class EditSubjectCommand extends Command {
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
 		String subjectName = request.getParameter(Fields.FACULTY_NAME_ENG);
-		Subject subject = new SubjectRepository().find(subjectName);
+		Subject subject = MySQLRepositoryFactory.getSubjectRepository().find(
+				subjectName);
 
 		request.setAttribute(Fields.SUBJECT_NAME_RU, subject.getNameRu());
 		LOG.trace("Set attribute 'name_ru': " + subject.getNameRu());
@@ -95,7 +97,8 @@ public class EditSubjectCommand extends Command {
 		String oldSubjectName = request.getParameter("oldName");
 		LOG.trace("Fetch request parapeter: 'oldName' = " + oldSubjectName);
 
-		SubjectRepository subjectRepository = new SubjectRepository();
+		SubjectRepository subjectRepository = MySQLRepositoryFactory
+				.getSubjectRepository();
 		// should not be null !
 		Subject subject = subjectRepository.find(oldSubjectName);
 		LOG.trace("Subject record found with this data:" + subject);
