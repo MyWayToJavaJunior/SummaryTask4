@@ -20,7 +20,7 @@ import ua.nure.norkin.SummaryTask4.repository.FacultySubjectsRepository;
 import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
-import ua.nure.norkin.SummaryTask4.utils.FieldValidation;
+import ua.nure.norkin.SummaryTask4.utils.validation.FacultyInputValidator;
 
 /**
  * Invoked when user wants to add faculty. Command allowed only for admins.
@@ -106,38 +106,20 @@ public class AddFacultyCommand extends Command {
 		String facultyBudgetSeats = request
 				.getParameter(Fields.FACULTY_BUDGET_SEATS);
 
-		boolean valid = true;
+		boolean valid = FacultyInputValidator.validateParameters(facultyNameRu,
+				facultyNameEng, facultyBudgetSeats, facultyTotalSeats);
 
-		if (!FieldValidation.isFilled(facultyNameRu, facultyNameEng,
-				facultyBudgetSeats, facultyTotalSeats)) {
+		if (valid == false) {
 			request.setAttribute("errorMessage",
 					"Please fill all fields properly!");
 			LOG.error("errorMessage: Not all fields are properly filled");
-			valid = false;
-		}
-		if (!FieldValidation.isByte(facultyTotalSeats, facultyBudgetSeats)) {
-			request.setAttribute("errorMessage", "Please enter a valid number!");
-			LOG.error("errorMessage: not a numbers");
-			valid = false;
-
-		}
-
-		Byte totalSeats = Byte.valueOf(facultyTotalSeats);
-		Byte budgetSeats = Byte.valueOf(facultyBudgetSeats);
-
-		if (!FieldValidation.checkBudgetLowerTotal(budgetSeats, totalSeats)) {
-			request.setAttribute("errorMessage",
-					"Budget seats should be lower then Total seats!");
-			LOG.error("errorMessage: not valid number's for faculty seats");
-			valid = false;
-		}
-
-		if (valid == false) {
 			result = Path.REDIRECT_FACULTY_ADD_ADMIN;
-		}
-		if (valid) {
+		} else if (valid) {
 
-			// TODO check name for uniqueness
+			LOG.trace("All fields are properly filled. Start updating database.");
+
+			Byte totalSeats = Byte.valueOf(facultyTotalSeats);
+			Byte budgetSeats = Byte.valueOf(facultyBudgetSeats);
 
 			Faculty faculty = new Faculty(facultyNameRu, facultyNameEng,
 					budgetSeats, totalSeats);
@@ -172,5 +154,4 @@ public class AddFacultyCommand extends Command {
 		}
 		return result;
 	}
-
 }

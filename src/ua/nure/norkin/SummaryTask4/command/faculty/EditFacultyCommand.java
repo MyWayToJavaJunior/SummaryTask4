@@ -23,7 +23,7 @@ import ua.nure.norkin.SummaryTask4.repository.FacultySubjectsRepository;
 import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
-import ua.nure.norkin.SummaryTask4.utils.FieldValidation;
+import ua.nure.norkin.SummaryTask4.utils.validation.FacultyInputValidator;
 
 /**
  * Invoked when admin wants to edit information about some faculty
@@ -114,7 +114,6 @@ public class EditFacultyCommand extends Command {
 		return Path.FORWARD_FACULTY_EDIT_ADMIN;
 	}
 
-	// TODO
 	/**
 	 * Edits faculty according to entered data by admin.
 	 *
@@ -136,38 +135,23 @@ public class EditFacultyCommand extends Command {
 				.getParameter(Fields.FACULTY_BUDGET_SEATS);
 		LOG.trace("Get parameter 'budget_seats' = " + facultyBudgetSeats);
 
-		boolean valid = true;
-
-		/*
-		 * if (!FieldValidation.isFilled(facultyName, facultyBudgetSeats,
-		 * facultyTotalSeats)) { request.setAttribute("errorMessage",
-		 * "Please fill all fields properly!");
-		 * LOG.error("errorMessage: Not all fields are properly filled"); valid
-		 * = false; } if (!FieldValidation.isByte(facultyTotalSeats,
-		 * facultyBudgetSeats)) { request.setAttribute("errorMessage",
-		 * "Please enter a valid number!");
-		 * LOG.error("errorMessage: not a numbers"); valid = false;
-		 *
-		 * }
-		 */
-
-		Byte totalSeats = Byte.valueOf(facultyTotalSeats);
-		Byte budgetSeats = Byte.valueOf(facultyBudgetSeats);
-
-		if (!FieldValidation.checkBudgetLowerTotal(budgetSeats, totalSeats)) {
-			request.setAttribute("errorMessage",
-					"Budget seats should be lower then Total seats!");
-			LOG.error("errorMessage: not valid number's for faculty seats");
-			valid = false;
-		}
+		boolean valid = FacultyInputValidator.validateParameters(facultyNameRu,
+				facultyNameEng, facultyBudgetSeats, facultyTotalSeats);
 
 		if (valid == false) {
+			request.setAttribute("errorMessage",
+					"Please fill all fields properly!");
+			LOG.error("errorMessage: Not all fields are properly filled");
+
 			result = Path.REDIRECT_FACULTY_EDIT_ADMIN + facultyNameEng;
 		}
 		if (valid) {
 			// if it's true then let's start to update the db
 
 			LOG.trace("All fields are properly filled. Start updating database.");
+
+			Byte totalSeats = Byte.valueOf(facultyTotalSeats);
+			Byte budgetSeats = Byte.valueOf(facultyBudgetSeats);
 
 			Faculty faculty = new Faculty(facultyNameRu, facultyNameEng,
 					budgetSeats, totalSeats);
@@ -285,4 +269,5 @@ public class EditFacultyCommand extends Command {
 		}
 		return result;
 	}
+
 }
