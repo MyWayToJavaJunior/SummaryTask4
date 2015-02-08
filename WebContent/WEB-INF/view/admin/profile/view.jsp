@@ -20,13 +20,18 @@
 			<c:out value="${requestScope.email}"></c:out>
 		</p>
 		<a href="controller?command=editProfile&user=${requestScope.email}"><fmt:message
-				key="profile.view_jsp.button.edit" /></a> <br> <br>
-
+				key="profile.view_jsp.button.edit" /></a> <br>
+		<p>
+			<a href="controller?command=admin_registration"><fmt:message
+					key="profile.view_jsp.label.register_new_admin" /></a>
+		</p>
+		<br>
 		<form action="controller" method="POST">
 			<input type="hidden" name="command" value="logout"> <input
 				type="submit"
 				value="<fmt:message key="profile.view_jsp.button.logout" />">
 		</form>
+
 	</div>
 </body>
 </html>
