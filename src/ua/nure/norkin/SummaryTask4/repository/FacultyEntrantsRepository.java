@@ -31,7 +31,6 @@ public class FacultyEntrantsRepository extends
 	private static final String FIND_FACULTY_ENTRANT_BY_ID = "SELECT * FROM university_admission.faculty_entrants WHERE faculty_entrants.id = ? LIMIT 1;";
 	private static final String FIND_FACULTY_ENTRANT_BY_FOREIGN_KEYS = "SELECT * FROM university_admission.faculty_entrants WHERE faculty_entrants.Faculty_idFaculty = ? AND faculty_entrants.Entrant_idEntrant = ? LIMIT 1;";
 	private static final String INSERT_FACULTY_ENTRANT = "INSERT INTO university_admission.faculty_entrants(faculty_entrants.Faculty_idFaculty,faculty_entrants.Entrant_idEntrant) VALUES (?,?);";
-	private static final String UPDATE_FACULTY_ENTRANT = "UPDATE faculty_entrants SET faculty_entrants.Faculty_idFaculty=?, faculty_entrants.Entrant_idEntrant=? WHERE faculty_entrants.id=? LIMIT 1;";
 	private static final String DELETE_FACULTY_ENTRANT = "DELETE FROM university_admission.faculty_entrants WHERE faculty_entrants.id=? LIMIT 1;";
 
 	private final static Logger LOG = Logger
@@ -90,25 +89,8 @@ public class FacultyEntrantsRepository extends
 	 */
 	@Override
 	public void update(FacultyEntrants entity) {
-		Connection connection = null;
-		PreparedStatement pstmt = null;
-		try {
-			connection = getConnection();
-			pstmt = connection.prepareStatement(UPDATE_FACULTY_ENTRANT);
-			int counter = 1;
-			pstmt.setInt(counter++, entity.getFacultyId());
-			pstmt.setInt(counter++, entity.getEntrantId());
-			pstmt.setInt(counter, entity.getId());
-
-			pstmt.executeUpdate();
-			connection.commit();
-		} catch (SQLException e) {
-			rollback(connection);
-			LOG.error("Can not update a faculty entant", e);
-		} finally {
-			close(connection);
-			close(pstmt);
-		}
+		throw new UnsupportedOperationException(
+				"This operation is not supported on compound entity 'faculty_entrants'");
 	}
 
 	/*
