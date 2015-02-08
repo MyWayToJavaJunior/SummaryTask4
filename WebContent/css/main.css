@@ -1,17 +1,16 @@
 @CHARSET "UTF-8";
 
 <
-style type ="text /css">
-
-h2 {
-    display: block;
+style type ="text /css">h2 {
+	/*   display: block;
     font-size: 1.5em;
     margin-top: 0.83em;
     margin-bottom: 0.83em;
-    margin-left: 0;
+    margin-left: 2em;
     margin-right: 0;
     font-weight: bold;
-    text-align: center;
+    text-align: center; */
+	align: center;
 }
 
 body {
@@ -65,8 +64,20 @@ a:active {
 	margin-left: 20%;
 }
 
+.header {
+	font-size: 1.5em;
+	margin-left: 40%;
+}
+
+.welcomeform {
+	float: left;
+	margin-left: 35%;
+}
+
 .menu {
-text-align:center;
+	text-align: center;
+	font-size: 18px;
+	font-family: "Times New Roman";
 }
 
 /*removes pointers in browsers for number inputs in Mozilla */
