@@ -10,7 +10,7 @@
 	<br>
 	<br>
 
-	<div class="form">
+	<div class="welcomeform">
 		<form id="registration_form" method="POST" action="controller"
 			onsubmit="return validate(this);">
 			<input type="hidden" name="command" value="client_registration" />
@@ -18,7 +18,7 @@
 			<div class="field">
 				<label for="lang"> <fmt:message
 						key="registration.label.language" />
-				</label> <select name="lang">
+				</label> <select name="lang" required>
 					<option value="ru">Russian</option>
 					<option value="en">English</option>
 				</select>
@@ -46,7 +46,7 @@
 			</div>
 			<div class="field">
 				<label for="town"> <fmt:message
-						key="registration.label.city" /></label> <input type="text" name="town"
+						key="registration.label.city" /></label> <input type="text" name="city"
 					value="" required />
 			</div>
 			<div class="field">
