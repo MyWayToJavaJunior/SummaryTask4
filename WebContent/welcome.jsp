@@ -4,12 +4,12 @@
 <%@ include file="/WEB-INF/view/jspf/head.jspf"%>
 <body>
 	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
-	<h2>
+	<div class="header">
 		<fmt:message key="welcome_jsp.label.greeting" />
-	</h2>
-	<br>
+	</div>
+	<br><br>
 
-	<div class="form">
+	<div class="welcomeform">
 		<form id="login_form" action="controller" method="POST">
 			<input type="hidden" name="command" value="login" />
 			<div class="field">
@@ -35,7 +35,6 @@
 		</form>
 
 	</div>
-
 	<c:if test="${not empty errorMessage}">
 		<c:out value="${errorMessage}"></c:out>
 	</c:if>

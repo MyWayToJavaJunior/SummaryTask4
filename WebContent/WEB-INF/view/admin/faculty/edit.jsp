@@ -4,7 +4,10 @@
 <%@ include file="/WEB-INF/view/jspf/head.jspf"%>
 <body>
 	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
-	<h1>${faculty.name}</h1>
+
+	<div class="header">
+		<c:out value="${faculty.name}" />
+	</div>
 
 	<div class="form">
 		<form id="edit_faculty" action="controller" method="POST">
@@ -13,12 +16,14 @@
 			<div class="field">
 				<label for="name_ru"><fmt:message
 						key="faculty.edit_jsp.label.name" /></label> <input type="text"
-					name="name_ru" id="name_ru" value="${requestScope.name_ru}" required />
+					name="name_ru" id="name_ru" value="${requestScope.name_ru}"
+					required />
 			</div>
 			<div class="field">
 				<label for="name_eng"><fmt:message
 						key="faculty.edit_jsp.label.name" /></label> <input type="text"
-					name="name_eng" id="name_eng" value="${requestScope.name_eng}" required />
+					name="name_eng" id="name_eng" value="${requestScope.name_eng}"
+					required />
 			</div>
 			<div class="field">
 				<label for="total_seats"><fmt:message
@@ -66,6 +71,6 @@
 							key="faculty.edit_jsp.button.submit" />" />
 		</form>
 	</div>
-	 <script src="/script/faculty-validation.js"></script>
+	<script src="/script/faculty-validation.js"></script>
 </body>
 </html>

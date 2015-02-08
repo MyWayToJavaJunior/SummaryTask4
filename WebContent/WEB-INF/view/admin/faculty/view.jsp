@@ -4,9 +4,9 @@
 <%@ include file="/WEB-INF/view/jspf/head.jspf"%>
 <body>
 	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
-	<h2>
+	<div class="header">
 		<c:out value="${lang eq 'ru' ? name_ru : name_eng}"></c:out>
-	</h2>
+	</div>
 	<div class="view">
 		<p>
 			<label><fmt:message key="faculty.view_jsp.label.name" />

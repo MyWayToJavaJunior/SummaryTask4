@@ -5,9 +5,9 @@
 <body>
 	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
 
-	<h2 align="center">
+	<div class="header">
 		<fmt:message key="faculty.list_jsp.label.faculties_list" />
-	</h2>
+	</div>
 	<p>
 		<a href="controller?command=addFaculty"><fmt:message
 				key="faculty.list_jsp.button.add" /></a>
@@ -25,7 +25,7 @@
 				<tr>
 					<td><a
 						href="<c:url value="controller?command=viewFaculty"> <c:param name="name_eng" value="${faculty.nameEng}"/></c:url>">
-						 	<c:out value="${lang eq 'ru' ? faculty.nameRu : faculty.nameEng}"></c:out>
+							<c:out value="${lang eq 'ru' ? faculty.nameRu : faculty.nameEng}"></c:out>
 					</a></td>
 					<td><c:out value="${faculty.totalSeats}"></c:out></td>
 					<td><c:out value="${faculty.budgetSeats}"></c:out></td>

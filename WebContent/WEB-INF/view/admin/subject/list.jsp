@@ -5,10 +5,10 @@
 <body>
 	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
 
+	<div class="header">
+		<fmt:message key="subject.list_jsp.label.subjects_list" />
+	</div>
 	<div class="view">
-		<h2>
-			<fmt:message key="subject.list_jsp.label.subjects_list" />
-		</h2>
 		<ol>
 			<c:forEach var="subject" items="${allSubjects}">
 				<li><a

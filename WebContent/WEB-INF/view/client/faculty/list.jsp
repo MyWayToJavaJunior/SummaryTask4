@@ -5,9 +5,9 @@
 <body>
 	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
 
-	<h2 align="center">
+	<div class="header">
 		<fmt:message key="faculty.list_jsp.label.faculties_list" />
-	</h2>
+	</div>
 
 	<table id="facultiesTable" class="display">
 		<thead>

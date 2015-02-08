@@ -4,14 +4,16 @@
 <%@ include file="/WEB-INF/view/jspf/head.jspf"%>
 <body>
 	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
+	<div class="header">
+		<fmt:message key="registration.label.enter_info_msg" />
+	</div>
+	<br>
+	<br>
+
 	<div class="form">
 		<form id="registration_form" method="POST" action="controller"
 			onsubmit="return validate(this);">
 			<input type="hidden" name="command" value="client_registration" />
-
-			<h2>
-				<fmt:message key="registration.label.enter_info_msg" />
-			</h2>
 
 			<div class="field">
 				<label for="lang"> <fmt:message

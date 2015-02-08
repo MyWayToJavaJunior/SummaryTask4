@@ -14,7 +14,7 @@
 			</h2>
 
 			<div class="field">
-				<label for=""lang""> <fmt:message
+				<label for="lang"> <fmt:message
 						key="registration.label.language" />
 				</label> <select name="lang">
 					<option value="ru">Russian</option>

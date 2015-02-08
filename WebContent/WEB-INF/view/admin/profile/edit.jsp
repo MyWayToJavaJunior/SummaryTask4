@@ -4,7 +4,12 @@
 <%@ include file="/WEB-INF/view/jspf/head.jspf"%>
 <body>
 	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
-	<h2>Edit Profile</h2>
+
+	<div class="header">
+		<fmt:message key="profile.edit_jsp.header" />
+	</div>
+	<br>
+	<br>
 
 	<div class="form">
 		<form id="profile" method="POST" action="controller">
