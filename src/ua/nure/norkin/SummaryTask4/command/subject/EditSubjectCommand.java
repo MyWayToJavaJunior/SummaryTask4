@@ -15,6 +15,7 @@ import ua.nure.norkin.SummaryTask4.entity.Subject;
 import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
+import ua.nure.norkin.SummaryTask4.utils.validation.SubjectInputValidator;
 
 /**
  * Edit subject Command.
@@ -83,7 +84,6 @@ public class EditSubjectCommand extends Command {
 		return Path.FORWARD_SUBJECT_EDIT_ADMIN;
 	}
 
-	// TODO validation
 	/**
 	 * Updates subject info.
 	 *
@@ -109,17 +109,29 @@ public class EditSubjectCommand extends Command {
 				.getParameter(Fields.SUBJECT_NAME_ENG);
 		LOG.trace("Fetch request parapeter: 'name_eng' = " + newSubjectNameEng);
 
-		subject.setNameRu(newSubjectNameRu);
-		subject.setNameEng(newSubjectNameEng);
+		boolean valid = SubjectInputValidator.validateParameters(
+				newSubjectNameRu, newSubjectNameEng);
 
-		LOG.trace("After calling setters with request parameters on subject entity: "
-				+ subject);
+		String result = null;
+		if (valid == false) {
+			request.setAttribute("errorMessage",
+					"Please fill all fields properly!");
+			LOG.error("errorMessage: Not all fields are properly filled");
+			result = Path.REDIRECT_SUBJECT_EDIT_ADMIN + oldSubjectName;
+		} else if (valid) {
+			subject.setNameRu(newSubjectNameRu);
+			subject.setNameEng(newSubjectNameEng);
 
-		subjectRepository.update(subject);
+			LOG.trace("After calling setters with request parameters on subject entity: "
+					+ subject);
 
-		LOG.trace("Subject record updated");
+			subjectRepository.update(subject);
 
-		return Path.REDIRECT_TO_SUBJECT + newSubjectNameEng;
+			LOG.trace("Subject record updated");
+
+			result = Path.REDIRECT_TO_SUBJECT + newSubjectNameEng;
+		}
+		return result;
 	}
 
 }

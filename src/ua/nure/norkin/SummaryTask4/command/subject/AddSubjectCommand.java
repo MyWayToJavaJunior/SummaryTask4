@@ -14,6 +14,7 @@ import ua.nure.norkin.SummaryTask4.entity.Subject;
 import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
+import ua.nure.norkin.SummaryTask4.utils.validation.SubjectInputValidator;
 
 /**
  * Add subject Command
@@ -71,7 +72,6 @@ public class AddSubjectCommand extends Command {
 		return Path.FORWARD_SUBJECT_ADD_ADMIN;
 	}
 
-	// TODO validation
 	/**
 	 * Adds subject if fields are properly filled, otherwise redisplays add
 	 * page.
@@ -86,19 +86,30 @@ public class AddSubjectCommand extends Command {
 		String nameEng = request.getParameter("name_eng");
 		LOG.trace("Fetch request parapeter: 'name_eng' = " + nameEng);
 
-		SubjectRepository subjectRepository = MySQLRepositoryFactory
-				.getSubjectRepository();
+		boolean valid = SubjectInputValidator.validateParameters(nameRu,
+				nameEng);
 
-		Subject subject = new Subject();
-		subject.setNameRu(nameRu);
-		subject.setNameEng(nameEng);
+		String result = null;
+		if (valid == false) {
+			request.setAttribute("errorMessage",
+					"Please fill all fields properly!");
+			LOG.error("errorMessage: Not all fields are properly filled");
+			result = Path.REDIRECT_SUBJECT_ADD_ADMIN;
+		} else if (valid) {
+			SubjectRepository subjectRepository = MySQLRepositoryFactory
+					.getSubjectRepository();
 
-		LOG.trace("Create subject transfer object: " + subject);
+			Subject subject = new Subject();
+			subject.setNameRu(nameRu);
+			subject.setNameEng(nameEng);
 
-		subjectRepository.create(subject);
-		LOG.trace("Create subject record in database: " + subject);
+			LOG.trace("Create subject transfer object: " + subject);
 
-		return Path.REDIRECT_TO_SUBJECT + nameEng;
+			subjectRepository.create(subject);
+			LOG.trace("Create subject record in database: " + subject);
+			result = Path.REDIRECT_TO_SUBJECT + nameEng;
+		}
+		return result;
 	}
 
 }
