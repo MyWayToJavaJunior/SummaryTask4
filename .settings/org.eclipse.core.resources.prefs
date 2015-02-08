@@ -1,5 +1,7 @@
 eclipse.preferences.version=1
+encoding//WebContent/WEB-INF/view/admin/faculty/edit.jsp=UTF-8
 encoding//WebContent/WEB-INF/view/jspf/head.jspf=UTF-8
+encoding//WebContent/script/russian.lang=UTF-8
 encoding//sql/create\ db\ and\ tables.sql=UTF-8
 encoding//sql/entrant\ data.sql=UTF-8
 encoding//sql/faculty\ data.sql=UTF-8
