@@ -63,7 +63,7 @@ public class UserRepository extends AbstractRepository<User> {
 			pstmt.setString(counter++, user.getLastName());
 			pstmt.setString(counter++, user.getEmail());
 			pstmt.setString(counter++, user.getPassword());
-			pstmt.setString(counter, user.getRole());
+			pstmt.setString(counter++, user.getRole());
 			pstmt.setString(counter, user.getLang());
 
 			pstmt.execute();
