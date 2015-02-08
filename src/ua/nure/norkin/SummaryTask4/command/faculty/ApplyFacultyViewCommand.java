@@ -1,7 +1,6 @@
 package ua.nure.norkin.SummaryTask4.command.faculty;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +24,7 @@ import ua.nure.norkin.SummaryTask4.repository.EntrantRepository;
 import ua.nure.norkin.SummaryTask4.repository.FacultyEntrantsRepository;
 import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
 import ua.nure.norkin.SummaryTask4.repository.MarkRepository;
+import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.repository.UserRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
@@ -88,7 +88,8 @@ public class ApplyFacultyViewCommand extends Command {
 			HttpServletResponse response) {
 		String result = null;
 		String facultyNameEng = request.getParameter(Fields.FACULTY_NAME_ENG);
-		FacultyRepository facultyRepository = new FacultyRepository();
+		FacultyRepository facultyRepository = MySQLRepositoryFactory
+				.getFacultyRepository();
 		Faculty faculty = facultyRepository.find(facultyNameEng);
 
 		request.setAttribute(Fields.ENTITY_ID, faculty.getId());
@@ -126,25 +127,27 @@ public class ApplyFacultyViewCommand extends Command {
 	/**
 	 * @return redirects user to view of applied faculty if applying is
 	 *         successful, otherwise redisplays this page.
-	 * @throws UnsupportedEncodingException
 	 */
 	private String doPost(HttpServletRequest request,
-			HttpServletResponse response) throws UnsupportedEncodingException {
+			HttpServletResponse response) {
 		LOG.trace("Start processing applying for faculty form");
 
 		HttpSession session = request.getSession(false);
 		String email = String.valueOf(session.getAttribute("user"));
 
-		UserRepository userRepository = new UserRepository();
+		UserRepository userRepository = MySQLRepositoryFactory
+				.getUserRepository();
 		User user = userRepository.find(email);
 		LOG.trace("Found user in database that wants to apply: " + user);
 
-		EntrantRepository entrantRepository = new EntrantRepository();
+		EntrantRepository entrantRepository = MySQLRepositoryFactory
+				.getEntrantRepository();
 		Entrant entrant = entrantRepository.find(user);
 
 		LOG.trace("Found entrant record in database for this user: " + entrant);
 
-		FacultyEntrantsRepository facultyEntrantsRepository = new FacultyEntrantsRepository();
+		FacultyEntrantsRepository facultyEntrantsRepository = MySQLRepositoryFactory
+				.getFacultyEntrantsRepository();
 
 		Integer facultyId = Integer.valueOf(request
 				.getParameter(Fields.ENTITY_ID));
@@ -164,6 +167,8 @@ public class ApplyFacultyViewCommand extends Command {
 			LOG.trace("Start extracting data from request");
 
 			Map<String, String[]> parameterMap = request.getParameterMap();
+			MarkRepository markRepository = MySQLRepositoryFactory
+					.getMarkRepository();
 
 			for (String parameterName : parameterMap.keySet()) {
 
@@ -180,8 +185,6 @@ public class ApplyFacultyViewCommand extends Command {
 					Mark mark = new Mark(subjectId, entrant.getId(), markValue,
 							examType);
 					LOG.trace("Create Mark transfer object: " + mark);
-
-					MarkRepository markRepository = new MarkRepository();
 
 					markRepository.create(mark);
 
@@ -201,7 +204,8 @@ public class ApplyFacultyViewCommand extends Command {
 
 			LOG.trace("Finished processing applying for faculty form");
 
-			FacultyRepository facultyRepository = new FacultyRepository();
+			FacultyRepository facultyRepository = MySQLRepositoryFactory
+					.getFacultyRepository();
 			Faculty faculty = facultyRepository.find(facultyId);
 			return Path.REDIRECT_TO_FACULTY + faculty.getNameEng();
 		}

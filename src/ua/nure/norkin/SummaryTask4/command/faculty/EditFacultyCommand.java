@@ -1,7 +1,6 @@
 package ua.nure.norkin.SummaryTask4.command.faculty;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -21,6 +20,7 @@ import ua.nure.norkin.SummaryTask4.entity.FacultySubjects;
 import ua.nure.norkin.SummaryTask4.entity.Subject;
 import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
 import ua.nure.norkin.SummaryTask4.repository.FacultySubjectsRepository;
+import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 import ua.nure.norkin.SummaryTask4.utils.FieldValidation;
@@ -83,7 +83,8 @@ public class EditFacultyCommand extends Command {
 			HttpServletResponse response) {
 		String facultyName = request.getParameter(Fields.FACULTY_NAME_ENG);
 
-		FacultyRepository facultyRepository = new FacultyRepository();
+		FacultyRepository facultyRepository = MySQLRepositoryFactory
+				.getFacultyRepository();
 		Faculty faculty = facultyRepository.find(facultyName);
 
 		request.setAttribute(Fields.FACULTY_NAME_RU, faculty.getNameRu());
@@ -97,7 +98,8 @@ public class EditFacultyCommand extends Command {
 				faculty.getBudgetSeats());
 		LOG.trace("Set attribute 'budget_seats': " + faculty.getBudgetSeats());
 
-		SubjectRepository subjectRepository = new SubjectRepository();
+		SubjectRepository subjectRepository = MySQLRepositoryFactory
+				.getSubjectRepository();
 
 		List<Subject> otherSubjects = subjectRepository
 				.findAllNotFacultySubjects(faculty);
@@ -118,10 +120,9 @@ public class EditFacultyCommand extends Command {
 	 *
 	 * @return path to the view of edited faculty if succeeded, otherwise
 	 *         redisplays page with <code>doGet</code>
-	 * @throws UnsupportedEncodingException
 	 */
 	private String doPost(HttpServletRequest request,
-			HttpServletResponse response) throws UnsupportedEncodingException {
+			HttpServletResponse response) {
 		String result = null;
 		// get parameters from page
 		String facultyNameRu = request.getParameter(Fields.FACULTY_NAME_RU);
@@ -171,7 +172,8 @@ public class EditFacultyCommand extends Command {
 			Faculty faculty = new Faculty(facultyNameRu, facultyNameEng,
 					budgetSeats, totalSeats);
 
-			FacultyRepository facultyRepository = new FacultyRepository();
+			FacultyRepository facultyRepository = MySQLRepositoryFactory
+					.getFacultyRepository();
 
 			// if user changes faculty name we need to know the old one
 			// to update record in db
@@ -200,12 +202,12 @@ public class EditFacultyCommand extends Command {
 			LOG.trace("Get checked subjects after: "
 					+ Arrays.toString(newCheckedSubjectsIds));
 
-			FacultySubjectsRepository facultySubjectsRepository = new FacultySubjectsRepository();
+			FacultySubjectsRepository facultySubjectsRepository = MySQLRepositoryFactory
+					.getFacultySubjectsRepository();
 
 			if (oldCheckedSubjectIds == null) {
 				if (newCheckedSubjectsIds == null) {
-					// if before all subjects were unchecked and they are
-					// still
+					// if before all subjects were unchecked and they are still
 					// are
 					// then nothing changed - do nothing
 					LOG.trace("No faculty subjects records will be changed");
@@ -256,19 +258,19 @@ public class EditFacultyCommand extends Command {
 									+ facultySubject);
 						}
 					}
+
 					// and check for DELETE records that were previously
 					// checked and now are not
-
 					Set<String> newRecords = new HashSet<>(
 							Arrays.asList(newCheckedSubjectsIds));
 
-					for (String oldCkeckedSubject : oldCheckedSubjectIds) {
-						if (newRecords.contains(oldCheckedSubjectIds)) {
-							// then do nothing
-						} else {
-							// otherwise DELETE record in database
+					existingRecords.removeIf(subject -> newRecords
+							.contains(subject));
+
+					if (!existingRecords.isEmpty()) {
+						for (String subjectToRemove : existingRecords) {
 							Integer subjectId = Integer
-									.valueOf(oldCkeckedSubject);
+									.valueOf(subjectToRemove);
 							FacultySubjects facultySubjectRecordToDelete = new FacultySubjects(
 									subjectId, faculty.getId());
 							facultySubjectsRepository
@@ -279,8 +281,7 @@ public class EditFacultyCommand extends Command {
 					}
 				}
 			}
-			result = Path.REDIRECT_TO_FACULTY
-					+ facultyNameEng;
+			result = Path.REDIRECT_TO_FACULTY + facultyNameEng;
 		}
 		return result;
 	}
