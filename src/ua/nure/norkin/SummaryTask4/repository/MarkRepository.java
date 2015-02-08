@@ -8,10 +8,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.apache.log4j.Logger;
 
 import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.Mark;
+import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
+import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
 /**
  * Mark DAO. Performs basic read/write operations on Mark database table.
@@ -28,6 +32,14 @@ public class MarkRepository extends AbstractRepository<Mark> {
 	private static final String DELETE_MARK = "DELETE FROM university_admission.mark WHERE mark.id=? LIMIT 1;";
 
 	private final static Logger LOG = Logger.getLogger(MarkRepository.class);
+
+	public MarkRepository(DataSource dataSource) {
+		super(dataSource);
+	}
+
+	public MarkRepository() {
+		this(DataSourceFactory.getDataSource(DataSourceType.MY_SQL_DATASOURCE));
+	}
 
 	/*
 	 * (non-Javadoc)

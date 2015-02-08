@@ -8,10 +8,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.apache.log4j.Logger;
 
 import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.FacultyEntrants;
+import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
+import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
 /**
  * Faculty Entrants DAO. Performs basic read/write operations on Faculty
@@ -32,6 +36,14 @@ public class FacultyEntrantsRepository extends
 
 	private final static Logger LOG = Logger
 			.getLogger(FacultyEntrantsRepository.class);
+
+	public FacultyEntrantsRepository() {
+		this(DataSourceFactory.getDataSource(DataSourceType.MY_SQL_DATASOURCE));
+	}
+
+	public FacultyEntrantsRepository(DataSource dataSource) {
+		super(dataSource);
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -166,7 +178,8 @@ public class FacultyEntrantsRepository extends
 		FacultyEntrants facultyEntrant = null;
 		try {
 			connection = getConnection();
-			pstmt = connection.prepareStatement(FIND_FACULTY_ENTRANT_BY_FOREIGN_KEYS);
+			pstmt = connection
+					.prepareStatement(FIND_FACULTY_ENTRANT_BY_FOREIGN_KEYS);
 			pstmt.setInt(1, facultyEntrants.getFacultyId());
 			pstmt.setInt(2, facultyEntrants.getEntrantId());
 

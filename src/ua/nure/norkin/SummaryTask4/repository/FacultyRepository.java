@@ -8,10 +8,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.apache.log4j.Logger;
 
 import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
+import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
+import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
 /**
  * Faculty DAO. Performs basic read/write operations on Faculty entity.
@@ -29,6 +33,14 @@ public class FacultyRepository extends AbstractRepository<Faculty> {
 	private static final String DELETE_FACULTY = "DELETE FROM university_admission.faculty WHERE faculty.id=? LIMIT 1;";
 
 	private final static Logger LOG = Logger.getLogger(FacultyRepository.class);
+
+	public FacultyRepository(DataSource dataSource) {
+		super(dataSource);
+	}
+
+	public FacultyRepository() {
+		this(DataSourceFactory.getDataSource(DataSourceType.MY_SQL_DATASOURCE));
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -86,7 +98,7 @@ public class FacultyRepository extends AbstractRepository<Faculty> {
 			pstmt.setString(counter++, entity.getNameRu());
 			pstmt.setString(counter++, entity.getNameEng());
 			pstmt.setByte(counter++, entity.getTotalSeats());
-			pstmt.setByte(counter, entity.getBudgetSeats());
+			pstmt.setByte(counter++, entity.getBudgetSeats());
 
 			pstmt.setInt(counter, entity.getId());
 
