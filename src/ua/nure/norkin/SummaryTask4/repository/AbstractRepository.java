@@ -5,9 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
@@ -31,15 +28,7 @@ public abstract class AbstractRepository<T> implements Repository<T> {
 	/**
 	 * Initializes DataSource object.
 	 */
-	public AbstractRepository() {
-		DataSource dataSource = null;
-		try {
-			Context initContext = new InitialContext();
-			dataSource = (DataSource) initContext
-					.lookup("java:/comp/env/jdbc/SummaryTask4");
-		} catch (NamingException ex) {
-			LOG.error("Cannot obtain a connection from the pool", ex);
-		}
+	public AbstractRepository(DataSource dataSource) {
 		ds = dataSource;
 	}
 
