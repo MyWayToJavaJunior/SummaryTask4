@@ -17,7 +17,7 @@ import ua.nure.norkin.SummaryTask4.repository.EntrantRepository;
 import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.UserRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
-import ua.nure.norkin.SummaryTask4.utils.FieldValidation;
+import ua.nure.norkin.SummaryTask4.utils.validation.ProfileInputValidator;
 
 /**
  * Invoked when client registers in system.
@@ -90,21 +90,16 @@ public class ClientRegistrationCommand extends Command {
 
 		String result = null;
 
-		// TODO check email for uniqueness, password for char's amount
-		if (!FieldValidation.isFilled(email, password, firstName, lastName,
-				town, district, school)) {
+		boolean valid = ProfileInputValidator.validateUserParameters(firstName,
+				lastName, email, password, lang);
+		LOG.trace(valid);
+		valid = ProfileInputValidator.validateEntrantParameters(town, district,
+				school);
+		if (valid == false) {
 			request.setAttribute("errorMessage", "Please fill all fields!");
-
-			UserRepository userRepository = MySQLRepositoryFactory
-					.getUserRepository();
-			User user = userRepository.find(email);
-			if (user != null) {
-
-			}
-
 			LOG.error("errorMessage: Not all fields are filled");
 			result = Path.REDIRECT_CLIENT_REGISTRATION_PAGE;
-		} else {
+		} else if (valid) {
 			User user = new User(email, password, firstName, lastName,
 					Role.CLIENT, lang);
 			UserRepository userRepository = new UserRepository();

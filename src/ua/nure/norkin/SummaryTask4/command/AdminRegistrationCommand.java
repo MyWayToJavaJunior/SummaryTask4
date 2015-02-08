@@ -16,7 +16,7 @@ import ua.nure.norkin.SummaryTask4.entity.User;
 import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.UserRepository;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
-import ua.nure.norkin.SummaryTask4.utils.FieldValidation;
+import ua.nure.norkin.SummaryTask4.utils.validation.ProfileInputValidator;
 
 /**
  * Invoked when administrator wants to add another admin user.
@@ -88,14 +88,16 @@ public class AdminRegistrationCommand extends Command {
 		String lastName = request.getParameter(Fields.USER_LAST_NAME);
 		String lang = request.getParameter(Fields.USER_LANG);
 
+		boolean valid = ProfileInputValidator.validateUserParameters(firstName,
+				lastName, email, password, lang);
+
 		String result = null;
 
-		if (!FieldValidation.isFilled(email, password, firstName, lastName)) {
+		if (valid == false) {
 			request.setAttribute("errorMessage", "Please fill all fields!");
-
 			LOG.error("errorMessage: Not all fields are filled");
 			result = Path.REDIRECT_ADMIN_REGISTRATION_PAGE;
-		} else {
+		} else if (valid) {
 			User user = new User(email, password, firstName, lastName,
 					Role.ADMIN, lang);
 			UserRepository userRepository = MySQLRepositoryFactory
