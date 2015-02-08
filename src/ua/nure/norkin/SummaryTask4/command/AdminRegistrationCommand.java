@@ -104,7 +104,7 @@ public class AdminRegistrationCommand extends Command {
 			LOG.trace("User record created: " + user);
 			request.setAttribute("successfulMessage",
 					"Your successfully registered!");
-			result = Path.WELCOME_PAGE;
+			result = Path.REDIRECT_TO_PROFILE;
 		}
 		return result;
 
