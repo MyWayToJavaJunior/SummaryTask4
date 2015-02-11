@@ -220,8 +220,7 @@ CREATE  OR REPLACE VIEW `entrant_marks_sum` AS
         university_admission.faculty_entrants
             INNER JOIN
         university_admission.mark ON university_admission.faculty_entrants.Entrant_idEntrant = university_admission.mark.Entrant_idEntrant
-    GROUP BY entrantId;
-
+    GROUP BY faculty_entrants.Faculty_idFaculty,entrantId;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
@@ -252,6 +251,21 @@ BEGIN
     IF (NEW.budget_seats > NEW.total_seats) THEN
         SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Budget seats amount must be lower then total.', MYSQL_ERRNO = 1001;
+    END IF;
+END;$$
+
+
+DELIMITER ;
+
+USE `university_admission`$$
+DROP TRIGGER IF EXISTS `university_admission`.`Mark_BEFORE_INSERT` $$
+USE `university_admission`$$
+CREATE DEFINER = CURRENT_USER TRIGGER `university_admission`.`Mark_BEFORE_INSERT` BEFORE INSERT ON `Mark` FOR EACH ROW
+    BEGIN
+    -- throw exception when condition not satisfied
+    IF (SELECT mark.`Entrant_idEntrant`,mark.`Faculty_idFaculty`,mark.`exam_type` FROM mark WHERE mark.`Entrant_idEntrant`= NEW.`Entrant_idEntrant` AND mark.`Faculty_idFaculty`=NEW.`Faculty_idFaculty` AND mark.`exam_type`= NEW.`exam_type` AND NEW.`exam_type`='diploma') IS NOT NULL THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Record with', MYSQL_ERRNO = 1001;
     END IF;
 END;$$
 
