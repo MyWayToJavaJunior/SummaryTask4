@@ -197,7 +197,7 @@ public class EditProfileCommand extends Command {
 				LOG.trace("Fetch request parameter: 'isBlocked' = "
 						+ blockedStatus);
 
-				valid = ProfileInputValidator.validateEntrantParameters(school,
+				valid = ProfileInputValidator.validateEntrantParameters(city,
 						district, school);
 				if (valid == false) {
 					request.setAttribute("errorMessage",
