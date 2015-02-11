@@ -30,7 +30,7 @@ public final class Path {
 	public static final String FORWARD_CLIENT_PROFILE = "/WEB-INF/view/client/profile/view.jsp";
 	public static final String FORWARD_CLIENT_PROFILE_EDIT = "/WEB-INF/view/client/profile/edit.jsp";
 
-	public static final String REDIRECT_EDIT_PROFILE = "controller?command=editCommand";
+	public static final String REDIRECT_EDIT_PROFILE = "controller?command=editProfile";
 
 	public static final String FORWARD_FACULTY_VIEW_ALL_ADMIN = "/WEB-INF/view/admin/faculty/list.jsp";
 	public static final String FORWARD_FACULTY_VIEW_ALL_CLIENT = "/WEB-INF/view/client/faculty/list.jsp";
