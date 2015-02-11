@@ -34,7 +34,7 @@ public class FieldValidation {
 		}
 
 		for (String value : values) {
-
+			System.out.println(value + value.matches(filledRegex));
 			if (!value.matches(filledRegex)) {
 				return false;
 			}

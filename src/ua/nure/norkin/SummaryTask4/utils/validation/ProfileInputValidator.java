@@ -9,13 +9,14 @@ public class ProfileInputValidator {
 	 */
 	public static boolean validateUserParameters(String firstName,
 			String lastName, String email, String password, String lang) {
-		return FieldValidation.isFilled(firstName, lastName, password, lang)
-				&& (!email.isEmpty());
+		return FieldValidation.isFilled(firstName, lastName, lang)
+				&& (!email.isEmpty() && email.contains("@"))
+				&& (password.length() >= 4);
 	}
 
 	public static boolean validateEntrantParameters(String city,
 			String district, String school) {
-		return FieldValidation.isFilled(city, district, school);
+		return FieldValidation.isFilled(city, district) && (!school.isEmpty());
 	}
 
 }
