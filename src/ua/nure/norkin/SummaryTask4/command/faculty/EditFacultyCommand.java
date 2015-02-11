@@ -124,6 +124,7 @@ public class EditFacultyCommand extends Command {
 			HttpServletResponse response) {
 		String result = null;
 		// get parameters from page
+
 		String facultyNameRu = request.getParameter(Fields.FACULTY_NAME_RU);
 		LOG.trace("Get parameter 'name_ru' = " + facultyNameRu);
 		String facultyNameEng = request.getParameter(Fields.FACULTY_NAME_ENG);
@@ -134,6 +135,10 @@ public class EditFacultyCommand extends Command {
 		String facultyBudgetSeats = request
 				.getParameter(Fields.FACULTY_BUDGET_SEATS);
 		LOG.trace("Get parameter 'budget_seats' = " + facultyBudgetSeats);
+		// if user changes faculty name we need to know the old one
+		// to update record in db
+		String oldFacultyName = request.getParameter("oldName");
+		LOG.trace("Get old faculty name from page: " + oldFacultyName);
 
 		boolean valid = FacultyInputValidator.validateParameters(facultyNameRu,
 				facultyNameEng, facultyBudgetSeats, facultyTotalSeats);
@@ -143,7 +148,7 @@ public class EditFacultyCommand extends Command {
 					"Please fill all fields properly!");
 			LOG.error("errorMessage: Not all fields are properly filled");
 
-			result = Path.REDIRECT_FACULTY_EDIT_ADMIN + facultyNameEng;
+			result = Path.REDIRECT_FACULTY_EDIT_ADMIN + oldFacultyName;
 		}
 		if (valid) {
 			// if it's true then let's start to update the db
@@ -158,12 +163,6 @@ public class EditFacultyCommand extends Command {
 
 			FacultyRepository facultyRepository = MySQLRepositoryFactory
 					.getFacultyRepository();
-
-			// if user changes faculty name we need to know the old one
-			// to update record in db
-			String oldFacultyName = request.getParameter("oldName");
-
-			LOG.trace("Get old faculty name from page: " + oldFacultyName);
 
 			Faculty oldFacultyRecord = facultyRepository.find(oldFacultyName);
 
