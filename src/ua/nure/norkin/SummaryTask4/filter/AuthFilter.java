@@ -2,7 +2,9 @@ package ua.nure.norkin.SummaryTask4.filter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.servlet.Filter;
@@ -17,10 +19,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import ua.nure.norkin.SummaryTask4.Path;
-
 /**
- * Filter which performs authorization of the user to access some resources.
+ * Filter which performs authorization of the user to access resources of the
+ * application.
  *
  * @author Mark Norkin
  *
@@ -28,6 +29,10 @@ import ua.nure.norkin.SummaryTask4.Path;
 public class AuthFilter implements Filter {
 
 	private final List<String> urls;
+	private final Set<String> commonCommands;
+	private final Set<String> loggedInUserCommands;
+	private final Set<String> clientCommands;
+	private final Set<String> adminCommands;
 	private static final Logger LOG = Logger.getLogger(AuthFilter.class);
 
 	/**
@@ -36,11 +41,48 @@ public class AuthFilter implements Filter {
 
 	public AuthFilter() {
 		urls = new ArrayList<String>();
+		commonCommands = new HashSet<>();
+		loggedInUserCommands = new HashSet<>();
+		clientCommands = new HashSet<>();
+		adminCommands = new HashSet<>();
+		// common commands
+		commonCommands.add("login");
+		commonCommands.add("viewFaculty");
+		commonCommands.add("viewAllFaculties");
+		commonCommands.add("client_registration");
+
+		loggedInUserCommands.add("logout");
+		loggedInUserCommands.add("viewProfile");
+		loggedInUserCommands.add("editProfile");
+
+		// client commands
+		clientCommands.add("applyFaculty");
+		// admin commands
+		adminCommands.add("admin_registration");
+		adminCommands.add("editFaculty");
+		adminCommands.add("addFaculty");
+		adminCommands.add("deleteFaculty");
+		adminCommands.add("addSubject");
+		adminCommands.add("editSubject");
+		adminCommands.add("viewAllSubjects");
+		adminCommands.add("viewSubject");
+		adminCommands.add("viewEntrant");
+		adminCommands.add("createReport");
 	}
 
-	/**
-	 * @see Filter#destroy()
-	 */
+	public void init(FilterConfig fConfig) throws ServletException {
+		LOG.debug("Start initializing filter: "
+				+ AuthFilter.class.getSimpleName());
+		String avoidURLs = fConfig.getInitParameter("avoid-urls");
+		StringTokenizer token = new StringTokenizer(avoidURLs, ",");
+
+		while (token.hasMoreTokens()) {
+			urls.add(token.nextToken());
+		}
+		LOG.debug("Finished initializing filter: "
+				+ AuthFilter.class.getSimpleName());
+	}
+
 	public void destroy() {
 		LOG.debug("Start destroying filter: "
 				+ AuthFilter.class.getSimpleName());
@@ -49,49 +91,51 @@ public class AuthFilter implements Filter {
 				+ AuthFilter.class.getSimpleName());
 	}
 
-	/**
-	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
-	 */
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 
-		String url = req.getContextPath();
+		String command = req.getParameter("command");
 
-		LOG.debug("Context path from request: " + url);
-		if (urls.contains(url)) {
-
-			LOG.debug("This url is accessed to all clients: " + url);
+		if (commonCommands.contains(command)) {
+			LOG.debug("This command can be accessed by all users: " + command);
 			chain.doFilter(req, res); // request for accessible url
-		}
-
-		LOG.debug("Requested url can't be viewed by all clients.");
-
-		LOG.trace("Check if user is logged in the sytem.");
-		HttpSession session = req.getSession(false);
-
-		if (session == null || session.getAttribute("user") == null) {
-			LOG.debug("Unauthorized access to resource. Client is not logged-in.");
-
-			res.sendRedirect(Path.WELCOME_PAGE); // No logged-in user found, so
-													// redirect to login page.
 		} else {
-			LOG.debug("Client is logged-in. Access granted to the resource. Filter execution finished.");
-			chain.doFilter(req, res); // Logged-in user found, so just continue
-										// request.
-		}
-	}
+			LOG.debug("This command can be accessed only by logged in users: "
+					+ command);
 
-	/*
-	 * @see Filter#init(FilterConfig)
-	 */
-	public void init(FilterConfig fConfig) throws ServletException {
-		String avoidURLs = fConfig.getInitParameter("avoid-urls");
-		StringTokenizer token = new StringTokenizer(avoidURLs, ",");
+			HttpSession session = req.getSession(false);
+			if (session == null || session.getAttribute("user") == null) {
+				LOG.debug("Unauthorized access to resource. Client is not logged-in.");
 
-		while (token.hasMoreTokens()) {
-			urls.add(token.nextToken());
+				res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+			} else {
+				LOG.debug("User is logged-in. Check common commands to logged in users.");
+				if (loggedInUserCommands.contains(command)) {
+					chain.doFilter(req, res); // Logged-in user found, so
+					// just
+				} else {
+
+					LOG.debug("Command is specific to user. Check user role.");
+					if ("client".equals(session.getAttribute("userRole"))
+							&& clientCommands.contains(command)) {
+						LOG.debug("User is client. Command can be executed by client: "
+								+ command);
+						chain.doFilter(req, res); // Logged-in user found, so
+													// just continue request.
+					} else if ("admin".equals(session.getAttribute("userRole"))
+							&& adminCommands.contains(command)) {
+
+						LOG.debug("User is admin. Command can be executed by admin: "
+								+ command);
+						chain.doFilter(req, res); // Logged-in user found, so
+													// just continue request.
+					} else {
+						res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+					}
+				}
+			}
 		}
 	}
 
