@@ -16,5 +16,7 @@ JSTL i18n tag library.
 <%--===========================================================================
  Switch ON i18n support
 ===========================================================================--%>
-<c:set var="language" value="${not empty lang ? lang : pageContext.request.locale}" scope="session" />
-<fmt:setLocale value="${lang}" />
+<c:set var="language"
+	value="${not empty lang ? lang : pageContext.request.locale.language}"
+	scope="session" />
+<fmt:setLocale value="${language}" />
