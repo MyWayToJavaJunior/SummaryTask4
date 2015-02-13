@@ -108,9 +108,9 @@ public class ViewFacultyCommand extends Command {
 				+ facultySubjects);
 
 		HttpSession session = request.getSession(false);
-		String role = String.valueOf(session.getAttribute("userRole"));
+		String role = (String) session.getAttribute("userRole");
 
-		if ("client".equals(role)) {
+		if (role == null || "client".equals(role)) {
 			result = Path.FORWARD_FACULTY_VIEW_CLIENT;
 		} else if ("admin".equals(role)) {
 			EntrantRepository entrantRepository = MySQLRepositoryFactory
