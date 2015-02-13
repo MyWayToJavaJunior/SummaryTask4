@@ -56,5 +56,15 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<script type="text/javascript">
+	var language = "${language}";
+		$(document).ready(function() {
+			$('#reportTable').dataTable({
+				"language" : {
+					"url" : (language == 'ru') ? "script/russian.lang" : "" ,
+				}
+			});
+		});
+	</script>
 </body>
 </html>
