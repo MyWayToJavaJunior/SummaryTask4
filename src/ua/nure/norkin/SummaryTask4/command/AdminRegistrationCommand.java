@@ -5,7 +5,6 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -30,27 +29,11 @@ public class AdminRegistrationCommand extends Command {
 	private static final Logger LOG = Logger
 			.getLogger(AdminRegistrationCommand.class);
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.command.Command#execute(javax.servlet.http
-	 * .HttpServletRequest, javax.servlet.http.HttpServletResponse,
-	 * ua.nure.norkin.SummaryTask4.utils.ActionType)
-	 */
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response, ActionType actionType)
 			throws IOException, ServletException {
 		LOG.debug("Start executing Command");
-
-		HttpSession session = request.getSession(false);
-		String role = String.valueOf(session.getAttribute("userRole"));
-
-		// clients are not permitted to access this page
-		if ("client".equals(role)) {
-			return null;
-		}
 
 		String result = null;
 
