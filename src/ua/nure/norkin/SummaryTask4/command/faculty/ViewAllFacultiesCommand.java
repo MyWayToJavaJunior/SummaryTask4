@@ -68,11 +68,12 @@ public class ViewAllFacultiesCommand extends Command {
 		LOG.trace("Set the request attribute: 'faculties' = " + faculties);
 
 		HttpSession session = request.getSession(false);
-		String role = String.valueOf(session.getAttribute("userRole"));
-		if ("admin".equals(role)) {
-			result = Path.FORWARD_FACULTY_VIEW_ALL_ADMIN;
-		} else {
+		String role = (String) session.getAttribute("userRole");
+
+		if (role == null || "client".equals(role)) {
 			result = Path.FORWARD_FACULTY_VIEW_ALL_CLIENT;
+		} else if ("admin".equals(role)) {
+			result = Path.FORWARD_FACULTY_VIEW_ALL_ADMIN;
 		}
 
 		return result;
