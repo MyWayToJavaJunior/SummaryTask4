@@ -22,7 +22,8 @@
 				<tr>
 					<td><a
 						href="<c:url value="controller?command=viewFaculty"> <c:param name="name_eng" value="${faculty.nameEng}"/></c:url>">
-							<c:out value="${language eq 'ru' ? faculty.nameRu : faculty.nameEng}"></c:out>
+							<c:out
+								value="${language eq 'ru' ? faculty.nameRu : faculty.nameEng}"></c:out>
 					</a></td>
 					<td><c:out value="${faculty.totalSeats}"></c:out></td>
 					<td><c:out value="${faculty.budgetSeats}"></c:out></td>
@@ -30,5 +31,15 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<script type="text/javascript">
+		var language = "${language}";
+		$(document).ready(function() {
+			$('#facultiesTable').dataTable({
+				"language" : {
+					"url" : (language == 'ru') ? "script/russian.lang" : "",
+				}
+			});
+		});
+	</script>
 </body>
 </html>

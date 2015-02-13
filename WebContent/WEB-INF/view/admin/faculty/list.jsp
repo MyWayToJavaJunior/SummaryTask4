@@ -33,6 +33,15 @@
 			</c:forEach>
 		</tbody>
 	</table>
-
+	<script type="text/javascript">
+		var language = "${language}";
+		$(document).ready(function() {
+			$('#facultiesTable').dataTable({
+				"language" : {
+					"url" : (language == 'ru') ? "script/russian.lang" : "",
+				}
+			});
+		});
+	</script>
 </body>
 </html>
