@@ -30,27 +30,11 @@ public class EditSubjectCommand extends Command {
 	private static final Logger LOG = Logger
 			.getLogger(EditSubjectCommand.class);
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.command.Command#execute(javax.servlet.http
-	 * .HttpServletRequest, javax.servlet.http.HttpServletResponse,
-	 * ua.nure.norkin.SummaryTask4.utils.ActionType)
-	 */
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response, ActionType actionType)
 			throws IOException, ServletException {
 		LOG.debug("Command execution starts");
-
-		String role = String.valueOf(request.getSession(false).getAttribute(
-				"userRole"));
-
-		// clients are not permitted to access this page
-		if (role == null || "client".equals(role)) {
-			return null;
-		}
 
 		String result = null;
 
