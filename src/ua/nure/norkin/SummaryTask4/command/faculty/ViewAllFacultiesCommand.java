@@ -69,10 +69,10 @@ public class ViewAllFacultiesCommand extends Command {
 
 		HttpSession session = request.getSession(false);
 		String role = String.valueOf(session.getAttribute("userRole"));
-		if ("client".equals(role)) {
-			result = Path.FORWARD_FACULTY_VIEW_ALL_CLIENT;
-		} else if ("admin".equals(role)) {
+		if ("admin".equals(role)) {
 			result = Path.FORWARD_FACULTY_VIEW_ALL_ADMIN;
+		} else {
+			result = Path.FORWARD_FACULTY_VIEW_ALL_CLIENT;
 		}
 
 		return result;
