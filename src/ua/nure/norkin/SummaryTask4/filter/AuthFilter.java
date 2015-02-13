@@ -29,9 +29,21 @@ import org.apache.log4j.Logger;
 public class AuthFilter implements Filter {
 
 	private final List<String> urls;
+	/**
+	 * accessible to all users
+	 */
+	private final Set<String> accessibleCommands;
+	/**
+	 * accessible only to logged in users
+	 */
 	private final Set<String> commonCommands;
-	private final Set<String> loggedInUserCommands;
+	/**
+	 * accessible only to client user
+	 */
 	private final Set<String> clientCommands;
+	/**
+	 * accessible only to administrator
+	 */
 	private final Set<String> adminCommands;
 	private static final Logger LOG = Logger.getLogger(AuthFilter.class);
 
@@ -41,19 +53,20 @@ public class AuthFilter implements Filter {
 
 	public AuthFilter() {
 		urls = new ArrayList<String>();
+		accessibleCommands = new HashSet<>();
 		commonCommands = new HashSet<>();
-		loggedInUserCommands = new HashSet<>();
 		clientCommands = new HashSet<>();
 		adminCommands = new HashSet<>();
-		// common commands
-		commonCommands.add("login");
-		commonCommands.add("viewFaculty");
-		commonCommands.add("viewAllFaculties");
-		commonCommands.add("client_registration");
 
-		loggedInUserCommands.add("logout");
-		loggedInUserCommands.add("viewProfile");
-		loggedInUserCommands.add("editProfile");
+		accessibleCommands.add("login");
+		accessibleCommands.add("viewFaculty");
+		accessibleCommands.add("viewAllFaculties");
+		accessibleCommands.add("client_registration");
+
+		// common commands
+		commonCommands.add("logout");
+		commonCommands.add("viewProfile");
+		commonCommands.add("editProfile");
 
 		// client commands
 		clientCommands.add("applyFaculty");
@@ -98,7 +111,7 @@ public class AuthFilter implements Filter {
 
 		String command = req.getParameter("command");
 
-		if (commonCommands.contains(command)) {
+		if (accessibleCommands.contains(command)) {
 			LOG.debug("This command can be accessed by all users: " + command);
 			chain.doFilter(req, res); // request for accessible url
 		} else {
@@ -112,7 +125,7 @@ public class AuthFilter implements Filter {
 				res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 			} else {
 				LOG.debug("User is logged-in. Check common commands to logged in users.");
-				if (loggedInUserCommands.contains(command)) {
+				if (commonCommands.contains(command)) {
 					chain.doFilter(req, res); // Logged-in user found, so
 					// just
 				} else {
