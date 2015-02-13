@@ -10,44 +10,10 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
+ <script type="text/javascript"
+	src="script/jquery-1.11.2.min.js"></script>
 <script type="text/javascript"
-	src="/SummaryTask4/script/jquery-1.11.2.min.js"></script>
-<script type="text/javascript"
-	src="/SummaryTask4/script/jquery.dataTables.min.js"></script>
+	src="script/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" type="text/css"
-	href="/SummaryTask4/css/jquery.dataTables.min.css">
-
-<script type="text/javascript">
-	var language = "${language}";
-
-	if (language == 'ru') {
-		$(document).ready(function() {
-			$('#facultiesTable').dataTable({
-				"language" : {
-					"url" : "/SummaryTask4/script/russian.lang",
-
-				}
-			});
-		});
-
-		$(document).ready(function() {
-			$('#reportTable').dataTable({
-				"language" : {
-					"url" : "/SummaryTask4/script/russian.lang",
-
-				}
-			});
-		});
-
-	} else {
-		$(document).ready(function() {
-			$('#facultiesTable').dataTable();
-		});
-
-		$(document).ready(function() {
-			$('#reportTable').dataTable();
-		});
-	}
-</script>
-
+	href="css/jquery.dataTables.min.css">
 </head>
