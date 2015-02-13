@@ -28,14 +28,6 @@ public class AddSubjectCommand extends Command {
 	private static final long serialVersionUID = -1505430469675582018L;
 	private static final Logger LOG = Logger.getLogger(AddSubjectCommand.class);
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.command.Command#execute(javax.servlet.http
-	 * .HttpServletRequest, javax.servlet.http.HttpServletResponse,
-	 * ua.nure.norkin.SummaryTask4.utils.ActionType)
-	 */
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response, ActionType actionType)
@@ -43,14 +35,6 @@ public class AddSubjectCommand extends Command {
 		LOG.debug("Command execution starts");
 
 		String result = null;
-
-		String role = String.valueOf(request.getSession(false).getAttribute(
-				"userRole"));
-
-		// clients are not allowed to access this page
-		if (role == null || "client".equals(role)) {
-			return null;
-		}
 
 		if (actionType == ActionType.GET) {
 			result = doGet(request, response);

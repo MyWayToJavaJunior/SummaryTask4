@@ -33,26 +33,11 @@ public class EditProfileCommand extends Command {
 	private static final Logger LOG = Logger
 			.getLogger(EditProfileCommand.class);
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.command.Command#execute(javax.servlet.http
-	 * .HttpServletRequest, javax.servlet.http.HttpServletResponse,
-	 * ua.nure.norkin.SummaryTask4.utils.ActionType)
-	 */
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response, ActionType actionType)
 			throws IOException, ServletException {
 		LOG.debug("Start executing Command");
-
-		String role = String.valueOf(request.getSession(false).getAttribute(
-				"userRole"));
-
-		if (role == null) {
-			return null;
-		}
 
 		String result = null;
 

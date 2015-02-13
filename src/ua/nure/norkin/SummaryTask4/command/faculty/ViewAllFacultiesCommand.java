@@ -29,14 +29,6 @@ public class ViewAllFacultiesCommand extends Command {
 	private static final Logger LOG = Logger
 			.getLogger(ViewAllFacultiesCommand.class);
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.command.Command#execute(javax.servlet.http
-	 * .HttpServletRequest, javax.servlet.http.HttpServletResponse,
-	 * ua.nure.norkin.SummaryTask4.utils.ActionType)
-	 */
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response, ActionType actionType)
@@ -76,8 +68,9 @@ public class ViewAllFacultiesCommand extends Command {
 		LOG.trace("Set the request attribute: 'faculties' = " + faculties);
 
 		HttpSession session = request.getSession(false);
-		String role = String.valueOf(session.getAttribute("userRole"));
-		if ("client".equals(role)) {
+		String role = (String) session.getAttribute("userRole");
+
+		if (role == null || "client".equals(role)) {
 			result = Path.FORWARD_FACULTY_VIEW_ALL_CLIENT;
 		} else if ("admin".equals(role)) {
 			result = Path.FORWARD_FACULTY_VIEW_ALL_ADMIN;

@@ -18,7 +18,7 @@
 	href="/SummaryTask4/css/jquery.dataTables.min.css">
 
 <script type="text/javascript">
-	var language = "${lang}";
+	var language = "${language}";
 
 	if (language == 'ru') {
 		$(document).ready(function() {

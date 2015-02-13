@@ -23,14 +23,6 @@ public class NoCommand extends Command {
 
 	private static final Logger LOG = Logger.getLogger(NoCommand.class);
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.command.Command#execute(javax.servlet.http
-	 * .HttpServletRequest, javax.servlet.http.HttpServletResponse,
-	 * ua.nure.norkin.SummaryTask4.utils.ActionType)
-	 */
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response, ActionType actionType)

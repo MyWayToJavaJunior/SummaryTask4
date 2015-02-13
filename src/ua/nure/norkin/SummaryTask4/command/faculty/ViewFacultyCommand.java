@@ -39,14 +39,6 @@ public class ViewFacultyCommand extends Command {
 	private static final Logger LOG = Logger
 			.getLogger(ViewFacultyCommand.class);
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.command.Command#execute(javax.servlet.http
-	 * .HttpServletRequest, javax.servlet.http.HttpServletResponse,
-	 * ua.nure.norkin.SummaryTask4.utils.ActionType)
-	 */
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response, ActionType actionType)
@@ -116,9 +108,9 @@ public class ViewFacultyCommand extends Command {
 				+ facultySubjects);
 
 		HttpSession session = request.getSession(false);
-		String role = String.valueOf(session.getAttribute("userRole"));
+		String role = (String) session.getAttribute("userRole");
 
-		if ("client".equals(role)) {
+		if (role == null || "client".equals(role)) {
 			result = Path.FORWARD_FACULTY_VIEW_CLIENT;
 		} else if ("admin".equals(role)) {
 			EntrantRepository entrantRepository = MySQLRepositoryFactory
