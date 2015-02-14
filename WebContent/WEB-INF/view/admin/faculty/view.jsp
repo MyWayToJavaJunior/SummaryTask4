@@ -9,15 +9,10 @@
 	</h2>
 	<div class="view">
 		<p>
-			<label><fmt:message key="faculty.view_jsp.label.name" />
-				(ru)</label>
-			<c:out value="${name_ru}"></c:out>
+			<label><fmt:message key="faculty.view_jsp.label.name" /> </label>
+			<c:out value="${lang eq 'ru' ? ${name_ru} : ${name_eng}" />
 		</p>
-		<p>
-			<label><fmt:message key="faculty.view_jsp.label.name" />
-				(eng)</label>
-			<c:out value="${name_eng}"></c:out>
-		</p>
+
 		<p>
 			<label><fmt:message key="faculty.view_jsp.label.total_seats" /></label>
 			<c:out value="${total_seats}"></c:out>
