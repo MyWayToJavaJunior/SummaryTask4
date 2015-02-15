@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.repository.DatabaseAbstractRepository;
+import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
@@ -24,7 +25,8 @@ import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
  * @author Mark Norkin
  *
  */
-public class MySqlFacultyRepository extends DatabaseAbstractRepository<Faculty> {
+public class MySqlFacultyRepository extends DatabaseAbstractRepository<Faculty>
+		implements FacultyRepository {
 
 	private static final String FIND_ALL_FACULTIES = "SELECT * FROM university_admission.faculty;";
 	private static final String FIND_FACULTY_BY_ID = "SELECT * FROM university_admission.faculty WHERE faculty.id = ? LIMIT 1;";
@@ -33,7 +35,8 @@ public class MySqlFacultyRepository extends DatabaseAbstractRepository<Faculty> 
 	private static final String UPDATE_FACULTY = "UPDATE faculty SET faculty.name_ru=?, faculty.name_eng=?, faculty.total_seats=?,faculty.budget_seats=? WHERE faculty.id=? LIMIT 1;";
 	private static final String DELETE_FACULTY = "DELETE FROM university_admission.faculty WHERE faculty.id=? LIMIT 1;";
 
-	private final static Logger LOG = Logger.getLogger(MySqlFacultyRepository.class);
+	private final static Logger LOG = Logger
+			.getLogger(MySqlFacultyRepository.class);
 
 	public MySqlFacultyRepository(DataSource dataSource) {
 		super(dataSource);
@@ -43,13 +46,6 @@ public class MySqlFacultyRepository extends DatabaseAbstractRepository<Faculty> 
 		this(DataSourceFactory.getDataSource(DataSourceType.MY_SQL_DATASOURCE));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.repository.Repository#create(java.lang.Object
-	 * )
-	 */
 	@Override
 	public void create(Faculty entity) {
 		Connection connection = null;
@@ -81,13 +77,6 @@ public class MySqlFacultyRepository extends DatabaseAbstractRepository<Faculty> 
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.repository.Repository#update(java.lang.Object
-	 * )
-	 */
 	@Override
 	public void update(Faculty entity) {
 		Connection connection = null;
@@ -114,13 +103,6 @@ public class MySqlFacultyRepository extends DatabaseAbstractRepository<Faculty> 
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.repository.Repository#delete(java.lang.Object
-	 * )
-	 */
 	@Override
 	public void delete(Faculty entity) {
 		Connection connection = null;
@@ -141,11 +123,6 @@ public class MySqlFacultyRepository extends DatabaseAbstractRepository<Faculty> 
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#find(int)
-	 */
 	@Override
 	public Faculty find(int entityPK) {
 		Connection connection = null;
@@ -174,14 +151,7 @@ public class MySqlFacultyRepository extends DatabaseAbstractRepository<Faculty> 
 		return faculty;
 	}
 
-	/**
-	 * Finds Faculty record in database through faculty name. This can be
-	 * achieved, because all faculties have unique names.
-	 *
-	 * @param facultyName
-	 *            - faculty name to be searched through
-	 * @return Faculty instance with specified name
-	 */
+	@Override
 	public Faculty find(String facultyName) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -210,11 +180,6 @@ public class MySqlFacultyRepository extends DatabaseAbstractRepository<Faculty> 
 		return faculty;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#findAll()
-	 */
 	@Override
 	public List<Faculty> findAll() {
 		Connection connection = null;
