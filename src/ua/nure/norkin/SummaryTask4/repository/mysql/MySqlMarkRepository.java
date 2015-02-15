@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.Mark;
 import ua.nure.norkin.SummaryTask4.repository.DatabaseAbstractRepository;
+import ua.nure.norkin.SummaryTask4.repository.MarkRepository;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
@@ -24,7 +25,8 @@ import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
  * @author Mark Norkin
  *
  */
-public class MySqlMarkRepository extends DatabaseAbstractRepository<Mark> {
+public class MySqlMarkRepository extends DatabaseAbstractRepository<Mark>
+		implements MarkRepository {
 
 	private static final String FIND_ALL_MARKS = "SELECT * FROM university_admission.mark;";
 	private static final String FIND_MARK = "SELECT * FROM university_admission.mark WHERE mark.id = ? LIMIT 1;";
@@ -32,7 +34,8 @@ public class MySqlMarkRepository extends DatabaseAbstractRepository<Mark> {
 	private static final String UPDATE_MARK = "UPDATE mark SET mark.Entrant_idEntrant=?, mark.Subject_idSubject=?,mark.value=?,mark.exam_type=? WHERE mark.id=? LIMIT 1;";
 	private static final String DELETE_MARK = "DELETE FROM university_admission.mark WHERE mark.id=? LIMIT 1;";
 
-	private final static Logger LOG = Logger.getLogger(MySqlMarkRepository.class);
+	private final static Logger LOG = Logger
+			.getLogger(MySqlMarkRepository.class);
 
 	public MySqlMarkRepository(DataSource dataSource) {
 		super(dataSource);
@@ -42,13 +45,6 @@ public class MySqlMarkRepository extends DatabaseAbstractRepository<Mark> {
 		this(DataSourceFactory.getDataSource(DataSourceType.MY_SQL_DATASOURCE));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.repository.Repository#create(java.lang.Object
-	 * )
-	 */
 	@Override
 	public void create(Mark entity) {
 		Connection connection = null;
@@ -81,13 +77,6 @@ public class MySqlMarkRepository extends DatabaseAbstractRepository<Mark> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.repository.Repository#update(java.lang.Object
-	 * )
-	 */
 	@Override
 	public void update(Mark entity) {
 		Connection connection = null;
@@ -113,13 +102,6 @@ public class MySqlMarkRepository extends DatabaseAbstractRepository<Mark> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.repository.Repository#delete(java.lang.Object
-	 * )
-	 */
 	@Override
 	public void delete(Mark entity) {
 		Connection connection = null;
@@ -140,11 +122,6 @@ public class MySqlMarkRepository extends DatabaseAbstractRepository<Mark> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#find(int)
-	 */
 	@Override
 	public Mark find(int entityPK) {
 		Connection connection = null;
@@ -173,11 +150,6 @@ public class MySqlMarkRepository extends DatabaseAbstractRepository<Mark> {
 		return mark;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#findAll()
-	 */
 	@Override
 	public List<Mark> findAll() {
 		Connection connection = null;
