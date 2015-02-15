@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.FacultyEntrants;
 import ua.nure.norkin.SummaryTask4.repository.DatabaseAbstractRepository;
+import ua.nure.norkin.SummaryTask4.repository.FacultyEntrantsRepository;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
@@ -26,7 +27,8 @@ import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
  *
  */
 public class MySqlFacultyEntrantsRepository extends
-		DatabaseAbstractRepository<FacultyEntrants> {
+		DatabaseAbstractRepository<FacultyEntrants> implements
+		FacultyEntrantsRepository {
 
 	private static final String FIND_ALL_FACULTY_ENTRANTS = "SELECT * FROM university_admission.faculty_entrants;";
 	private static final String FIND_FACULTY_ENTRANT_BY_ID = "SELECT * FROM university_admission.faculty_entrants WHERE faculty_entrants.id = ? LIMIT 1;";
@@ -45,13 +47,6 @@ public class MySqlFacultyEntrantsRepository extends
 		super(dataSource);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.repository.Repository#create(java.lang.Object
-	 * )
-	 */
 	@Override
 	public void create(FacultyEntrants entity) {
 		Connection connection = null;
@@ -81,26 +76,6 @@ public class MySqlFacultyEntrantsRepository extends
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.repository.Repository#update(java.lang.Object
-	 * )
-	 */
-	@Override
-	public void update(FacultyEntrants entity) {
-		throw new UnsupportedOperationException(
-				"This operation is not supported on compound entity 'faculty_entrants'");
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.repository.Repository#delete(java.lang.Object
-	 * )
-	 */
 	@Override
 	public void delete(FacultyEntrants entity) {
 		Connection connection = null;
@@ -121,11 +96,6 @@ public class MySqlFacultyEntrantsRepository extends
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#find(int)
-	 */
 	@Override
 	public FacultyEntrants find(int entityPK) {
 		Connection connection = null;
@@ -154,6 +124,7 @@ public class MySqlFacultyEntrantsRepository extends
 		return facultyEntrant;
 	}
 
+	@Override
 	public FacultyEntrants find(FacultyEntrants facultyEntrants) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -184,11 +155,6 @@ public class MySqlFacultyEntrantsRepository extends
 		return facultyEntrant;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#findAll()
-	 */
 	@Override
 	public List<FacultyEntrants> findAll() {
 		Connection connection = null;
