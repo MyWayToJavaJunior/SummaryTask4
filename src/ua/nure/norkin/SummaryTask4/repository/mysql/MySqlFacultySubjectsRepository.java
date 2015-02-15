@@ -15,6 +15,7 @@ import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.entity.FacultySubjects;
 import ua.nure.norkin.SummaryTask4.repository.DatabaseAbstractRepository;
+import ua.nure.norkin.SummaryTask4.repository.FacultySubjectsRepository;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
@@ -26,7 +27,8 @@ import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
  *
  */
 public class MySqlFacultySubjectsRepository extends
-		DatabaseAbstractRepository<FacultySubjects> {
+		DatabaseAbstractRepository<FacultySubjects> implements
+		FacultySubjectsRepository {
 
 	private static final String FIND_ALL_FACULTY_SUBJECTS = "SELECT * FROM university_admission.faculty_subjects;";
 	private static final String FIND_FACULTY_SUBJECT = "SELECT * FROM university_admission.faculty_subjects WHERE university_admission.faculty_subjects.id = ? LIMIT 1;";
@@ -45,13 +47,6 @@ public class MySqlFacultySubjectsRepository extends
 		this(DataSourceFactory.getDataSource(DataSourceType.MY_SQL_DATASOURCE));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.repository.Repository#create(java.lang.Object
-	 * )
-	 */
 	@Override
 	public void create(FacultySubjects entity) {
 		Connection connection = null;
@@ -81,26 +76,6 @@ public class MySqlFacultySubjectsRepository extends
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.repository.Repository#update(java.lang.Object
-	 * )
-	 */
-	@Override
-	public void update(FacultySubjects entity) {
-		throw new UnsupportedOperationException(
-				"This operation is not supported on compound entity 'faculty_subjects'");
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.repository.Repository#delete(java.lang.Object
-	 * )
-	 */
 	@Override
 	public void delete(FacultySubjects entity) {
 		Connection connection = null;
@@ -123,12 +98,7 @@ public class MySqlFacultySubjectsRepository extends
 		}
 	}
 
-	/**
-	 * Deletes all preliminary subjects of specified faculty.
-	 *
-	 * @param entity
-	 *            - faculty by which delete operation should be performed
-	 */
+	@Override
 	public void deleteAllSubjects(Faculty entity) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -148,11 +118,6 @@ public class MySqlFacultySubjectsRepository extends
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#find(int)
-	 */
 	@Override
 	public FacultySubjects find(int entityPK) {
 		Connection connection = null;
@@ -181,11 +146,6 @@ public class MySqlFacultySubjectsRepository extends
 		return facultySubject;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#findAll()
-	 */
 	@Override
 	public List<FacultySubjects> findAll() {
 		Connection connection = null;
