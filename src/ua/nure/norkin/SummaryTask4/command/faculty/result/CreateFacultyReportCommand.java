@@ -15,8 +15,9 @@ import ua.nure.norkin.SummaryTask4.command.Command;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.entity.result.EntrantReportSheet;
 import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
-import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.ReportSheetRepository;
+import ua.nure.norkin.SummaryTask4.repository.factory.FactoryType;
+import ua.nure.norkin.SummaryTask4.repository.factory.RepositoryFactory;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 public class CreateFacultyReportCommand extends Command {
@@ -45,7 +46,9 @@ public class CreateFacultyReportCommand extends Command {
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
 
-		ReportSheetRepository reportSheetRepository = MySQLRepositoryFactory
+		RepositoryFactory repositoryFactory = RepositoryFactory
+				.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+		ReportSheetRepository reportSheetRepository = repositoryFactory
 				.getReportSheetRepository();
 
 		String id = request.getParameter(Fields.ENTITY_ID);
@@ -53,7 +56,7 @@ public class CreateFacultyReportCommand extends Command {
 		List<EntrantReportSheet> report = reportSheetRepository
 				.getReport(facultyId);
 
-		FacultyRepository facultyRepository = MySQLRepositoryFactory
+		FacultyRepository facultyRepository = repositoryFactory
 				.getFacultyRepository();
 		Faculty faculty = facultyRepository.find(facultyId);
 

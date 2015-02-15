@@ -1,7 +1,7 @@
 package ua.nure.norkin.SummaryTask4.command.faculty;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Collection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +14,8 @@ import ua.nure.norkin.SummaryTask4.Path;
 import ua.nure.norkin.SummaryTask4.command.Command;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
-import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
+import ua.nure.norkin.SummaryTask4.repository.factory.FactoryType;
+import ua.nure.norkin.SummaryTask4.repository.factory.RepositoryFactory;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 /**
@@ -57,10 +58,12 @@ public class ViewAllFacultiesCommand extends Command {
 			HttpServletResponse response) {
 		String result = null;
 
-		FacultyRepository facultyRepository = MySQLRepositoryFactory
+		RepositoryFactory repositoryFactory = RepositoryFactory
+				.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+		FacultyRepository facultyRepository = repositoryFactory
 				.getFacultyRepository();
 
-		List<Faculty> faculties = facultyRepository.findAll();
+		Collection<Faculty> faculties = facultyRepository.findAll();
 
 		LOG.trace("Faculties records found: " + faculties);
 

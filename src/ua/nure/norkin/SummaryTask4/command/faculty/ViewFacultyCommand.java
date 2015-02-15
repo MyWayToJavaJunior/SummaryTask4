@@ -22,9 +22,10 @@ import ua.nure.norkin.SummaryTask4.entity.Subject;
 import ua.nure.norkin.SummaryTask4.entity.User;
 import ua.nure.norkin.SummaryTask4.repository.EntrantRepository;
 import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
-import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.repository.UserRepository;
+import ua.nure.norkin.SummaryTask4.repository.factory.FactoryType;
+import ua.nure.norkin.SummaryTask4.repository.factory.RepositoryFactory;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 /**
@@ -72,7 +73,9 @@ public class ViewFacultyCommand extends Command {
 
 		String result = null;
 
-		FacultyRepository facultyRepository = MySQLRepositoryFactory
+		RepositoryFactory repositoryFactory = RepositoryFactory
+				.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+		FacultyRepository facultyRepository = repositoryFactory
 				.getFacultyRepository();
 
 		Faculty facultyRecord = facultyRepository.find(facultyNameEng);
@@ -98,7 +101,7 @@ public class ViewFacultyCommand extends Command {
 		LOG.trace("Set the request attribute: 'budget_seats' = "
 				+ facultyRecord.getBudgetSeats());
 
-		SubjectRepository subjectRepository = MySQLRepositoryFactory
+		SubjectRepository subjectRepository = repositoryFactory
 				.getSubjectRepository();
 		List<Subject> facultySubjects = subjectRepository
 				.findAllFacultySubjects(facultyRecord);
@@ -113,7 +116,7 @@ public class ViewFacultyCommand extends Command {
 		if (role == null || "client".equals(role)) {
 			result = Path.FORWARD_FACULTY_VIEW_CLIENT;
 		} else if ("admin".equals(role)) {
-			EntrantRepository entrantRepository = MySQLRepositoryFactory
+			EntrantRepository entrantRepository = repositoryFactory
 					.getEntrantRepository();
 			List<Entrant> entrants = entrantRepository
 					.findAllFacultyEntrants(facultyRecord);
@@ -127,7 +130,7 @@ public class ViewFacultyCommand extends Command {
 						}
 					});
 
-			UserRepository userRepository = MySQLRepositoryFactory
+			UserRepository userRepository = repositoryFactory
 					.getUserRepository();
 			for (Entrant entrant : entrants) {
 				User user = userRepository.find(entrant.getUserId());
