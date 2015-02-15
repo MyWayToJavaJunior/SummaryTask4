@@ -14,11 +14,19 @@ import org.apache.log4j.Logger;
 import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.result.EntrantReportSheet;
 import ua.nure.norkin.SummaryTask4.repository.DatabaseAbstractRepository;
+import ua.nure.norkin.SummaryTask4.repository.ReportSheetRepository;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
+/**
+ * Report Sheet DAO. Performs reading the results collected in database view.
+ *
+ * @author Mark Norkin
+ *
+ */
 public class MySqlReportSheetRepository extends
-		DatabaseAbstractRepository<EntrantReportSheet> {
+		DatabaseAbstractRepository<EntrantReportSheet> implements
+		ReportSheetRepository {
 
 	private final static Logger LOG = Logger
 			.getLogger(MySqlReportSheetRepository.class);
@@ -50,43 +58,13 @@ public class MySqlReportSheetRepository extends
 			}
 		} catch (SQLException e) {
 			rollback(connection);
-			LOG.error("Can not find a faculty", e);
+			LOG.error("Can not get report sheet", e);
 		} finally {
 			close(connection);
 			close(pstmt);
 			close(rs);
 		}
 		return entrantsResults;
-	}
-
-	@Override
-	public void create(EntrantReportSheet entity) {
-		throw new UnsupportedOperationException(
-				"Working with SQL View. Only read is allowed.");
-	}
-
-	@Override
-	public void update(EntrantReportSheet entity) {
-		throw new UnsupportedOperationException(
-				"Working with SQL View. Only read is allowed.");
-	}
-
-	@Override
-	public void delete(EntrantReportSheet entity) {
-		throw new UnsupportedOperationException(
-				"Working with SQL View. Only read is allowed.");
-	}
-
-	@Override
-	public EntrantReportSheet find(int entityPK) {
-		throw new UnsupportedOperationException(
-				"Working with SQL View. Only read is allowed.");
-	}
-
-	@Override
-	public List<EntrantReportSheet> findAll() {
-		throw new UnsupportedOperationException(
-				"Working with SQL View. Only read is allowed.");
 	}
 
 	private static EntrantReportSheet unmarshal(ResultSet rs) {
