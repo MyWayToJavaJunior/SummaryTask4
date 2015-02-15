@@ -16,6 +16,7 @@ import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.entity.Subject;
 import ua.nure.norkin.SummaryTask4.repository.DatabaseAbstractRepository;
+import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
@@ -25,7 +26,8 @@ import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
  * @author Mark Norkin
  *
  */
-public class MySqlSubjectRepository extends DatabaseAbstractRepository<Subject> {
+public class MySqlSubjectRepository extends DatabaseAbstractRepository<Subject>
+		implements SubjectRepository {
 
 	private static final String FIND_ALL_SUBJECTS = "SELECT * FROM university_admission.subject;";
 	private static final String FIND_SUBJECT_BY_ID = "SELECT * FROM university_admission.subject WHERE subject.id=? LIMIT 1;";
@@ -36,7 +38,8 @@ public class MySqlSubjectRepository extends DatabaseAbstractRepository<Subject> 
 	private static final String FIND_ALL_FACULTY_SUBJECTS = "SELECT university_admission.subject.id, university_admission.subject.name_ru, university_admission.subject.name_eng FROM university_admission.subject,university_admission.faculty_subjects WHERE faculty_subjects.Faculty_idFaculty = ? AND university_admission.faculty_subjects.Subject_idSubject=university_admission.subject.id ;";
 	private static final String FIND_ALL_NOT_FACULTY_SUBJECTS = "SELECT university_admission.subject.id, university_admission.subject.name_ru, university_admission.subject.name_eng FROM university_admission.subject LEFT JOIN university_admission.Faculty_Subjects ON university_admission.Faculty_Subjects.Subject_idSubject = university_admission.subject.id AND university_admission.Faculty_Subjects.Faculty_idFaculty = ? WHERE university_admission.Faculty_Subjects.id IS NULL;";
 
-	private final static Logger LOG = Logger.getLogger(MySqlSubjectRepository.class);
+	private final static Logger LOG = Logger
+			.getLogger(MySqlSubjectRepository.class);
 
 	public MySqlSubjectRepository(DataSource dataSource) {
 		super(dataSource);
@@ -46,13 +49,6 @@ public class MySqlSubjectRepository extends DatabaseAbstractRepository<Subject> 
 		this(DataSourceFactory.getDataSource(DataSourceType.MY_SQL_DATASOURCE));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.repository.Repository#create(java.lang.Object
-	 * )
-	 */
 	@Override
 	public void create(Subject entity) {
 		Connection connection = null;
@@ -83,13 +79,6 @@ public class MySqlSubjectRepository extends DatabaseAbstractRepository<Subject> 
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.repository.Repository#update(java.lang.Object
-	 * )
-	 */
 	@Override
 	public void update(Subject entity) {
 		Connection connection = null;
@@ -114,13 +103,6 @@ public class MySqlSubjectRepository extends DatabaseAbstractRepository<Subject> 
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.repository.Repository#delete(java.lang.Object
-	 * )
-	 */
 	@Override
 	public void delete(Subject entity) {
 		Connection connection = null;
@@ -141,11 +123,6 @@ public class MySqlSubjectRepository extends DatabaseAbstractRepository<Subject> 
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#find(int)
-	 */
 	@Override
 	public Subject find(int entityPK) {
 		Connection connection = null;
@@ -174,14 +151,7 @@ public class MySqlSubjectRepository extends DatabaseAbstractRepository<Subject> 
 		return subject;
 	}
 
-	/**
-	 * Finds subject record by the subject name. This is achieved through having
-	 * a unique subject name field.
-	 *
-	 * @param subjectName
-	 *            - to be searched through
-	 * @return subject instance which have specified name
-	 */
+	@Override
 	public Subject find(String subjectName) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -211,11 +181,6 @@ public class MySqlSubjectRepository extends DatabaseAbstractRepository<Subject> 
 		return subject;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#findAll()
-	 */
 	@Override
 	public List<Subject> findAll() {
 		Connection connection = null;
@@ -241,13 +206,7 @@ public class MySqlSubjectRepository extends DatabaseAbstractRepository<Subject> 
 		return subjects;
 	}
 
-	/**
-	 * Finds all preliminary subjects of this faculty.
-	 *
-	 * @param faculty
-	 *            by which search of subjects will be done
-	 * @return<code>List</code> of faculty preliminary subjects
-	 */
+	@Override
 	public List<Subject> findAllFacultySubjects(Faculty faculty) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -273,12 +232,7 @@ public class MySqlSubjectRepository extends DatabaseAbstractRepository<Subject> 
 		return facultySubjects;
 	}
 
-	/**
-	 * Finds all subjects that are not required as preliminary for this faculty.
-	 *
-	 * @param faculty
-	 * @return <codeList></code> of subjects that complied with this condition.
-	 */
+	@Override
 	public List<Subject> findAllNotFacultySubjects(Faculty faculty) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
