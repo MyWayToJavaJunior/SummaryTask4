@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.User;
 import ua.nure.norkin.SummaryTask4.repository.DatabaseAbstractRepository;
+import ua.nure.norkin.SummaryTask4.repository.UserRepository;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
@@ -23,7 +24,8 @@ import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
  * @author Mark Norkin
  *
  */
-public class MySqlUserRepository extends DatabaseAbstractRepository<User> {
+public class MySqlUserRepository extends DatabaseAbstractRepository<User>
+		implements UserRepository {
 
 	private static final String FIND_ALL_USERS = "SELECT * FROM university_admission.user;";
 	private static final String FIND_USER = "SELECT * FROM university_admission.user WHERE user.id = ? LIMIT 1;";
@@ -33,7 +35,8 @@ public class MySqlUserRepository extends DatabaseAbstractRepository<User> {
 	private static final String UPDATE_USER = "UPDATE user SET first_name=?,last_name=?,email=?,password=?,role=?, lang=? WHERE user.id= ? LIMIT 1;";
 	private static final String DELETE_USER = "DELETE FROM university_admission.user WHERE user.id=? LIMIT 1;";
 
-	private final static Logger LOG = Logger.getLogger(MySqlUserRepository.class);
+	private final static Logger LOG = Logger
+			.getLogger(MySqlUserRepository.class);
 
 	public MySqlUserRepository(DataSource dataSource) {
 		super(dataSource);
@@ -43,13 +46,6 @@ public class MySqlUserRepository extends DatabaseAbstractRepository<User> {
 		this(DataSourceFactory.getDataSource(DataSourceType.MY_SQL_DATASOURCE));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.repository.Repository#create(java.lang.Object
-	 * )
-	 */
 	public void create(User user) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -84,13 +80,6 @@ public class MySqlUserRepository extends DatabaseAbstractRepository<User> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.repository.Repository#update(java.lang.Object
-	 * )
-	 */
 	public void update(User user) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -118,13 +107,6 @@ public class MySqlUserRepository extends DatabaseAbstractRepository<User> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * ua.nure.norkin.SummaryTask4.repository.Repository#delete(java.lang.Object
-	 * )
-	 */
 	public void delete(User user) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -176,16 +158,7 @@ public class MySqlUserRepository extends DatabaseAbstractRepository<User> {
 		return user;
 	}
 
-	/**
-	 * Finds User in database by specified login and password. Mainly useful for
-	 * login User in system.
-	 *
-	 * @param email
-	 *            - user email
-	 * @param password
-	 *            - user password
-	 * @return User with such fields
-	 */
+	@Override
 	public User find(String email, String password) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -215,14 +188,7 @@ public class MySqlUserRepository extends DatabaseAbstractRepository<User> {
 		return user;
 	}
 
-	/**
-	 * Finds User in database by specified email, it can be done because email
-	 * should be unique.
-	 *
-	 * @param email
-	 *            - user email
-	 * @return User instance with such email
-	 */
+	@Override
 	public User find(String email) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -251,11 +217,6 @@ public class MySqlUserRepository extends DatabaseAbstractRepository<User> {
 		return user;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see ua.nure.norkin.SummaryTask4.repository.Repository#findAll()
-	 */
 	public List<User> findAll() {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
