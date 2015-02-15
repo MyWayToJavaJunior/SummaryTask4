@@ -1,4 +1,4 @@
-package ua.nure.norkin.SummaryTask4.repository;
+package ua.nure.norkin.SummaryTask4.repository.mysql;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -19,17 +19,18 @@ import org.junit.Test;
 import ua.nure.norkin.SummaryTask4.entity.User;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
+import ua.nure.norkin.SummaryTask4.repository.mysql.MySqlUserRepository;
 
-public class UserRepositoryTest {
+public class MySqlUserRepositoryTest {
 
 	private User user;
-	private static UserRepository userRepository;
+	private static MySqlUserRepository userRepository;
 	private static int userId;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 
-		userRepository = new UserRepository(
+		userRepository = new MySqlUserRepository(
 				DataSourceFactory
 						.getDataSource(DataSourceType.MY_SQL_DATASOURCE_WITH_OUT_JNDI)) {
 			@Override
@@ -74,12 +75,12 @@ public class UserRepositoryTest {
 
 	@Test
 	public void testUserRepositoryConstructorWithDataSource() {
-		new UserRepository();
+		new MySqlUserRepository();
 	}
 
 	@Test
 	public void testUserRepositoryDefaultConstructor() {
-		new UserRepository(null);
+		new MySqlUserRepository(null);
 	}
 
 	@Test

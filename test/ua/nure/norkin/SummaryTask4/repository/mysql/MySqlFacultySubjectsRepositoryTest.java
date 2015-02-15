@@ -1,4 +1,4 @@
-package ua.nure.norkin.SummaryTask4.repository;
+package ua.nure.norkin.SummaryTask4.repository.mysql;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -24,20 +24,20 @@ import ua.nure.norkin.SummaryTask4.entity.Subject;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
-public class FacultySubjectsRepositoryTest {
+public class MySqlFacultySubjectsRepositoryTest {
 
-	private static FacultyRepository facultyRepository;
+	private static MySqlFacultyRepository facultyRepository;
 	private static Faculty faculty;
-	private static SubjectRepository subjectRepository;
+	private static MySqlSubjectRepository subjectRepository;
 	private static Subject subject;
 
-	private static FacultySubjectsRepository facultySubjectsRepository;
+	private static MySqlFacultySubjectsRepository facultySubjectsRepository;
 	private FacultySubjects facultySubjects;
 	private static int facultySubjectsId;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		facultyRepository = new FacultyRepository(
+		facultyRepository = new MySqlFacultyRepository(
 				DataSourceFactory
 						.getDataSource(DataSourceType.MY_SQL_DATASOURCE_WITH_OUT_JNDI)) {
 			@Override
@@ -57,7 +57,7 @@ public class FacultySubjectsRepositoryTest {
 
 		facultyRepository.create(faculty);
 
-		subjectRepository = new SubjectRepository(
+		subjectRepository = new MySqlSubjectRepository(
 				DataSourceFactory
 						.getDataSource(DataSourceType.MY_SQL_DATASOURCE_WITH_OUT_JNDI)) {
 			@Override
@@ -74,7 +74,7 @@ public class FacultySubjectsRepositoryTest {
 
 		subjectRepository.create(subject);
 
-		facultySubjectsRepository = new FacultySubjectsRepository(
+		facultySubjectsRepository = new MySqlFacultySubjectsRepository(
 				DataSourceFactory
 						.getDataSource(DataSourceType.MY_SQL_DATASOURCE_WITH_OUT_JNDI)) {
 			@Override
@@ -113,12 +113,12 @@ public class FacultySubjectsRepositoryTest {
 
 	@Test
 	public void testFacultySubjectsRepositoryDataSource() {
-		new FacultySubjectsRepository(null);
+		new MySqlFacultySubjectsRepository(null);
 	}
 
 	@Test
 	public void testFacultySubjectsRepository() {
-		new FacultySubjectsRepository();
+		new MySqlFacultySubjectsRepository();
 	}
 
 	@Test

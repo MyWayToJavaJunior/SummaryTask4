@@ -1,4 +1,4 @@
-package ua.nure.norkin.SummaryTask4.repository;
+package ua.nure.norkin.SummaryTask4.repository.mysql;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -19,17 +19,18 @@ import org.junit.Test;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
+import ua.nure.norkin.SummaryTask4.repository.mysql.MySqlFacultyRepository;
 
-public class FacultyRepositoryTest {
+public class MySqlFacultyRepositoryTest {
 
 	private Faculty faculty;
-	private static FacultyRepository facultyRepository;
+	private static MySqlFacultyRepository facultyRepository;
 	private static int facultyId;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 
-		facultyRepository = new FacultyRepository(
+		facultyRepository = new MySqlFacultyRepository(
 				DataSourceFactory
 						.getDataSource(DataSourceType.MY_SQL_DATASOURCE_WITH_OUT_JNDI)) {
 			@Override
@@ -72,12 +73,12 @@ public class FacultyRepositoryTest {
 
 	@Test
 	public void testFacultyRepositoryDataSource() {
-		new FacultyRepository(null);
+		new MySqlFacultyRepository(null);
 	}
 
 	@Test
 	public void testFacultyRepository() {
-		new FacultyRepository();
+		new MySqlFacultyRepository();
 	}
 
 	@Test

@@ -1,9 +1,11 @@
-package ua.nure.norkin.SummaryTask4.repository;
+package ua.nure.norkin.SummaryTask4.repository.mysql;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -22,12 +24,12 @@ import ua.nure.norkin.SummaryTask4.entity.User;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
-public class FacultyEntrantsRepositoryTest {
-	private static UserRepository userRepository;
-	private static EntrantRepository entrantRepository;
-	private static FacultyRepository facultyRepository;
+public class MySqlFacultyEntrantsRepositoryTest {
+	private static MySqlUserRepository userRepository;
+	private static MySqlEntrantRepository entrantRepository;
+	private static MySqlFacultyRepository facultyRepository;
 
-	private static FacultyEntrantsRepository facultyEntrantsRepository;
+	private static MySqlFacultyEntrantsRepository facultyEntrantsRepository;
 
 	private static Faculty faculty;
 	private static Entrant entrant;
@@ -39,7 +41,7 @@ public class FacultyEntrantsRepositoryTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 
-		userRepository = new UserRepository(
+		userRepository = new MySqlUserRepository(
 				DataSourceFactory
 						.getDataSource(DataSourceType.MY_SQL_DATASOURCE_WITH_OUT_JNDI)) {
 			@Override
@@ -60,7 +62,7 @@ public class FacultyEntrantsRepositoryTest {
 
 		userRepository.create(user);
 
-		entrantRepository = new EntrantRepository(
+		entrantRepository = new MySqlEntrantRepository(
 				DataSourceFactory
 						.getDataSource(DataSourceType.MY_SQL_DATASOURCE_WITH_OUT_JNDI)) {
 			@Override
@@ -80,7 +82,7 @@ public class FacultyEntrantsRepositoryTest {
 
 		entrantRepository.create(entrant);
 
-		facultyRepository = new FacultyRepository(
+		facultyRepository = new MySqlFacultyRepository(
 				DataSourceFactory
 						.getDataSource(DataSourceType.MY_SQL_DATASOURCE_WITH_OUT_JNDI)) {
 			@Override
@@ -100,7 +102,7 @@ public class FacultyEntrantsRepositoryTest {
 
 		facultyRepository.create(faculty);
 
-		facultyEntrantsRepository = new FacultyEntrantsRepository(
+		facultyEntrantsRepository = new MySqlFacultyEntrantsRepository(
 				DataSourceFactory
 						.getDataSource(DataSourceType.MY_SQL_DATASOURCE_WITH_OUT_JNDI)) {
 			@Override
@@ -141,12 +143,12 @@ public class FacultyEntrantsRepositoryTest {
 
 	@Test
 	public void testFacultyEntrantsRepository() {
-		new FacultyEntrantsRepository();
+		new MySqlFacultyEntrantsRepository();
 	}
 
 	@Test
 	public void testFacultyEntrantsRepositoryDataSource() {
-		new FacultyEntrantsRepository(null);
+		new MySqlFacultyEntrantsRepository(null);
 	}
 
 	@Test

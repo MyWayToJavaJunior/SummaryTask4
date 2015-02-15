@@ -1,4 +1,4 @@
-package ua.nure.norkin.SummaryTask4.repository;
+package ua.nure.norkin.SummaryTask4.repository.mysql;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -22,9 +22,9 @@ import ua.nure.norkin.SummaryTask4.entity.User;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
-public class EntrantRepositoryTest {
-	private static EntrantRepository entrantRepository;
-	private static UserRepository userRepository;
+public class MySqlEntrantRepositoryTest {
+	private static MySqlEntrantRepository entrantRepository;
+	private static MySqlUserRepository userRepository;
 	private static User user;
 	private Entrant entrant;
 	private static int entrantId;
@@ -32,7 +32,7 @@ public class EntrantRepositoryTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 
-		userRepository = new UserRepository(
+		userRepository = new MySqlUserRepository(
 				DataSourceFactory
 						.getDataSource(DataSourceType.MY_SQL_DATASOURCE_WITH_OUT_JNDI)) {
 			@Override
@@ -53,7 +53,7 @@ public class EntrantRepositoryTest {
 
 		userRepository.create(user);
 
-		entrantRepository = new EntrantRepository(
+		entrantRepository = new MySqlEntrantRepository(
 				DataSourceFactory
 						.getDataSource(DataSourceType.MY_SQL_DATASOURCE_WITH_OUT_JNDI)) {
 			@Override
@@ -96,12 +96,12 @@ public class EntrantRepositoryTest {
 
 	@Test
 	public void testEntrantRepository() {
-		new EntrantRepository();
+		new MySqlEntrantRepository();
 	}
 
 	@Test
 	public void testEntrantRepositoryDataSource() {
-		new EntrantRepository(null);
+		new MySqlEntrantRepository(null);
 	}
 
 	@Test
