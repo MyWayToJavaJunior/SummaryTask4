@@ -16,6 +16,7 @@ import ua.nure.norkin.SummaryTask4.entity.Entrant;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.entity.User;
 import ua.nure.norkin.SummaryTask4.repository.DatabaseAbstractRepository;
+import ua.nure.norkin.SummaryTask4.repository.EntrantRepository;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
@@ -25,7 +26,8 @@ import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
  * @author Mark Norkin
  *
  */
-public class MySqlEntrantRepository extends DatabaseAbstractRepository<Entrant> {
+public class MySqlEntrantRepository extends DatabaseAbstractRepository<Entrant>
+		implements EntrantRepository {
 
 	private static final String FIND_ALL_ENTRANTS = "SELECT * FROM university_admission.entrant;";
 	private static final String FIND_ENTRANT = "SELECT * FROM university_admission.entrant WHERE entrant.id = ? LIMIT 1;";
@@ -34,7 +36,8 @@ public class MySqlEntrantRepository extends DatabaseAbstractRepository<Entrant> 
 	private static final String UPDATE_ENTRANT = "UPDATE entrant SET entrant.city=?, entrant.district=?,entrant.school=?,entrant.User_idUser=?, entrant.isBlocked=? WHERE entrant.id=? LIMIT 1;";
 	private static final String DELETE_ENTRANT = "DELETE FROM university_admission.entrant WHERE entrant.id=? LIMIT 1;";
 
-	private final static Logger LOG = Logger.getLogger(MySqlEntrantRepository.class);
+	private final static Logger LOG = Logger
+			.getLogger(MySqlEntrantRepository.class);
 	private static final String FIND_ALL_FACULTY_ENTRANTS = "SELECT university_admission.entrant.* FROM university_admission.entrant INNER JOIN university_admission.faculty_entrants ON university_admission.faculty_entrants.Entrant_idEntrant=university_admission.entrant.id  WHERE faculty_entrants.Faculty_idFaculty = ? ;";
 
 	public MySqlEntrantRepository() {
@@ -153,6 +156,7 @@ public class MySqlEntrantRepository extends DatabaseAbstractRepository<Entrant> 
 		return entrant;
 	}
 
+	@Override
 	public Entrant find(User user) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -205,6 +209,7 @@ public class MySqlEntrantRepository extends DatabaseAbstractRepository<Entrant> 
 		return users;
 	}
 
+	@Override
 	public List<Entrant> findAllFacultyEntrants(Faculty faculty) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
