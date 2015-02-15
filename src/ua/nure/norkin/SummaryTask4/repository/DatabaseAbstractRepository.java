@@ -19,16 +19,16 @@ import org.apache.log4j.Logger;
  * @param <T>
  *            type of entity
  */
-public abstract class AbstractRepository<T> implements Repository<T> {
+public abstract class DatabaseAbstractRepository<T> implements Repository<T> {
 
 	private final static Logger LOG = Logger
-			.getLogger(AbstractRepository.class);
+			.getLogger(DatabaseAbstractRepository.class);
 	protected final DataSource ds;
 
 	/**
 	 * Initializes DataSource object.
 	 */
-	public AbstractRepository(DataSource dataSource) {
+	public DatabaseAbstractRepository(DataSource dataSource) {
 		ds = dataSource;
 	}
 

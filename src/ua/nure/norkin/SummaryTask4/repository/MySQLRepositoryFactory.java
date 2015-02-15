@@ -1,45 +1,54 @@
 package ua.nure.norkin.SummaryTask4.repository;
 
+import ua.nure.norkin.SummaryTask4.repository.mysql.MySqlEntrantRepository;
+import ua.nure.norkin.SummaryTask4.repository.mysql.MySqlFacultyEntrantsRepository;
+import ua.nure.norkin.SummaryTask4.repository.mysql.MySqlFacultyRepository;
+import ua.nure.norkin.SummaryTask4.repository.mysql.MySqlFacultySubjectsRepository;
+import ua.nure.norkin.SummaryTask4.repository.mysql.MySqlMarkRepository;
+import ua.nure.norkin.SummaryTask4.repository.mysql.MySqlReportSheetRepository;
+import ua.nure.norkin.SummaryTask4.repository.mysql.MySqlSubjectRepository;
+import ua.nure.norkin.SummaryTask4.repository.mysql.MySqlUserRepository;
+
 public class MySQLRepositoryFactory {
 
-	private static final UserRepository USER_REPOSITORY = new UserRepository();
-	private static final EntrantRepository ENTRANT_REPOSITORY = new EntrantRepository();
-	private static final FacultyRepository FACULTY_REPOSITORY = new FacultyRepository();
-	private static final SubjectRepository SUBJECT_REPOSITORY = new SubjectRepository();
-	private static final FacultySubjectsRepository FACULTY_SUBJECTS_REPOSITORY = new FacultySubjectsRepository();
-	private static final FacultyEntrantsRepository FACULTY_ENTRANTS_REPOSITORY = new FacultyEntrantsRepository();
-	private static final MarkRepository MARK_REPOSITORY = new MarkRepository();
-	private static final ReportSheetRepository REPORT_SHEET_REPOSITORY = new ReportSheetRepository();
+	private static final MySqlUserRepository USER_REPOSITORY = new MySqlUserRepository();
+	private static final MySqlEntrantRepository ENTRANT_REPOSITORY = new MySqlEntrantRepository();
+	private static final MySqlFacultyRepository FACULTY_REPOSITORY = new MySqlFacultyRepository();
+	private static final MySqlSubjectRepository SUBJECT_REPOSITORY = new MySqlSubjectRepository();
+	private static final MySqlFacultySubjectsRepository FACULTY_SUBJECTS_REPOSITORY = new MySqlFacultySubjectsRepository();
+	private static final MySqlFacultyEntrantsRepository FACULTY_ENTRANTS_REPOSITORY = new MySqlFacultyEntrantsRepository();
+	private static final MySqlMarkRepository MARK_REPOSITORY = new MySqlMarkRepository();
+	private static final MySqlReportSheetRepository REPORT_SHEET_REPOSITORY = new MySqlReportSheetRepository();
 
-	public static EntrantRepository getEntrantRepository() {
+	public static MySqlEntrantRepository getEntrantRepository() {
 		return ENTRANT_REPOSITORY;
 	}
 
-	public static UserRepository getUserRepository() {
+	public static MySqlUserRepository getUserRepository() {
 		return USER_REPOSITORY;
 	}
 
-	public static FacultyRepository getFacultyRepository() {
+	public static MySqlFacultyRepository getFacultyRepository() {
 		return FACULTY_REPOSITORY;
 	}
 
-	public static SubjectRepository getSubjectRepository() {
+	public static MySqlSubjectRepository getSubjectRepository() {
 		return SUBJECT_REPOSITORY;
 	}
 
-	public static FacultySubjectsRepository getFacultySubjectsRepository() {
+	public static MySqlFacultySubjectsRepository getFacultySubjectsRepository() {
 		return FACULTY_SUBJECTS_REPOSITORY;
 	}
 
-	public static FacultyEntrantsRepository getFacultyEntrantsRepository() {
+	public static MySqlFacultyEntrantsRepository getFacultyEntrantsRepository() {
 		return FACULTY_ENTRANTS_REPOSITORY;
 	}
 
-	public static MarkRepository getMarkRepository() {
+	public static MySqlMarkRepository getMarkRepository() {
 		return MARK_REPOSITORY;
 	}
 
-	public static ReportSheetRepository getReportSheetRepository() {
+	public static MySqlReportSheetRepository getReportSheetRepository() {
 		return REPORT_SHEET_REPOSITORY;
 	}
 
