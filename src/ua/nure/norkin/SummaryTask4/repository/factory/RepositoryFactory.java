@@ -4,6 +4,7 @@ import ua.nure.norkin.SummaryTask4.repository.EntrantRepository;
 import ua.nure.norkin.SummaryTask4.repository.FacultyEntrantsRepository;
 import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
 import ua.nure.norkin.SummaryTask4.repository.FacultySubjectsRepository;
+import ua.nure.norkin.SummaryTask4.repository.MarkRepository;
 import ua.nure.norkin.SummaryTask4.repository.ReportSheetRepository;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.repository.UserRepository;
@@ -27,6 +28,8 @@ public abstract class RepositoryFactory {
 	public abstract FacultyRepository getFacultyRepository();
 
 	public abstract SubjectRepository getSubjectRepository();
+
+	public abstract MarkRepository getMarkRepository();
 
 	public abstract FacultyEntrantsRepository getFacultyEntrantsRepository();
 
