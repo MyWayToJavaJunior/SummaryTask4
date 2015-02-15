@@ -16,8 +16,6 @@ import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.FacultyEntrants;
 import ua.nure.norkin.SummaryTask4.repository.DatabaseAbstractRepository;
 import ua.nure.norkin.SummaryTask4.repository.FacultyEntrantsRepository;
-import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
-import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
 /**
  * Faculty Entrants DAO. Performs basic read/write operations on Faculty
@@ -38,10 +36,6 @@ public class MySqlFacultyEntrantsRepository extends
 
 	private final static Logger LOG = Logger
 			.getLogger(MySqlFacultyEntrantsRepository.class);
-
-	public MySqlFacultyEntrantsRepository() {
-		this(DataSourceFactory.getDataSource(DataSourceType.MY_SQL_DATASOURCE));
-	}
 
 	public MySqlFacultyEntrantsRepository(DataSource dataSource) {
 		super(dataSource);

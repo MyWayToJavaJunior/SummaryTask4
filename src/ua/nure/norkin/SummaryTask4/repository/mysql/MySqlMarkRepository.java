@@ -16,8 +16,6 @@ import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.Mark;
 import ua.nure.norkin.SummaryTask4.repository.DatabaseAbstractRepository;
 import ua.nure.norkin.SummaryTask4.repository.MarkRepository;
-import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
-import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
 /**
  * Mark DAO. Performs basic read/write operations on Mark database table.
@@ -39,10 +37,6 @@ public class MySqlMarkRepository extends DatabaseAbstractRepository<Mark>
 
 	public MySqlMarkRepository(DataSource dataSource) {
 		super(dataSource);
-	}
-
-	public MySqlMarkRepository() {
-		this(DataSourceFactory.getDataSource(DataSourceType.MY_SQL_DATASOURCE));
 	}
 
 	@Override

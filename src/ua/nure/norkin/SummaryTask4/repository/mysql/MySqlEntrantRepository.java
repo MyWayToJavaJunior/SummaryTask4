@@ -17,8 +17,6 @@ import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.entity.User;
 import ua.nure.norkin.SummaryTask4.repository.DatabaseAbstractRepository;
 import ua.nure.norkin.SummaryTask4.repository.EntrantRepository;
-import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
-import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
 /**
  * Entrant DAO. Performs basic read/write operations on Entrant entity.
@@ -39,10 +37,6 @@ public class MySqlEntrantRepository extends DatabaseAbstractRepository<Entrant>
 	private final static Logger LOG = Logger
 			.getLogger(MySqlEntrantRepository.class);
 	private static final String FIND_ALL_FACULTY_ENTRANTS = "SELECT university_admission.entrant.* FROM university_admission.entrant INNER JOIN university_admission.faculty_entrants ON university_admission.faculty_entrants.Entrant_idEntrant=university_admission.entrant.id  WHERE faculty_entrants.Faculty_idFaculty = ? ;";
-
-	public MySqlEntrantRepository() {
-		this(DataSourceFactory.getDataSource(DataSourceType.MY_SQL_DATASOURCE));
-	}
 
 	public MySqlEntrantRepository(DataSource dataSource) {
 		super(dataSource);

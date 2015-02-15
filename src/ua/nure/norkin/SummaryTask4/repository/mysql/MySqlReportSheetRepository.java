@@ -15,8 +15,6 @@ import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.result.EntrantReportSheet;
 import ua.nure.norkin.SummaryTask4.repository.DatabaseAbstractRepository;
 import ua.nure.norkin.SummaryTask4.repository.ReportSheetRepository;
-import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
-import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
 /**
  * Report Sheet DAO. Performs reading the results collected in database view.
@@ -35,10 +33,6 @@ public class MySqlReportSheetRepository extends
 
 	public MySqlReportSheetRepository(DataSource dataSource) {
 		super(dataSource);
-	}
-
-	public MySqlReportSheetRepository() {
-		this(DataSourceFactory.getDataSource(DataSourceType.MY_SQL_DATASOURCE));
 	}
 
 	public List<EntrantReportSheet> getReport(int facultyId) {

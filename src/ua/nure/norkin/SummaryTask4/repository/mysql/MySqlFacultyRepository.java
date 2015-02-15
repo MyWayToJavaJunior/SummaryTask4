@@ -16,8 +16,6 @@ import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.repository.DatabaseAbstractRepository;
 import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
-import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
-import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
 /**
  * Faculty DAO. Performs basic read/write operations on Faculty entity.
@@ -40,10 +38,6 @@ public class MySqlFacultyRepository extends DatabaseAbstractRepository<Faculty>
 
 	public MySqlFacultyRepository(DataSource dataSource) {
 		super(dataSource);
-	}
-
-	public MySqlFacultyRepository() {
-		this(DataSourceFactory.getDataSource(DataSourceType.MY_SQL_DATASOURCE));
 	}
 
 	@Override

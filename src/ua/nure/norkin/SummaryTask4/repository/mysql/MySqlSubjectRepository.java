@@ -17,8 +17,6 @@ import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.entity.Subject;
 import ua.nure.norkin.SummaryTask4.repository.DatabaseAbstractRepository;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
-import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
-import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
 /**
  * Subject DAO. Performs basic read/write operations on Subject entity.
@@ -43,10 +41,6 @@ public class MySqlSubjectRepository extends DatabaseAbstractRepository<Subject>
 
 	public MySqlSubjectRepository(DataSource dataSource) {
 		super(dataSource);
-	}
-
-	public MySqlSubjectRepository() {
-		this(DataSourceFactory.getDataSource(DataSourceType.MY_SQL_DATASOURCE));
 	}
 
 	@Override

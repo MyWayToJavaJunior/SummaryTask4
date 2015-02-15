@@ -15,8 +15,6 @@ import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.entity.User;
 import ua.nure.norkin.SummaryTask4.repository.DatabaseAbstractRepository;
 import ua.nure.norkin.SummaryTask4.repository.UserRepository;
-import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
-import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
 /**
  * User DAO object. Performs basic read/write operations on User data.
@@ -40,10 +38,6 @@ public class MySqlUserRepository extends DatabaseAbstractRepository<User>
 
 	public MySqlUserRepository(DataSource dataSource) {
 		super(dataSource);
-	}
-
-	public MySqlUserRepository() {
-		this(DataSourceFactory.getDataSource(DataSourceType.MY_SQL_DATASOURCE));
 	}
 
 	public void create(User user) {
