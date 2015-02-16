@@ -67,6 +67,8 @@ public class ViewSubjectCommand extends Command {
 
 		LOG.trace("Subject record found: " + subject);
 
+		request.setAttribute(Fields.ENTITY_ID, subject.getId());
+		LOG.trace("Set the request attribute: 'id' = " + subject.getId());
 		request.setAttribute(Fields.SUBJECT_NAME_RU, subject.getNameRu());
 		LOG.trace("Set the request attribute: 'name_ru' = "
 				+ subject.getNameRu());
