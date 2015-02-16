@@ -10,7 +10,7 @@
 	</h2>
 
 	<div class="form">
-		<form id="edit_faculty" action="controller" method="POST">
+		<form id="edit_faculty" action="controller" method="POST" onsubmit="return validate();">
 			<input type="hidden" name="command" value="editFaculty" /> <input
 				type="hidden" name="oldName" value="${requestScope.name_eng}" />
 			<div class="field">
@@ -28,14 +28,16 @@
 			<div class="field">
 				<label for="total_seats"><fmt:message
 						key="faculty.edit_jsp.label.total_seats" /></label> <input type="number"
-					name="total_seats" value="${requestScope.total_seats}" min="1"
-					max="127" step="1" required />
+					name="total_seats" id="total_seats"
+					value="${requestScope.total_seats}" min="1" max="127" step="1"
+					required />
 			</div>
 			<div class="field">
 				<label for="budget_seats"><fmt:message
 						key="faculty.edit_jsp.label.budget_seats" /></label> <input type="number"
-					name="budget_seats" value="${requestScope.budget_seats}" min="0"
-					max="126" step="1" required />
+					name="budget_seats" id="budget_seats"
+					value="${requestScope.budget_seats}" min="0" max="126" step="1"
+					required />
 			</div>
 			<p>
 				<a
@@ -76,6 +78,6 @@
 							key="faculty.edit_jsp.button.submit" />" />
 		</form>
 	</div>
-	<script src="/script/faculty-validation.js"></script>
+	<script src="script/faculty-validation.js"></script>
 </body>
 </html>
