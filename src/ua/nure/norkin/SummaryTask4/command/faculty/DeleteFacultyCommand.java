@@ -1,6 +1,7 @@
 package ua.nure.norkin.SummaryTask4.command.faculty;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +12,9 @@ import org.apache.log4j.Logger;
 import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.Path;
 import ua.nure.norkin.SummaryTask4.command.Command;
+import ua.nure.norkin.SummaryTask4.entity.Entrant;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
+import ua.nure.norkin.SummaryTask4.repository.EntrantRepository;
 import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
 import ua.nure.norkin.SummaryTask4.repository.FacultySubjectsRepository;
 import ua.nure.norkin.SummaryTask4.repository.factory.FactoryType;
@@ -58,26 +61,33 @@ public class DeleteFacultyCommand extends Command {
 			HttpServletResponse response) {
 		int facultyId = Integer.valueOf(request.getParameter(Fields.ENTITY_ID));
 
-		Faculty facultyToDelete = new Faculty();
-		facultyToDelete.setId(facultyId);
-
 		RepositoryFactory repositoryFactory = RepositoryFactory
 				.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
 
-		FacultySubjectsRepository facultySubjectsRepository = repositoryFactory
-				.getFacultySubjectsRepository();
-
-		facultySubjectsRepository.deleteAllSubjects(facultyToDelete);
-		LOG.trace("Delete preliminary subjects records in database of a faculty: "
-				+ facultyToDelete);
-
-		//TODO: delete all faculty entrants records and mark records for this faculty
 		FacultyRepository facultyRepository = repositoryFactory
 				.getFacultyRepository();
-		facultyRepository.delete(facultyToDelete);
+		Faculty facultyToDelete = facultyRepository.find(facultyId);
+		EntrantRepository entrantRepository = repositoryFactory
+				.getEntrantRepository();
+		List<Entrant> facultyEntrants = entrantRepository
+				.findAllFacultyEntrants(facultyToDelete);
 
-		LOG.trace("Delete faculty record in database: " + facultyToDelete);
-		return Path.REDIRECT_TO_VIEW_ALL_FACULTIES;
+		if (facultyEntrants != null) {
+			request.setAttribute("errorMessage",
+					"There are records in other tables that rely on this faculty.");
+			return Path.REDIRECT_TO_FACULTY + facultyToDelete.getNameEng();
+		} else {
+			FacultySubjectsRepository facultySubjectsRepository = repositoryFactory
+					.getFacultySubjectsRepository();
+
+			facultySubjectsRepository.deleteAllSubjects(facultyToDelete);
+			LOG.trace("Delete preliminary subjects records in database of a faculty: "
+					+ facultyToDelete);
+
+			facultyRepository.delete(facultyToDelete);
+
+			LOG.trace("Delete faculty record in database: " + facultyToDelete);
+			return Path.REDIRECT_TO_VIEW_ALL_FACULTIES;
+		}
 	}
-
 }
