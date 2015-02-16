@@ -121,7 +121,7 @@ public class MySqlFacultySubjectsRepositoryTest {
 		facultySubjectsRepository.delete(facultySubjects);
 		facultySubjects.setId(-1);// error code
 		facultySubjectsRepository.create(facultySubjects);
-		assertThat(facultySubjects.getId(), not(equals(-1)));
+		assertThat(facultySubjects.getId(), not(equalTo(-1)));
 		facultySubjectsRepository.delete(facultySubjects);
 	}
 
