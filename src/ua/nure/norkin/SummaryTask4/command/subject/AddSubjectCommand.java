@@ -11,8 +11,9 @@ import org.apache.log4j.Logger;
 import ua.nure.norkin.SummaryTask4.Path;
 import ua.nure.norkin.SummaryTask4.command.Command;
 import ua.nure.norkin.SummaryTask4.entity.Subject;
-import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
+import ua.nure.norkin.SummaryTask4.repository.factory.FactoryType;
+import ua.nure.norkin.SummaryTask4.repository.factory.RepositoryFactory;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 import ua.nure.norkin.SummaryTask4.utils.validation.SubjectInputValidator;
 
@@ -80,7 +81,9 @@ public class AddSubjectCommand extends Command {
 			LOG.error("errorMessage: Not all fields are properly filled");
 			result = Path.REDIRECT_SUBJECT_ADD_ADMIN;
 		} else if (valid) {
-			SubjectRepository subjectRepository = MySQLRepositoryFactory
+			RepositoryFactory repositoryFactory = RepositoryFactory
+					.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+			SubjectRepository subjectRepository = repositoryFactory
 					.getSubjectRepository();
 
 			Subject subject = new Subject();

@@ -1,7 +1,7 @@
 package ua.nure.norkin.SummaryTask4.command.subject;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Collection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,8 +12,9 @@ import org.apache.log4j.Logger;
 import ua.nure.norkin.SummaryTask4.Path;
 import ua.nure.norkin.SummaryTask4.command.Command;
 import ua.nure.norkin.SummaryTask4.entity.Subject;
-import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
+import ua.nure.norkin.SummaryTask4.repository.factory.FactoryType;
+import ua.nure.norkin.SummaryTask4.repository.factory.RepositoryFactory;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 /**
@@ -51,10 +52,12 @@ public class ViewAllSubjectsCommand extends Command {
 	 */
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
-		SubjectRepository subjectRepository = MySQLRepositoryFactory
+		RepositoryFactory repositoryFactory = RepositoryFactory
+				.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+		SubjectRepository subjectRepository = repositoryFactory
 				.getSubjectRepository();
 
-		List<Subject> allSubjects = subjectRepository.findAll();
+		Collection<Subject> allSubjects = subjectRepository.findAll();
 
 		LOG.trace("Subjects records found: " + allSubjects);
 

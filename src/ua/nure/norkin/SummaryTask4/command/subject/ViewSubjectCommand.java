@@ -12,8 +12,9 @@ import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.Path;
 import ua.nure.norkin.SummaryTask4.command.Command;
 import ua.nure.norkin.SummaryTask4.entity.Subject;
-import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
+import ua.nure.norkin.SummaryTask4.repository.factory.FactoryType;
+import ua.nure.norkin.SummaryTask4.repository.factory.RepositoryFactory;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 /**
@@ -58,7 +59,9 @@ public class ViewSubjectCommand extends Command {
 		LOG.trace("Subject name to look for is equal to: '" + subjectNameEng
 				+ "'");
 
-		SubjectRepository subjectRepository = MySQLRepositoryFactory
+		RepositoryFactory repositoryFactory = RepositoryFactory
+				.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+		SubjectRepository subjectRepository = repositoryFactory
 				.getSubjectRepository();
 		Subject subject = subjectRepository.find(subjectNameEng);
 
