@@ -22,7 +22,6 @@ import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.entity.Subject;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
-import ua.nure.norkin.SummaryTask4.repository.mysql.MySqlSubjectRepository;
 
 public class MySqlSubjectRepositoryTest {
 
@@ -71,11 +70,6 @@ public class MySqlSubjectRepositoryTest {
 	@Test
 	public void testSubjectRepositoryDataSource() {
 		new MySqlSubjectRepository(null);
-	}
-
-	@Test
-	public void testSubjectRepository() {
-		new MySqlSubjectRepository();
 	}
 
 	@Test

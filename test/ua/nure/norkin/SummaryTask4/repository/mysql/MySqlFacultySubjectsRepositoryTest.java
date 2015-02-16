@@ -117,11 +117,6 @@ public class MySqlFacultySubjectsRepositoryTest {
 	}
 
 	@Test
-	public void testFacultySubjectsRepository() {
-		new MySqlFacultySubjectsRepository();
-	}
-
-	@Test
 	public void testCreate() {
 		facultySubjectsRepository.delete(facultySubjects);
 		facultySubjects.setId(-1);// error code

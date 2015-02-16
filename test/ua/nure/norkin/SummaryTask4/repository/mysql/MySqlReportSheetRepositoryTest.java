@@ -15,7 +15,6 @@ import org.junit.Test;
 import ua.nure.norkin.SummaryTask4.entity.result.EntrantReportSheet;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
-import ua.nure.norkin.SummaryTask4.repository.mysql.MySqlReportSheetRepository;
 
 public class MySqlReportSheetRepositoryTest {
 
@@ -43,11 +42,6 @@ public class MySqlReportSheetRepositoryTest {
 	@Test
 	public void testReportSheetRepositoryDataSource() {
 		new MySqlReportSheetRepository(null);
-	}
-
-	@Test
-	public void testReportSheetRepository() {
-		new MySqlReportSheetRepository();
 	}
 
 	@Test

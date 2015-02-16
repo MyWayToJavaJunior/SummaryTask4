@@ -145,11 +145,6 @@ public class MySqlMarkRepositoryTest {
 	}
 
 	@Test
-	public void testMarkRepository() {
-		new MySqlMarkRepository();
-	}
-
-	@Test
 	public void testCreate() {
 		markRepository.delete(mark);
 		mark.setId(-1);

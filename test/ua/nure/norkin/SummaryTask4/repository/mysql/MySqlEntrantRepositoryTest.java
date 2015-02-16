@@ -95,11 +95,6 @@ public class MySqlEntrantRepositoryTest {
 	}
 
 	@Test
-	public void testEntrantRepository() {
-		new MySqlEntrantRepository();
-	}
-
-	@Test
 	public void testEntrantRepositoryDataSource() {
 		new MySqlEntrantRepository(null);
 	}

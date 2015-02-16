@@ -142,11 +142,6 @@ public class MySqlFacultyEntrantsRepositoryTest {
 	}
 
 	@Test
-	public void testFacultyEntrantsRepository() {
-		new MySqlFacultyEntrantsRepository();
-	}
-
-	@Test
 	public void testFacultyEntrantsRepositoryDataSource() {
 		new MySqlFacultyEntrantsRepository(null);
 	}

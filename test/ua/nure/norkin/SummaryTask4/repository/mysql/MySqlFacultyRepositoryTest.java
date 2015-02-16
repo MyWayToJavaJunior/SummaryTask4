@@ -19,7 +19,6 @@ import org.junit.Test;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
-import ua.nure.norkin.SummaryTask4.repository.mysql.MySqlFacultyRepository;
 
 public class MySqlFacultyRepositoryTest {
 
@@ -74,11 +73,6 @@ public class MySqlFacultyRepositoryTest {
 	@Test
 	public void testFacultyRepositoryDataSource() {
 		new MySqlFacultyRepository(null);
-	}
-
-	@Test
-	public void testFacultyRepository() {
-		new MySqlFacultyRepository();
 	}
 
 	@Test

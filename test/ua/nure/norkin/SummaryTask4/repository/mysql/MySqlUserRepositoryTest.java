@@ -19,7 +19,6 @@ import org.junit.Test;
 import ua.nure.norkin.SummaryTask4.entity.User;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
-import ua.nure.norkin.SummaryTask4.repository.mysql.MySqlUserRepository;
 
 public class MySqlUserRepositoryTest {
 
@@ -45,7 +44,7 @@ public class MySqlUserRepositoryTest {
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		//clean up db
+		// clean up db
 		User userToDelete = new User();
 		userToDelete.setId(userId);
 		userRepository.delete(userToDelete);
@@ -71,11 +70,6 @@ public class MySqlUserRepositoryTest {
 	public void tearDown() throws Exception {
 		userRepository.delete(user);
 		user = null;
-	}
-
-	@Test
-	public void testUserRepositoryConstructorWithDataSource() {
-		new MySqlUserRepository();
 	}
 
 	@Test
