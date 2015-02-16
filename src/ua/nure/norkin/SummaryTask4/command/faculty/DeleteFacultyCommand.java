@@ -55,7 +55,8 @@ public class DeleteFacultyCommand extends Command {
 	/**
 	 * Redirects user to view of all faculties after submiting a delete button.
 	 *
-	 * @return path to view of all faculties.
+	 * @return path to view of all faculties if deletion was successful,
+	 *         otherwise to faculty view.
 	 */
 	private String doPost(HttpServletRequest request,
 			HttpServletResponse response) {
