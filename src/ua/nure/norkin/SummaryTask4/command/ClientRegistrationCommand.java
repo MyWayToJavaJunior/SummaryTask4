@@ -14,8 +14,9 @@ import ua.nure.norkin.SummaryTask4.entity.Entrant;
 import ua.nure.norkin.SummaryTask4.entity.Role;
 import ua.nure.norkin.SummaryTask4.entity.User;
 import ua.nure.norkin.SummaryTask4.repository.EntrantRepository;
-import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.UserRepository;
+import ua.nure.norkin.SummaryTask4.repository.factory.FactoryType;
+import ua.nure.norkin.SummaryTask4.repository.factory.RepositoryFactory;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 import ua.nure.norkin.SummaryTask4.utils.validation.ProfileInputValidator;
 
@@ -102,11 +103,15 @@ public class ClientRegistrationCommand extends Command {
 		} else if (valid) {
 			User user = new User(email, password, firstName, lastName,
 					Role.CLIENT, lang);
-			UserRepository userRepository = new UserRepository();
+			RepositoryFactory repositoryFactory = RepositoryFactory
+					.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+
+			UserRepository userRepository = repositoryFactory
+					.getUserRepository();
 			userRepository.create(user);
 			LOG.trace("User record created: " + user);
 			Entrant entrant = new Entrant(town, district, school, user);
-			EntrantRepository entrantRepository = MySQLRepositoryFactory
+			EntrantRepository entrantRepository = repositoryFactory
 					.getEntrantRepository();
 			entrantRepository.create(entrant);
 

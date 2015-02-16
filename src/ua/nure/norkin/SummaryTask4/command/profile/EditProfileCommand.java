@@ -15,8 +15,9 @@ import ua.nure.norkin.SummaryTask4.command.Command;
 import ua.nure.norkin.SummaryTask4.entity.Entrant;
 import ua.nure.norkin.SummaryTask4.entity.User;
 import ua.nure.norkin.SummaryTask4.repository.EntrantRepository;
-import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.UserRepository;
+import ua.nure.norkin.SummaryTask4.repository.factory.FactoryType;
+import ua.nure.norkin.SummaryTask4.repository.factory.RepositoryFactory;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 import ua.nure.norkin.SummaryTask4.utils.validation.ProfileInputValidator;
 
@@ -64,8 +65,9 @@ public class EditProfileCommand extends Command {
 		String userEmail = String.valueOf(session.getAttribute("user"));
 		String role = String.valueOf(session.getAttribute("userRole"));
 
-		UserRepository userRepository = MySQLRepositoryFactory
-				.getUserRepository();
+		RepositoryFactory repositoryFactory = RepositoryFactory
+				.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+		UserRepository userRepository = repositoryFactory.getUserRepository();
 		User user = userRepository.find(userEmail);
 
 		request.setAttribute(Fields.USER_FIRST_NAME, user.getFirstName());
@@ -81,7 +83,7 @@ public class EditProfileCommand extends Command {
 
 		if ("client".equals(role)) {
 
-			EntrantRepository entrantRepository = MySQLRepositoryFactory
+			EntrantRepository entrantRepository = repositoryFactory
 					.getEntrantRepository();
 			Entrant entrant = entrantRepository.find(user);
 
@@ -141,7 +143,9 @@ public class EditProfileCommand extends Command {
 		} else if (valid) {
 
 			if ("admin".equals(role)) {
-				UserRepository userRepository = MySQLRepositoryFactory
+				RepositoryFactory repositoryFactory = RepositoryFactory
+						.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+				UserRepository userRepository = repositoryFactory
 						.getUserRepository();
 				// should not be null !
 				User user = userRepository.find(oldUserEmail);
@@ -190,7 +194,9 @@ public class EditProfileCommand extends Command {
 					LOG.error("errorMessage: Not all fields are properly filled");
 					result = Path.REDIRECT_EDIT_PROFILE;
 				} else if (valid) {
-					UserRepository userRepository = MySQLRepositoryFactory
+					RepositoryFactory repositoryFactory = RepositoryFactory
+							.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+					UserRepository userRepository = repositoryFactory
 							.getUserRepository();
 					// should not be null !
 					User user = userRepository.find(oldUserEmail);
@@ -209,7 +215,8 @@ public class EditProfileCommand extends Command {
 					userRepository.update(user);
 
 					LOG.trace("User info updated");
-					EntrantRepository entrantRepository = MySQLRepositoryFactory
+
+					EntrantRepository entrantRepository = repositoryFactory
 							.getEntrantRepository();
 
 					// should not be null !!

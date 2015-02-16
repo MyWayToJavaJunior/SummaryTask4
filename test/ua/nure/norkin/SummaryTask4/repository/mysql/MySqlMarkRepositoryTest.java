@@ -1,4 +1,4 @@
-package ua.nure.norkin.SummaryTask4.repository;
+package ua.nure.norkin.SummaryTask4.repository.mysql;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -23,22 +23,22 @@ import ua.nure.norkin.SummaryTask4.entity.User;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
-public class MarkRepositoryTest {
-	private static UserRepository userRepository;
-	private static EntrantRepository entrantRepository;
-	private static SubjectRepository subjectRepository;
+public class MySqlMarkRepositoryTest {
+	private static MySqlUserRepository userRepository;
+	private static MySqlEntrantRepository entrantRepository;
+	private static MySqlSubjectRepository subjectRepository;
 
 	private static Entrant entrant;
 	private static User user;
 	private static Subject subject;
 
-	private static MarkRepository markRepository;
+	private static MySqlMarkRepository markRepository;
 	private Mark mark;
 	private static int markId;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		userRepository = new UserRepository(
+		userRepository = new MySqlUserRepository(
 				DataSourceFactory
 						.getDataSource(DataSourceType.MY_SQL_DATASOURCE_WITH_OUT_JNDI)) {
 			@Override
@@ -59,7 +59,7 @@ public class MarkRepositoryTest {
 
 		userRepository.create(user);
 
-		entrantRepository = new EntrantRepository(
+		entrantRepository = new MySqlEntrantRepository(
 				DataSourceFactory
 						.getDataSource(DataSourceType.MY_SQL_DATASOURCE_WITH_OUT_JNDI)) {
 			@Override
@@ -79,7 +79,7 @@ public class MarkRepositoryTest {
 
 		entrantRepository.create(entrant);
 
-		subjectRepository = new SubjectRepository(
+		subjectRepository = new MySqlSubjectRepository(
 				DataSourceFactory
 						.getDataSource(DataSourceType.MY_SQL_DATASOURCE_WITH_OUT_JNDI)) {
 			@Override
@@ -96,7 +96,7 @@ public class MarkRepositoryTest {
 
 		subjectRepository.create(subject);
 
-		markRepository = new MarkRepository(
+		markRepository = new MySqlMarkRepository(
 				DataSourceFactory
 						.getDataSource(DataSourceType.MY_SQL_DATASOURCE_WITH_OUT_JNDI)) {
 			@Override
@@ -141,12 +141,7 @@ public class MarkRepositoryTest {
 
 	@Test
 	public void testMarkRepositoryDataSource() {
-		new MarkRepository(null);
-	}
-
-	@Test
-	public void testMarkRepository() {
-		new MarkRepository();
+		new MySqlMarkRepository(null);
 	}
 
 	@Test

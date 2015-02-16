@@ -14,8 +14,9 @@ import ua.nure.norkin.SummaryTask4.command.Command;
 import ua.nure.norkin.SummaryTask4.entity.Entrant;
 import ua.nure.norkin.SummaryTask4.entity.User;
 import ua.nure.norkin.SummaryTask4.repository.EntrantRepository;
-import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.UserRepository;
+import ua.nure.norkin.SummaryTask4.repository.factory.FactoryType;
+import ua.nure.norkin.SummaryTask4.repository.factory.RepositoryFactory;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 /**
@@ -60,8 +61,9 @@ public class ViewProfileCommand extends Command {
 		HttpSession session = request.getSession(false);
 		String userEmail = String.valueOf(session.getAttribute("user"));
 
-		UserRepository userRepository = MySQLRepositoryFactory
-				.getUserRepository();
+		RepositoryFactory repositoryFactory = RepositoryFactory
+				.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+		UserRepository userRepository = repositoryFactory.getUserRepository();
 		// should not be null !
 		User user = userRepository.find(userEmail);
 
@@ -80,7 +82,7 @@ public class ViewProfileCommand extends Command {
 
 		if ("client".equals(role)) {
 
-			EntrantRepository entrantRepository = MySQLRepositoryFactory
+			EntrantRepository entrantRepository = repositoryFactory
 					.getEntrantRepository();
 			// should not be null !!
 			Entrant entrant = entrantRepository.find(user);

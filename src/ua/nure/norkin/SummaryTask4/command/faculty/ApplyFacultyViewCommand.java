@@ -1,6 +1,7 @@
 package ua.nure.norkin.SummaryTask4.command.faculty;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -24,9 +25,10 @@ import ua.nure.norkin.SummaryTask4.repository.EntrantRepository;
 import ua.nure.norkin.SummaryTask4.repository.FacultyEntrantsRepository;
 import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
 import ua.nure.norkin.SummaryTask4.repository.MarkRepository;
-import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
 import ua.nure.norkin.SummaryTask4.repository.UserRepository;
+import ua.nure.norkin.SummaryTask4.repository.factory.FactoryType;
+import ua.nure.norkin.SummaryTask4.repository.factory.RepositoryFactory;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 /**
@@ -70,8 +72,13 @@ public class ApplyFacultyViewCommand extends Command {
 			HttpServletResponse response) {
 		String result = null;
 		String facultyNameEng = request.getParameter(Fields.FACULTY_NAME_ENG);
-		FacultyRepository facultyRepository = MySQLRepositoryFactory
+
+		RepositoryFactory repositoryFactory = RepositoryFactory
+				.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+
+		FacultyRepository facultyRepository = repositoryFactory
 				.getFacultyRepository();
+
 		Faculty faculty = facultyRepository.find(facultyNameEng);
 
 		request.setAttribute(Fields.ENTITY_ID, faculty.getId());
@@ -91,14 +98,16 @@ public class ApplyFacultyViewCommand extends Command {
 				faculty.getBudgetSeats());
 		LOG.trace("Set the request attribute: 'budget_seats' = "
 				+ faculty.getBudgetSeats());
-		SubjectRepository subjectRepository = new SubjectRepository();
+
+		SubjectRepository subjectRepository = repositoryFactory
+				.getSubjectRepository();
 
 		List<Subject> facultySubjects = subjectRepository
 				.findAllFacultySubjects(faculty);
 		request.setAttribute("facultySubjects", facultySubjects);
 		LOG.trace("Set attribute 'facultySubjects': " + facultySubjects);
 
-		List<Subject> allSubjects = subjectRepository.findAll();
+		Collection<Subject> allSubjects = subjectRepository.findAll();
 		request.setAttribute("allSubjects", allSubjects);
 		LOG.trace("Set attribute 'allSubjects': " + allSubjects);
 
@@ -117,18 +126,21 @@ public class ApplyFacultyViewCommand extends Command {
 		HttpSession session = request.getSession(false);
 		String email = String.valueOf(session.getAttribute("user"));
 
-		UserRepository userRepository = MySQLRepositoryFactory
-				.getUserRepository();
+		RepositoryFactory repositoryFactory = RepositoryFactory
+				.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+
+		UserRepository userRepository = repositoryFactory.getUserRepository();
+
 		User user = userRepository.find(email);
 		LOG.trace("Found user in database that wants to apply: " + user);
 
-		EntrantRepository entrantRepository = MySQLRepositoryFactory
+		EntrantRepository entrantRepository = repositoryFactory
 				.getEntrantRepository();
 		Entrant entrant = entrantRepository.find(user);
 
 		LOG.trace("Found entrant record in database for this user: " + entrant);
 
-		FacultyEntrantsRepository facultyEntrantsRepository = MySQLRepositoryFactory
+		FacultyEntrantsRepository facultyEntrantsRepository = repositoryFactory
 				.getFacultyEntrantsRepository();
 
 		Integer facultyId = Integer.valueOf(request
@@ -149,7 +161,7 @@ public class ApplyFacultyViewCommand extends Command {
 			LOG.trace("Start extracting data from request");
 
 			Map<String, String[]> parameterMap = request.getParameterMap();
-			MarkRepository markRepository = MySQLRepositoryFactory
+			MarkRepository markRepository = repositoryFactory
 					.getMarkRepository();
 
 			for (String parameterName : parameterMap.keySet()) {
@@ -186,8 +198,9 @@ public class ApplyFacultyViewCommand extends Command {
 
 			LOG.trace("Finished processing applying for faculty form");
 
-			FacultyRepository facultyRepository = MySQLRepositoryFactory
+			FacultyRepository facultyRepository = repositoryFactory
 					.getFacultyRepository();
+
 			Faculty faculty = facultyRepository.find(facultyId);
 			return Path.REDIRECT_TO_FACULTY + faculty.getNameEng();
 		}

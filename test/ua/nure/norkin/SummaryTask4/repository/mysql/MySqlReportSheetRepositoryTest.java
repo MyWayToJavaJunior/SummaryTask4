@@ -1,4 +1,4 @@
-package ua.nure.norkin.SummaryTask4.repository;
+package ua.nure.norkin.SummaryTask4.repository.mysql;
 
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -16,13 +16,13 @@ import ua.nure.norkin.SummaryTask4.entity.result.EntrantReportSheet;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
-public class ReportSheetRepositoryTest {
+public class MySqlReportSheetRepositoryTest {
 
-	private static ReportSheetRepository reportSheetRepository;
+	private static MySqlReportSheetRepository reportSheetRepository;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		reportSheetRepository = new ReportSheetRepository(
+		reportSheetRepository = new MySqlReportSheetRepository(
 				DataSourceFactory
 						.getDataSource(DataSourceType.MY_SQL_DATASOURCE_WITH_OUT_JNDI)) {
 			@Override
@@ -41,12 +41,7 @@ public class ReportSheetRepositoryTest {
 
 	@Test
 	public void testReportSheetRepositoryDataSource() {
-		new ReportSheetRepository(null);
-	}
-
-	@Test
-	public void testReportSheetRepository() {
-		new ReportSheetRepository();
+		new MySqlReportSheetRepository(null);
 	}
 
 	@Test

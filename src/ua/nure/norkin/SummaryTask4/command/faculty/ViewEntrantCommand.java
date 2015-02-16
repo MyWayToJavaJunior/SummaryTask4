@@ -14,8 +14,9 @@ import ua.nure.norkin.SummaryTask4.command.Command;
 import ua.nure.norkin.SummaryTask4.entity.Entrant;
 import ua.nure.norkin.SummaryTask4.entity.User;
 import ua.nure.norkin.SummaryTask4.repository.EntrantRepository;
-import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.UserRepository;
+import ua.nure.norkin.SummaryTask4.repository.factory.FactoryType;
+import ua.nure.norkin.SummaryTask4.repository.factory.RepositoryFactory;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 /**
@@ -59,8 +60,11 @@ public class ViewEntrantCommand extends Command {
 			HttpServletResponse response) {
 
 		Integer userId = Integer.valueOf(request.getParameter("userId"));
-		UserRepository userRepository = MySQLRepositoryFactory
-				.getUserRepository();
+
+		RepositoryFactory repositoryFactory = RepositoryFactory
+				.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+
+		UserRepository userRepository = repositoryFactory.getUserRepository();
 		// should not be null !
 		User user = userRepository.find(userId);
 
@@ -75,7 +79,7 @@ public class ViewEntrantCommand extends Command {
 		request.setAttribute("role", user.getRole());
 		LOG.trace("Set the request attribute: 'role' = " + user.getRole());
 
-		EntrantRepository entrantRepository = MySQLRepositoryFactory
+		EntrantRepository entrantRepository = repositoryFactory
 				.getEntrantRepository();
 		// should not be null !!
 		Entrant entrant = entrantRepository.find(user);
@@ -109,8 +113,11 @@ public class ViewEntrantCommand extends Command {
 		Integer entrantId = Integer.valueOf(request
 				.getParameter(Fields.ENTITY_ID));
 
-		EntrantRepository entrantRepository = MySQLRepositoryFactory
+		RepositoryFactory repositoryFactory = RepositoryFactory
+				.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+		EntrantRepository entrantRepository = repositoryFactory
 				.getEntrantRepository();
+
 		Entrant entrant = entrantRepository.find(entrantId);
 
 		boolean updatedBlockedStatus = !entrant.getBlockedStatus();

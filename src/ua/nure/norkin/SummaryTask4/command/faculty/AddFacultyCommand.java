@@ -1,7 +1,7 @@
 package ua.nure.norkin.SummaryTask4.command.faculty;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Collection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +17,9 @@ import ua.nure.norkin.SummaryTask4.entity.FacultySubjects;
 import ua.nure.norkin.SummaryTask4.entity.Subject;
 import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
 import ua.nure.norkin.SummaryTask4.repository.FacultySubjectsRepository;
-import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
+import ua.nure.norkin.SummaryTask4.repository.factory.FactoryType;
+import ua.nure.norkin.SummaryTask4.repository.factory.RepositoryFactory;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 import ua.nure.norkin.SummaryTask4.utils.validation.FacultyInputValidator;
 
@@ -61,9 +62,13 @@ public class AddFacultyCommand extends Command {
 			HttpServletResponse response) {
 		LOG.trace("Request for only showing (not already adding) faculty/add.jsp");
 
-		SubjectRepository subjectRepository = MySQLRepositoryFactory
+		RepositoryFactory repositoryFactory = RepositoryFactory
+				.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+
+		SubjectRepository subjectRepository = repositoryFactory
 				.getSubjectRepository();
-		List<Subject> allSubjects = subjectRepository.findAll();
+
+		Collection<Subject> allSubjects = subjectRepository.findAll();
 		LOG.trace("All subjects found: " + allSubjects);
 		request.setAttribute("allSubjects", allSubjects);
 		LOG.trace("Set request attribute 'allSubjects' = " + allSubjects);
@@ -108,7 +113,10 @@ public class AddFacultyCommand extends Command {
 
 			LOG.trace("Create faculty transfer object: " + faculty);
 
-			FacultyRepository facultyRepository = MySQLRepositoryFactory
+			RepositoryFactory repositoryFactory = RepositoryFactory
+					.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+
+			FacultyRepository facultyRepository = repositoryFactory
 					.getFacultyRepository();
 
 			facultyRepository.create(faculty);
@@ -121,7 +129,7 @@ public class AddFacultyCommand extends Command {
 					.getParameterValues("subjects");
 
 			if (choosedSubjectsIds != null) {
-				FacultySubjectsRepository facultySubjectsRepository = MySQLRepositoryFactory
+				FacultySubjectsRepository facultySubjectsRepository = repositoryFactory
 						.getFacultySubjectsRepository();
 
 				for (String subjectId : choosedSubjectsIds) {

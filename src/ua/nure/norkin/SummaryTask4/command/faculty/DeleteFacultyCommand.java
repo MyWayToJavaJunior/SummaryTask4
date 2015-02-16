@@ -14,7 +14,8 @@ import ua.nure.norkin.SummaryTask4.command.Command;
 import ua.nure.norkin.SummaryTask4.entity.Faculty;
 import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
 import ua.nure.norkin.SummaryTask4.repository.FacultySubjectsRepository;
-import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
+import ua.nure.norkin.SummaryTask4.repository.factory.FactoryType;
+import ua.nure.norkin.SummaryTask4.repository.factory.RepositoryFactory;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 /**
@@ -60,13 +61,18 @@ public class DeleteFacultyCommand extends Command {
 		Faculty facultyToDelete = new Faculty();
 		facultyToDelete.setId(facultyId);
 
-		FacultySubjectsRepository facultySubjectsRepository = MySQLRepositoryFactory
+		RepositoryFactory repositoryFactory = RepositoryFactory
+				.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+
+		FacultySubjectsRepository facultySubjectsRepository = repositoryFactory
 				.getFacultySubjectsRepository();
+
 		facultySubjectsRepository.deleteAllSubjects(facultyToDelete);
 		LOG.trace("Delete preliminary subjects records in database of a faculty: "
 				+ facultyToDelete);
 
-		FacultyRepository facultyRepository = MySQLRepositoryFactory
+		//TODO: delete all faculty entrants records and mark records for this faculty
+		FacultyRepository facultyRepository = repositoryFactory
 				.getFacultyRepository();
 		facultyRepository.delete(facultyToDelete);
 

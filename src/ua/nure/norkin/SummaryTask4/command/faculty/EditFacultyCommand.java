@@ -20,8 +20,9 @@ import ua.nure.norkin.SummaryTask4.entity.FacultySubjects;
 import ua.nure.norkin.SummaryTask4.entity.Subject;
 import ua.nure.norkin.SummaryTask4.repository.FacultyRepository;
 import ua.nure.norkin.SummaryTask4.repository.FacultySubjectsRepository;
-import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.SubjectRepository;
+import ua.nure.norkin.SummaryTask4.repository.factory.FactoryType;
+import ua.nure.norkin.SummaryTask4.repository.factory.RepositoryFactory;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 import ua.nure.norkin.SummaryTask4.utils.validation.FacultyInputValidator;
 
@@ -65,7 +66,9 @@ public class EditFacultyCommand extends Command {
 			HttpServletResponse response) {
 		String facultyName = request.getParameter(Fields.FACULTY_NAME_ENG);
 
-		FacultyRepository facultyRepository = MySQLRepositoryFactory
+		RepositoryFactory repositoryFactory = RepositoryFactory
+				.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+		FacultyRepository facultyRepository = repositoryFactory
 				.getFacultyRepository();
 		Faculty faculty = facultyRepository.find(facultyName);
 
@@ -80,7 +83,7 @@ public class EditFacultyCommand extends Command {
 				faculty.getBudgetSeats());
 		LOG.trace("Set attribute 'budget_seats': " + faculty.getBudgetSeats());
 
-		SubjectRepository subjectRepository = MySQLRepositoryFactory
+		SubjectRepository subjectRepository = repositoryFactory
 				.getSubjectRepository();
 
 		List<Subject> otherSubjects = subjectRepository
@@ -143,7 +146,9 @@ public class EditFacultyCommand extends Command {
 			Faculty faculty = new Faculty(facultyNameRu, facultyNameEng,
 					budgetSeats, totalSeats);
 
-			FacultyRepository facultyRepository = MySQLRepositoryFactory
+			RepositoryFactory repositoryFactory = RepositoryFactory
+					.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+			FacultyRepository facultyRepository = repositoryFactory
 					.getFacultyRepository();
 
 			Faculty oldFacultyRecord = facultyRepository.find(oldFacultyName);
@@ -167,7 +172,7 @@ public class EditFacultyCommand extends Command {
 			LOG.trace("Get checked subjects after: "
 					+ Arrays.toString(newCheckedSubjectsIds));
 
-			FacultySubjectsRepository facultySubjectsRepository = MySQLRepositoryFactory
+			FacultySubjectsRepository facultySubjectsRepository = repositoryFactory
 					.getFacultySubjectsRepository();
 
 			if (oldCheckedSubjectIds == null) {

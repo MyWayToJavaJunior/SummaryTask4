@@ -12,8 +12,9 @@ import org.apache.log4j.Logger;
 import ua.nure.norkin.SummaryTask4.Path;
 import ua.nure.norkin.SummaryTask4.command.Command;
 import ua.nure.norkin.SummaryTask4.entity.User;
-import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.UserRepository;
+import ua.nure.norkin.SummaryTask4.repository.factory.FactoryType;
+import ua.nure.norkin.SummaryTask4.repository.factory.RepositoryFactory;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 
 /**
@@ -59,8 +60,9 @@ public class LoginCommand extends Command {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 
-		UserRepository userRepository = MySQLRepositoryFactory
-				.getUserRepository();
+		RepositoryFactory repositoryFactory = RepositoryFactory
+				.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+		UserRepository userRepository = repositoryFactory.getUserRepository();
 		User user = userRepository.find(email, password);
 		LOG.trace("User found: " + user);
 		if (user == null) {

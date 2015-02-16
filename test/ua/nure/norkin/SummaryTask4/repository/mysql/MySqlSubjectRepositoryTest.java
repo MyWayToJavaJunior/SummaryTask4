@@ -1,4 +1,4 @@
-package ua.nure.norkin.SummaryTask4.repository;
+package ua.nure.norkin.SummaryTask4.repository.mysql;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -23,15 +23,15 @@ import ua.nure.norkin.SummaryTask4.entity.Subject;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceFactory;
 import ua.nure.norkin.SummaryTask4.repository.datasource.DataSourceType;
 
-public class SubjectRepositoryTest {
+public class MySqlSubjectRepositoryTest {
 
 	private Subject subject;
-	private static SubjectRepository subjectRepository;
+	private static MySqlSubjectRepository subjectRepository;
 	private static int subjectId;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		subjectRepository = new SubjectRepository(
+		subjectRepository = new MySqlSubjectRepository(
 				DataSourceFactory
 						.getDataSource(DataSourceType.MY_SQL_DATASOURCE_WITH_OUT_JNDI)) {
 			@Override
@@ -69,12 +69,7 @@ public class SubjectRepositoryTest {
 
 	@Test
 	public void testSubjectRepositoryDataSource() {
-		new SubjectRepository(null);
-	}
-
-	@Test
-	public void testSubjectRepository() {
-		new SubjectRepository();
+		new MySqlSubjectRepository(null);
 	}
 
 	@Test
