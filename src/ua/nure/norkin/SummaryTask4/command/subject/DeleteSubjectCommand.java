@@ -70,6 +70,8 @@ public class DeleteSubjectCommand extends Command {
 
 		Subject subjectToDelete = subjectRepository.find(subjectId);
 
+		LOG.trace("Found subject that should be deleted: " + subjectToDelete);
+
 		FacultySubjectsRepository facultySubjectsRepository = repositoryFactory
 				.getFacultySubjectsRepository();
 
@@ -83,6 +85,8 @@ public class DeleteSubjectCommand extends Command {
 		String result = null;
 
 		if (facultySubjects.isEmpty()) {
+
+			LOG.trace("No faculties have this subject as preliminary. Check entrant marks.");
 			Collection<Mark> marks = repositoryFactory.getMarkRepository()
 					.findAll();
 
@@ -90,14 +94,17 @@ public class DeleteSubjectCommand extends Command {
 					.getId());
 
 			if (marks.isEmpty()) {
+				LOG.trace("No marks records on this subject. Perform deleting.");
 				subjectRepository.delete(subjectToDelete);
 				result = Path.REDIRECT_TO_VIEW_ALL_SUBJECTS;
 			} else {
+				LOG.trace("There are marks records that rely on this subject.");
 				result = Path.REDIRECT_TO_SUBJECT
 						+ subjectToDelete.getNameEng();
 			}
 
 		} else {
+			LOG.trace("There are faculties that have this subject as preliminary.");
 			result = Path.REDIRECT_TO_SUBJECT + subjectToDelete.getNameEng();
 		}
 		return result;
