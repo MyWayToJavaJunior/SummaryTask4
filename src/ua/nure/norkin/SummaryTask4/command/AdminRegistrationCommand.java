@@ -12,8 +12,9 @@ import ua.nure.norkin.SummaryTask4.Fields;
 import ua.nure.norkin.SummaryTask4.Path;
 import ua.nure.norkin.SummaryTask4.entity.Role;
 import ua.nure.norkin.SummaryTask4.entity.User;
-import ua.nure.norkin.SummaryTask4.repository.MySQLRepositoryFactory;
 import ua.nure.norkin.SummaryTask4.repository.UserRepository;
+import ua.nure.norkin.SummaryTask4.repository.factory.FactoryType;
+import ua.nure.norkin.SummaryTask4.repository.factory.RepositoryFactory;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
 import ua.nure.norkin.SummaryTask4.utils.validation.ProfileInputValidator;
 
@@ -83,7 +84,9 @@ public class AdminRegistrationCommand extends Command {
 		} else if (valid) {
 			User user = new User(email, password, firstName, lastName,
 					Role.ADMIN, lang);
-			UserRepository userRepository = MySQLRepositoryFactory
+			RepositoryFactory repositoryFactory = RepositoryFactory
+					.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
+			UserRepository userRepository = repositoryFactory
 					.getUserRepository();
 			userRepository.create(user);
 			LOG.trace("User record created: " + user);
