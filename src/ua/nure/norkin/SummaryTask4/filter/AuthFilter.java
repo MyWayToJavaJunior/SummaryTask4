@@ -81,6 +81,7 @@ public class AuthFilter implements Filter {
 		adminCommands.add("viewSubject");
 		adminCommands.add("viewEntrant");
 		adminCommands.add("createReport");
+		adminCommands.add("deleteSubject");
 	}
 
 	public void init(FilterConfig fConfig) throws ServletException {
