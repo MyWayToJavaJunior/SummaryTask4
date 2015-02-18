@@ -70,6 +70,10 @@ public class LoginCommand extends Command {
 					"Cannot find user with such login/password");
 			LOG.error("errorMessage: Cannot find user with such login/password");
 			result = null;
+		} else if (!user.getActiveStatus()) {
+			request.setAttribute("errorMessage", "You are not registered!");
+			LOG.error("errorMessage: User is not registered or did not complete his registration.");
+			result = null;
 		} else {
 			HttpSession session = request.getSession(true);
 
