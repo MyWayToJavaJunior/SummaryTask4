@@ -1,8 +1,9 @@
 package ua.nure.norkin.SummaryTask4.entity;
 
 /**
- * User entity. This transfer object characterized by first and last names,
- * email, password and role in system. Email should be unique. Every field must
+ * User entity. This transfer object characterized by id, first and last names,
+ * email, password, role in system, site language and active status. Email
+ * should be unique. Every field must be filled.
  *
  * @author Mark Norkin
  *
@@ -17,23 +18,19 @@ public class User extends Entity {
 	private String lastName;
 	private String role;
 	private String lang;
+	private boolean activeStatus;
 
 	public User() {
 	}
 
 	public User(String email, String password, String firstName,
-			String lastName, Role role, String lang) {
-		this(email, password, firstName, lastName, role.getName(), lang);
-	}
-
-	public User(String email, String password, String firstName,
-			String lastName, String role, String lang) {
+			String lastName, Role role, String lang, boolean activeStatus) {
 		super();
 		this.email = email;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.role = role;
+		this.role = role.getName();
 		this.lang = lang;
 	}
 
@@ -85,11 +82,20 @@ public class User extends Entity {
 		this.lang = lang;
 	}
 
+	public boolean getActiveStatus() {
+		return activeStatus;
+	}
+
+	public void setActiveStatus(boolean activeStatus) {
+		this.activeStatus = activeStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "User [email=" + email + ", password=" + password
 				+ ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", role=" + role + ", lang=" + lang + "]";
+				+ ", role=" + role + ", lang=" + lang + ", activeStatus="
+				+ activeStatus + "]";
 	}
 
 }
