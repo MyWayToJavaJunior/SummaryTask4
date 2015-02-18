@@ -21,12 +21,10 @@ import javax.naming.InitialContext;
 
 import org.apache.log4j.Logger;
 
-import ua.nure.norkin.SummaryTask4.command.AdminRegistrationCommand;
 import ua.nure.norkin.SummaryTask4.entity.User;
 
 public class MailUtils {
-	private static final Logger LOG = Logger
-			.getLogger(AdminRegistrationCommand.class);
+	private static final Logger LOG = Logger.getLogger(MailUtils.class);
 	private static final Session SESSION = init();
 	private static final String confirmSubjectRu = "Подтвердите регистрацию";
 	private static final String confirmSubjectEng = "Confirm Registration";
