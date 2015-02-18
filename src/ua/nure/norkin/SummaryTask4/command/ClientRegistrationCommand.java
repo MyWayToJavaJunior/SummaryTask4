@@ -18,6 +18,7 @@ import ua.nure.norkin.SummaryTask4.repository.UserRepository;
 import ua.nure.norkin.SummaryTask4.repository.factory.FactoryType;
 import ua.nure.norkin.SummaryTask4.repository.factory.RepositoryFactory;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
+import ua.nure.norkin.SummaryTask4.utils.MailUtils;
 import ua.nure.norkin.SummaryTask4.utils.validation.ProfileInputValidator;
 
 /**
@@ -102,7 +103,7 @@ public class ClientRegistrationCommand extends Command {
 			result = Path.REDIRECT_CLIENT_REGISTRATION_PAGE;
 		} else if (valid) {
 			User user = new User(email, password, firstName, lastName,
-					Role.CLIENT, lang);
+					Role.CLIENT, lang, false);
 			RepositoryFactory repositoryFactory = RepositoryFactory
 					.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
 
@@ -116,8 +117,10 @@ public class ClientRegistrationCommand extends Command {
 			entrantRepository.create(entrant);
 
 			LOG.trace("Entrant record created: " + entrant);
+
+			MailUtils.sendConfirmationEmail(user);
 			request.setAttribute("successfulMessage",
-					"Your successfully registered!");
+					"Your account was created. Check your email and confirm your registration.");
 			result = Path.WELCOME_PAGE;
 		}
 		return result;

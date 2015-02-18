@@ -16,6 +16,7 @@ import ua.nure.norkin.SummaryTask4.repository.UserRepository;
 import ua.nure.norkin.SummaryTask4.repository.factory.FactoryType;
 import ua.nure.norkin.SummaryTask4.repository.factory.RepositoryFactory;
 import ua.nure.norkin.SummaryTask4.utils.ActionType;
+import ua.nure.norkin.SummaryTask4.utils.MailUtils;
 import ua.nure.norkin.SummaryTask4.utils.validation.ProfileInputValidator;
 
 /**
@@ -83,15 +84,17 @@ public class AdminRegistrationCommand extends Command {
 			result = Path.REDIRECT_ADMIN_REGISTRATION_PAGE;
 		} else if (valid) {
 			User user = new User(email, password, firstName, lastName,
-					Role.ADMIN, lang);
+					Role.ADMIN, lang, false);
+
 			RepositoryFactory repositoryFactory = RepositoryFactory
 					.getFactoryByName(FactoryType.MYSQL_REPOSITORY_FACTORY);
 			UserRepository userRepository = repositoryFactory
 					.getUserRepository();
 			userRepository.create(user);
 			LOG.trace("User record created: " + user);
+			MailUtils.sendConfirmationEmail(user);
 			request.setAttribute("successfulMessage",
-					"Your successfully registered!");
+					"This account was created. Check email and confirm registration.");
 			result = Path.REDIRECT_TO_PROFILE;
 		}
 		return result;
