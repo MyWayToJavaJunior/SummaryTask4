@@ -62,6 +62,7 @@ public class AuthFilter implements Filter {
 		accessibleCommands.add("viewFaculty");
 		accessibleCommands.add("viewAllFaculties");
 		accessibleCommands.add("client_registration");
+		accessibleCommands.add("confirmRegistration");
 
 		// common commands
 		commonCommands.add("logout");

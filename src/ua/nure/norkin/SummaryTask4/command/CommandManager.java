@@ -17,6 +17,7 @@ import ua.nure.norkin.SummaryTask4.command.profile.EditProfileCommand;
 import ua.nure.norkin.SummaryTask4.command.profile.LoginCommand;
 import ua.nure.norkin.SummaryTask4.command.profile.LogoutCommand;
 import ua.nure.norkin.SummaryTask4.command.profile.ViewProfileCommand;
+import ua.nure.norkin.SummaryTask4.command.registration.ConfirmRegistrationCommand;
 import ua.nure.norkin.SummaryTask4.command.subject.AddSubjectCommand;
 import ua.nure.norkin.SummaryTask4.command.subject.DeleteSubjectCommand;
 import ua.nure.norkin.SummaryTask4.command.subject.EditSubjectCommand;
@@ -44,6 +45,7 @@ public class CommandManager {
 		commands.put("noCommand", new NoCommand());
 		commands.put("viewFaculty", new ViewFacultyCommand());
 		commands.put("viewAllFaculties", new ViewAllFacultiesCommand());
+		commands.put("confirmRegistration", new ConfirmRegistrationCommand());
 
 		// client commands
 		commands.put("client_registration", new ClientRegistrationCommand());
