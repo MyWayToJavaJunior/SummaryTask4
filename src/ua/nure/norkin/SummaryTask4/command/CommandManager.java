@@ -17,6 +17,8 @@ import ua.nure.norkin.SummaryTask4.command.profile.EditProfileCommand;
 import ua.nure.norkin.SummaryTask4.command.profile.LoginCommand;
 import ua.nure.norkin.SummaryTask4.command.profile.LogoutCommand;
 import ua.nure.norkin.SummaryTask4.command.profile.ViewProfileCommand;
+import ua.nure.norkin.SummaryTask4.command.registration.AdminRegistrationCommand;
+import ua.nure.norkin.SummaryTask4.command.registration.ClientRegistrationCommand;
 import ua.nure.norkin.SummaryTask4.command.registration.ConfirmRegistrationCommand;
 import ua.nure.norkin.SummaryTask4.command.subject.AddSubjectCommand;
 import ua.nure.norkin.SummaryTask4.command.subject.DeleteSubjectCommand;
