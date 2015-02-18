@@ -29,8 +29,8 @@ public class MySqlUserRepository extends DatabaseAbstractRepository<User>
 	private static final String FIND_USER = "SELECT * FROM university_admission.user WHERE user.id = ? LIMIT 1;";
 	private static final String FIND_USER_BY_EMAIL_AND_PASS = "SELECT * FROM university_admission.user WHERE user.email = ? AND user.password=? LIMIT 1;";
 	private static final String FIND_USER_BY_EMAIL = "SELECT * FROM university_admission.user WHERE user.email = ? LIMIT 1;";
-	private static final String INSERT_USER = "INSERT INTO university_admission.user(user.first_name,user.last_name,user.email,user.password,user.role, lang) VALUES (?,?,?,?,?,?);";
-	private static final String UPDATE_USER = "UPDATE user SET first_name=?,last_name=?,email=?,password=?,role=?, lang=? WHERE user.id= ? LIMIT 1;";
+	private static final String INSERT_USER = "INSERT INTO university_admission.user(user.first_name,user.last_name,user.email,user.password,user.role, lang, isActive) VALUES (?,?,?,?,?,?,?);";
+	private static final String UPDATE_USER = "UPDATE user SET first_name=?,last_name=?,email=?,password=?,role=?, lang=?, isActive=? WHERE user.id= ? LIMIT 1;";
 	private static final String DELETE_USER = "DELETE FROM university_admission.user WHERE user.id=? LIMIT 1;";
 
 	private final static Logger LOG = Logger
@@ -55,7 +55,8 @@ public class MySqlUserRepository extends DatabaseAbstractRepository<User>
 			pstmt.setString(counter++, user.getEmail());
 			pstmt.setString(counter++, user.getPassword());
 			pstmt.setString(counter++, user.getRole());
-			pstmt.setString(counter, user.getLang());
+			pstmt.setString(counter++, user.getLang());
+			pstmt.setBoolean(counter, user.getActiveStatus());
 
 			pstmt.execute();
 			connection.commit();
@@ -87,6 +88,7 @@ public class MySqlUserRepository extends DatabaseAbstractRepository<User>
 			pstmt.setString(counter++, user.getPassword());
 			pstmt.setString(counter++, user.getRole());
 			pstmt.setString(counter++, user.getLang());
+			pstmt.setBoolean(counter++, user.getActiveStatus());
 
 			pstmt.setInt(counter, user.getId());
 
@@ -252,6 +254,7 @@ public class MySqlUserRepository extends DatabaseAbstractRepository<User>
 			user.setPassword(rs.getString(Fields.USER_PASSWORD));
 			user.setRole(rs.getString(Fields.USER_ROLE));
 			user.setLang(rs.getString(Fields.USER_LANG));
+			user.setActiveStatus(rs.getBoolean(Fields.USER_ACTIVE_STATUS));
 		} catch (SQLException e) {
 			LOG.error("Can not unmarshal result set to user", e);
 		}
