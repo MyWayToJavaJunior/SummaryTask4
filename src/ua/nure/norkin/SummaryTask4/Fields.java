@@ -17,6 +17,7 @@ public final class Fields {
 	public static final String USER_LAST_NAME = "last_name";
 	public static final String USER_ROLE = "role";
 	public static final String USER_LANG = "lang";
+	public static final String USER_ACTIVE_STATUS = "isActive";
 	public static final String USER_FOREIGN_KEY_ID = "User_idUser";
 
 	public static final String ENTRANT_CITY = "city";

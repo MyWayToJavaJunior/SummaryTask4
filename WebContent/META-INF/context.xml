@@ -1,48 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--=============================================================
-Configuration file for Tomcat 6
-Data source and connection pool configuration
-(The default Tomcat's DBCP is used)
-=============================================================-->
+<!--============================================================= Configuration
+	file for Tomcat 6 Data source and connection pool configuration (The default
+	Tomcat's DBCP is used) ============================================================= -->
 
 <Context>
 
-<!--=============================================================
-maxActive: the maximum number of active connections that can be
-allocated from this pool at the same time, negative for no limit.
-(default 8)
+	<!--============================================================= maxActive:
+		the maximum number of active connections that can be allocated from this
+		pool at the same time, negative for no limit. (default 8) maxIdle: the maximum
+		number of connections that can remain idle in the pool, without extra ones
+		being released, negative for no limit. (default 8) maxWait: the maximum number
+		of milliseconds that the pool will wait (when there are no available connections)
+		for a connection to be returned before throwing an exception, -1 to wait
+		indefinitely. url: the connection URL to be passed to JDBC driver to establish
+		a connection. driverClassName: the FQN of the JDBC driver to be used. defaultAutoCommit:
+		the default auto-commit state of connections created by this pool. (default
+		true) defaultTransactionIsolation: the default TransactionIsolation state
+		of connections created by this pool. One of the following: (see javadoc)
+		NONE READ_COMMITTED READ_UNCOMMITTED REPEATABLE_READ SERIALIZABLE (default
+		- driver default) ============================================================= -->
+	<Resource name="jdbc/SummaryTask4" auth="Container" type="javax.sql.DataSource"
+		maxActive="100" maxIdle="30" maxWait="10000" username="root" password="password"
+		driverClassName="com.mysql.jdbc.Driver" defaultAutoCommit="false"
+		defaultTransactionIsolation="READ_COMMITTED"
+		url="jdbc:mysql://127.0.0.1:3306/university_admission?useEncoding=true&amp;characterEncoding=UTF-8" />
 
-maxIdle: the maximum number of connections that can remain idle in
-the pool, without extra ones being released, negative for no limit.
-(default 8)
+	<!-- <Resource auth="Container" mail.smtp.host="localhost" name="mail/NomDeLaRessource"
+		type="javax.mail.Session" /> -->
 
-maxWait: the maximum number of milliseconds that the pool will wait
-(when there are no available connections) for a connection to be
-returned before throwing an exception, -1 to wait indefinitely.
+	<!-- <Resource name="mail/MESMTPServer" auth="Container" type="javax.mail.Session"
+		mail.smtp.host="SMTP_SERVER" mail.smtp.port="465" mail.smtp.auth="true" mail.smtp.user="SMTP_USER"
+		password="MAIL_PASSWORD" mail.transport.protocol="smtps" mail.smtp.ssl.enable="true"
+		mail.smtp.socketFactory.class="javax.net.ssl.SSLSocketFactory" /> -->
 
-url: the connection URL to be passed to JDBC driver to establish
-a connection.
-
-driverClassName: the FQN of the JDBC driver to be used.
-
-defaultAutoCommit: the default auto-commit state of connections
-created by this pool.
-(default true)
-
-defaultTransactionIsolation: the default TransactionIsolation
-state of connections created by this pool.
-One of the following: (see javadoc)
-NONE  READ_COMMITTED  READ_UNCOMMITTED  REPEATABLE_READ SERIALIZABLE
-(default - driver default)
-=============================================================-->
-  <Resource name="jdbc/SummaryTask4"
-  			auth="Container"
-  			type="javax.sql.DataSource"
-			maxActive="100" maxIdle="30" maxWait="10000"
-			username="root" password="password"
-			driverClassName="com.mysql.jdbc.Driver"
-			defaultAutoCommit="false"
-			defaultTransactionIsolation="READ_COMMITTED"
-			url="jdbc:mysql://127.0.0.1:3306/university_admission?useEncoding=true&amp;characterEncoding=UTF-8"/>
+	<Resource name="mail/Session" auth="Container" type="javax.mail.Session"
+		mail.transport.protocol="smtp" mail.smtp.host="smtp.gmail.com"
+		mail.smtp.starttls.enable="true" mail.smtp.port="587"
+		mail.smtp.user="mail.university.admission@gmail.com" mail.smtp.auth="true"
+		password="univer1234" mail.smtp.ssl.trust="smtp.gmail.com" />
 
 </Context>

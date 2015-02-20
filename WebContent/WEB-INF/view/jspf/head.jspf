@@ -6,7 +6,7 @@
 <title>${title}</title>
 
 <link rel="stylesheet" type="text/css" media="screen"
-	href="/SummaryTask4/css/main.css" />
+	href="css/main.css" />
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
