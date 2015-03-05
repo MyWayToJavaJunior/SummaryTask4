@@ -61,6 +61,7 @@ public class ConfirmRegistrationCommand extends Command {
 		if (user.getEmail().equals(decodedEmail)) {
 			LOG.debug("User with not active status found in database.");
 			user.setActiveStatus(true);
+			userRepository.update(user);
 			LOG.debug("User active status updated");
 			return Path.WELCOME_PAGE;
 		} else {
